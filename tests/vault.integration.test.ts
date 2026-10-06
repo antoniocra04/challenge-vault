@@ -63,11 +63,11 @@ describe.skipIf(!enabled)("vault (database)", async () => {
 
     const detail = await q.getChallenge(c.id)
     expect(detail?.log.map((e) => [e.kind, e.content])).toEqual([
-      ["event", "Challenge started"],
+      ["event", "Начато"],
       ["note", "Поставил Shelly"],
-      ["event", "Returned to the vault"],
-      ["event", "Picked up again"],
-      ["event", "Completed"],
+      ["event", "Возвращено в хранилище"],
+      ["event", "Снова в работе"],
+      ["event", "Завершено"],
     ])
   })
 
@@ -75,8 +75,8 @@ describe.skipIf(!enabled)("vault (database)", async () => {
     const c = await m.createChallenge({ title: "x" })
     await expect(m.returnToVault(c.id)).rejects.toBeInstanceOf(VaultError)
     await m.startChallenge(c.id)
-    await expect(m.startChallenge(c.id)).rejects.toThrow(/Only challenges from the vault/)
-    await expect(m.startChallenge(crypto.randomUUID())).rejects.toThrow(/no longer exists/)
+    await expect(m.startChallenge(c.id)).rejects.toThrow(/Начать можно только/)
+    await expect(m.startChallenge(crypto.randomUUID())).rejects.toThrow(/больше нет/)
   })
 
   it("abandons without judgement and restores to the vault", async () => {

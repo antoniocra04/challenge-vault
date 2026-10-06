@@ -17,20 +17,20 @@ export async function POST(request: Request) {
   }
   const length = Number(request.headers.get("content-length") ?? 0)
   if (length > maxUploadBytes() + 64 * 1024) {
-    return Response.json({ error: "That file is too large." }, { status: 413 })
+    return Response.json({ error: "Файл слишком большой." }, { status: 413 })
   }
 
   const form = await request.formData()
   const challengeId = idSchema.safeParse(form.get("challengeId"))
   const file = form.get("file")
   if (!challengeId.success || !(file instanceof File) || file.size === 0) {
-    return Response.json({ error: "Pick a file to attach." }, { status: 400 })
+    return Response.json({ error: "Выбери файл." }, { status: 400 })
   }
   if (file.size > maxUploadBytes()) {
-    return Response.json({ error: "That file is too large." }, { status: 413 })
+    return Response.json({ error: "Файл слишком большой." }, { status: 413 })
   }
   if (!(await challengeExists(challengeId.data))) {
-    return Response.json({ error: "This challenge no longer exists." }, { status: 404 })
+    return Response.json({ error: "Этой идеи больше нет в хранилище." }, { status: 404 })
   }
 
   const mimeType = file.type || "application/octet-stream"

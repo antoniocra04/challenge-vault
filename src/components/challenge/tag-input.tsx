@@ -41,12 +41,12 @@ export function TagInput({
         {value.map((tag) => (
           <span
             key={tag}
-            className="inline-flex items-center gap-1 rounded-md bg-white/[0.06] px-1.5 py-0.5 font-mono text-xs"
+            className="inline-flex items-center gap-1 rounded bg-white/[0.07] px-1.5 py-0.5 text-xs"
           >
             #{tag}
             <button
               type="button"
-              aria-label={`Remove ${tag}`}
+              aria-label={`Убрать тег ${tag}`}
               className="text-faint hover:text-foreground"
               onClick={() => onChange(value.filter((t) => t !== tag))}
             >
@@ -71,8 +71,8 @@ export function TagInput({
             }
           }}
           onBlur={() => draft.trim() && commit(draft)}
-          placeholder={value.length ? "" : "home, hardware, raspberry…"}
-          className="min-w-24 flex-1 bg-transparent font-mono text-sm outline-none placeholder:text-faint"
+          placeholder={value.length ? "" : "через запятую: дом, железо, raspberry"}
+          className="min-w-24 flex-1 bg-transparent text-sm outline-none"
         />
       </div>
       {visibleSuggestions.length > 0 && (
@@ -82,7 +82,7 @@ export function TagInput({
               key={s}
               type="button"
               onClick={() => onChange(parseTags([...value, s]))}
-              className="rounded px-1.5 py-0.5 font-mono text-[11px] text-faint transition-colors hover:bg-white/5 hover:text-muted-foreground"
+              className="min-h-7 rounded px-1.5 text-xs text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground pointer-coarse:min-h-10"
             >
               +#{s}
             </button>

@@ -18,7 +18,7 @@ export function ImportForm() {
     if (!file) return
     if (
       mode === "replace" &&
-      !confirm("Replace everything? All current challenges, logs and attachments will be deleted first.")
+      !confirm("Заменить всё? Сначала будут удалены все текущие идеи, журналы и вложения.")
     ) {
       return
     }
@@ -29,12 +29,12 @@ export function ImportForm() {
       const res = await fetch(`/api/import?mode=${mode}`, { method: "POST", body: form })
       const body = await res.json().catch(() => ({}))
       if (!res.ok) {
-        toast.error(body.error ?? "Import failed.")
+        toast.error(body.error ?? "Импорт не удался.")
         return
       }
       const r = body.result
       toast.success(
-        `Imported ${r.challenges} challenges, ${r.logEntries} log entries and ${r.attachments} attachments.`,
+        `Импортировано: идей — ${r.challenges}, записей журнала — ${r.logEntries}, вложений — ${r.attachments}.`,
       )
       setFile(null)
       if (inputRef.current) inputRef.current.value = ""
@@ -45,13 +45,13 @@ export function ImportForm() {
   }
 
   return (
-    <div className="grid gap-5 rounded-xl border border-border bg-card/60 p-5">
+    <div className="specimen grid gap-5 p-5">
       <div className="flex flex-wrap items-center gap-3">
         <Button variant="outline" onClick={() => inputRef.current?.click()}>
           <UploadIcon />
-          Choose JSON file
+          Выбрать JSON-файл
         </Button>
-        <span className="truncate font-mono text-xs text-muted-foreground">{file ? file.name : "no file selected"}</span>
+        <span className="truncate text-sm text-muted-foreground">{file ? file.name : "файл не выбран"}</span>
         <input
           ref={inputRef}
           type="file"
@@ -62,11 +62,11 @@ export function ImportForm() {
       </div>
 
       <fieldset className="grid gap-2">
-        <legend className="label-mono mb-2 text-[10px]">Mode</legend>
+        <legend className="mb-2 text-sm text-muted-foreground">Как импортировать</legend>
         {(
           [
-            ["merge", "Merge", "Add challenges from the file. Ones that already exist (same id) are overwritten by the file's version."],
-            ["replace", "Replace everything", "Wipe the vault, then restore it from the file. Use this to restore a backup."],
+            ["merge", "Добавить", "Добавить идеи из файла. Уже существующие (с тем же id) заменятся версией из файла."],
+            ["replace", "Заменить всё", "Очистить хранилище и восстановить его из файла. Для восстановления из резервной копии."],
           ] as const
         ).map(([value, label, desc]) => (
           <label
@@ -94,7 +94,7 @@ export function ImportForm() {
 
       <Button onClick={submit} disabled={!file || busy} className="justify-self-start">
         {busy && <Loader2Icon className="animate-spin" />}
-        Import
+        Импортировать
       </Button>
     </div>
   )

@@ -1,24 +1,23 @@
 "use client"
 
 import { useCapture } from "@/components/capture/capture-provider"
+import { Button } from "@/components/ui/button"
 
 export function EmptyVault() {
   const { open } = useCapture()
   return (
-    <div className="rounded-2xl border border-dashed border-white/10 px-6 py-16 text-center">
-      <p className="label-mono mb-3 text-ember">The vault is empty</p>
-      <p className="mx-auto max-w-md text-muted-foreground">
-        Next time something makes you think <span className="text-foreground">“oh, that would be interesting to try”</span> —
-        drop it in here before it evaporates.
+    <div className="specimen border-dashed px-6 py-14 text-center">
+      <h2 className="text-lg font-semibold">Хранилище пусто</h2>
+      <p className="mx-auto mt-2 max-w-md text-muted-foreground">
+        В следующий раз, когда подумаешь «о, а вот это было бы интересно попробовать», — сохрани это сюда, пока
+        мысль не улетучилась.
       </p>
-      <button
-        type="button"
-        onClick={open}
-        className="mt-6 font-mono text-xs tracking-[0.16em] text-ember uppercase underline-offset-4 hover:underline"
-      >
-        + Capture the first one
-      </button>
-      <p className="mt-2 font-mono text-[11px] text-faint">or press C anywhere</p>
+      <Button variant="ember" size="lg" className="mt-6" onClick={open}>
+        Поймать первую идею
+      </Button>
+      <p className="mt-3 text-xs text-faint">
+        или нажми <kbd className="data rounded border border-border px-1.5">C</kbd> где угодно
+      </p>
     </div>
   )
 }

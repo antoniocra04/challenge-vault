@@ -27,15 +27,15 @@ async function run<T>(fn: () => Promise<T>): Promise<ActionResult<T>> {
     return { ok: true, data }
   } catch (err) {
     if (err instanceof VaultError) return { ok: false, error: err.message }
-    if (err instanceof z.ZodError) return { ok: false, error: err.issues[0]?.message ?? "Invalid input" }
+    if (err instanceof z.ZodError) return { ok: false, error: err.issues[0]?.message ?? "Проверь введённые данные" }
     console.error(err)
-    return { ok: false, error: "Something went wrong. Check the server logs." }
+    return { ok: false, error: "Что-то пошло не так. Подробности в логах сервера." }
   }
 }
 
 function id(value: string) {
   const parsed = idSchema.safeParse(value)
-  if (!parsed.success) throw new VaultError("Unknown challenge.")
+  if (!parsed.success) throw new VaultError("Такой идеи нет.")
   return parsed.data
 }
 
@@ -150,7 +150,7 @@ export async function login(_prev: LoginState, formData: FormData): Promise<Logi
   const given = String(formData.get("password") ?? "")
   if (!constantTimeEqual(await sessionToken(given), await sessionToken(pw))) {
     await new Promise((r) => setTimeout(r, 400))
-    return { error: "That's not it." }
+    return { error: "Не тот пароль." }
   }
   const jar = await cookies()
   jar.set(SESSION_COOKIE, await sessionToken(pw), {

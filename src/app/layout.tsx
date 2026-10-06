@@ -8,18 +8,18 @@ export const metadata: Metadata = {
     default: "Challenge Vault",
     template: "%s · Challenge Vault",
   },
-  description: "A vault of things I want to try.",
+  description: "Хранилище того, что хочется попробовать.",
   robots: { index: false, follow: false },
 }
 
 export const viewport: Viewport = {
-  themeColor: "#121318",
+  themeColor: "#04161f",
   colorScheme: "dark",
 }
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className="dark">
+    <html lang="ru" className="dark">
       <body className="min-h-dvh">
         <TooltipProvider delayDuration={300}>{children}</TooltipProvider>
         <Toaster position="bottom-right" />

@@ -15,31 +15,36 @@ import {
 import type { Topic } from "@/lib/challenges/queries"
 import { cn } from "@/lib/utils"
 
-const VISIBLE_TOPICS = 10
+const VISIBLE_TOPICS = 6
+
+const control =
+  "inline-flex h-10 items-center gap-2 rounded-md border px-3 text-sm transition-colors pointer-coarse:h-11"
 
 function Chip({
   active,
   onClick,
   children,
   className,
+  ...rest
 }: {
   active: boolean
   onClick: () => void
   children: React.ReactNode
   className?: string
-}) {
+} & Omit<React.ComponentProps<"button">, "onClick">) {
   return (
     <button
       type="button"
       aria-pressed={active}
       onClick={onClick}
       className={cn(
-        "rounded-full border px-3 py-1 font-mono text-[11px] tracking-wide whitespace-nowrap transition-colors",
+        "inline-flex min-h-8 shrink-0 items-center gap-1.5 rounded-full border px-3 text-sm whitespace-nowrap transition-colors pointer-coarse:min-h-11",
         active
-          ? "border-ember/50 bg-ember/10 text-ember"
-          : "border-border text-muted-foreground hover:border-white/15 hover:text-foreground",
+          ? "border-cabinet/60 bg-cabinet/15 text-foreground"
+          : "border-border text-muted-foreground hover:border-white/25 hover:text-foreground",
         className,
       )}
+      {...rest}
     >
       {children}
     </button>
@@ -73,11 +78,13 @@ export function BacklogToolbar({ filters, topics }: { filters: BacklogFilters; t
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q])
 
-  // "/" focuses search.
+  // "/" focuses search — by physical key, so it also works on a Russian layout.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const el = e.target as HTMLElement
-      if (e.key !== "/" || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName) || el.isContentEditable) return
+      if (e.metaKey || e.ctrlKey || e.altKey) return
+      if (/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName) || el.isContentEditable) return
+      if (e.key !== "/" && e.code !== "Slash") return
       e.preventDefault()
       searchRef.current?.focus()
     }
@@ -85,32 +92,38 @@ export function BacklogToolbar({ filters, topics }: { filters: BacklogFilters; t
     return () => window.removeEventListener("keydown", onKey)
   }, [])
 
-  const extraFilterCount = [filters.time, filters.location, filters.money].filter(Boolean).length
+  const contextFilters = [
+    filters.time && { key: "time", label: TIME_FILTERS.find((o) => o.value === filters.time)!.label },
+    filters.location && { key: "location", label: LOCATION_FILTERS.find((o) => o.value === filters.location)!.label },
+    filters.money && { key: "money", label: MONEY_FILTERS.find((o) => o.value === filters.money)!.label },
+  ].filter(Boolean) as { key: string; label: string }[]
+
   const shownTopics = allTopics ? topics : topics.slice(0, VISIBLE_TOPICS)
-  // Keep the selected topic visible even if it's not in the top list.
   const selectedHidden =
     filters.topic && !shownTopics.some((t) => t.key === filters.topic!.toLowerCase())
       ? [{ key: filters.topic.toLowerCase(), label: filters.topic, count: 0 }]
       : []
+  const anyFilter = Boolean(filters.q || filters.topic || filters.favorites || contextFilters.length)
+  const sortOptions = SORT_OPTIONS.filter((o) => o.value !== "random" || filters.sort === "random")
 
   return (
-    <div className="mb-6 grid gap-3">
+    <div className="mb-6 grid grid-cols-1 gap-3" role="search" aria-label="Поиск и фильтры">
       <div className="flex flex-wrap items-center gap-2">
-        <div className="relative min-w-56 flex-1">
+        <div className="relative min-w-0 basis-full sm:flex-1 sm:basis-auto">
           <SearchIcon className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-faint" />
           <input
             ref={searchRef}
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search challenges…"
-            aria-label="Search challenges"
-            className="h-9 w-full rounded-lg border border-input bg-input/20 pr-9 pl-9 text-sm transition-colors outline-none placeholder:text-faint focus:border-ring focus:bg-input/30"
+            placeholder="Искать в хранилище…"
+            aria-label="Искать в хранилище"
+            className="h-10 w-full rounded-md border border-input bg-label/70 pr-10 pl-9 text-[15px] transition-colors outline-none focus:border-ring pointer-coarse:h-11"
           />
           {pending ? (
             <Loader2Icon className="absolute top-1/2 right-3 size-4 -translate-y-1/2 animate-spin text-faint" />
           ) : (
-            <kbd className="pointer-events-none absolute top-1/2 right-3 hidden -translate-y-1/2 rounded border border-border px-1.5 font-mono text-[10px] text-faint sm:block">
+            <kbd className="data pointer-events-none absolute top-1/2 right-3 hidden -translate-y-1/2 rounded border border-border px-1.5 text-xs text-faint pointer-fine:block">
               /
             </kbd>
           )}
@@ -121,25 +134,26 @@ export function BacklogToolbar({ filters, topics }: { filters: BacklogFilters; t
             <button
               type="button"
               className={cn(
-                "inline-flex h-9 items-center gap-2 rounded-lg border px-3 font-mono text-[11px] tracking-wider uppercase transition-colors",
-                extraFilterCount
-                  ? "border-ember/40 text-ember"
+                control,
+                contextFilters.length
+                  ? "border-cabinet/60 text-foreground"
                   : "border-input text-muted-foreground hover:text-foreground",
               )}
             >
-              <SlidersHorizontalIcon className="size-3.5" />
-              Context{extraFilterCount ? ` · ${extraFilterCount}` : ""}
+              <SlidersHorizontalIcon className="size-4" />
+              Фильтры
+              {contextFilters.length > 0 && <span className="data text-cabinet">{contextFilters.length}</span>}
             </button>
           </PopoverTrigger>
-          <PopoverContent align="end" className="w-72 p-4">
-            <FilterGroup label="Time">
+          <PopoverContent align="start" className="w-80 p-4">
+            <FilterGroup label="Сколько есть времени">
               {TIME_FILTERS.map((o) => (
                 <Chip key={o.value} active={filters.time === o.value} onClick={() => update({ time: filters.time === o.value ? null : o.value })}>
                   {o.label}
                 </Chip>
               ))}
             </FilterGroup>
-            <FilterGroup label="Location">
+            <FilterGroup label="Где">
               {LOCATION_FILTERS.map((o) => (
                 <Chip
                   key={o.value}
@@ -150,38 +164,23 @@ export function BacklogToolbar({ filters, topics }: { filters: BacklogFilters; t
                 </Chip>
               ))}
             </FilterGroup>
-            <FilterGroup label="Money">
+            <FilterGroup label="Деньги" last>
               {MONEY_FILTERS.map((o) => (
                 <Chip key={o.value} active={filters.money === o.value} onClick={() => update({ money: filters.money === o.value ? null : o.value })}>
                   {o.label}
                 </Chip>
               ))}
             </FilterGroup>
-            {extraFilterCount > 0 && (
-              <button
-                type="button"
-                className="mt-1 font-mono text-[11px] text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
-                onClick={() => update({ time: null, location: null, money: null })}
-              >
-                clear context filters
-              </button>
-            )}
           </PopoverContent>
         </Popover>
 
-        <Select
-          value={filters.sort}
-          onValueChange={(v) =>
-            update({ sort: v === "newest" ? null : v, seed: v === "random" ? String(newSeed()) : null })
-          }
-        >
-          <SelectTrigger className="h-9! w-44 font-mono text-[11px] tracking-wider uppercase" aria-label="Sort">
+        <Select value={filters.sort} onValueChange={(v) => update({ sort: v === "newest" ? null : v, seed: null })}>
+          <SelectTrigger className="h-10! min-w-0 flex-1 gap-2 text-sm sm:w-auto sm:min-w-44 sm:flex-none pointer-coarse:h-11!" aria-label="Порядок">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {SORT_OPTIONS.map((o) => (
-              <SelectItem key={o.value} value={o.value} className="font-mono text-xs">
-                {o.value === "random" ? "🎲 " : ""}
+            {sortOptions.map((o) => (
+              <SelectItem key={o.value} value={o.value}>
                 {o.label}
               </SelectItem>
             ))}
@@ -190,27 +189,27 @@ export function BacklogToolbar({ filters, topics }: { filters: BacklogFilters; t
 
         <button
           type="button"
-          title="Shuffle the backlog — look at old ideas with fresh eyes"
+          title="Перемешать — посмотреть на старые идеи свежим взглядом"
           onClick={() => update({ sort: "random", seed: String(newSeed()) })}
           className={cn(
-            "inline-flex h-9 items-center gap-2 rounded-lg border px-3 font-mono text-[11px] tracking-wider uppercase transition-colors",
+            control,
             filters.sort === "random"
-              ? "border-ember/40 text-ember"
+              ? "border-cabinet/60 text-foreground"
               : "border-input text-muted-foreground hover:text-foreground",
           )}
         >
           <DicesIcon className="size-4" />
-          Shuffle
+          <span className="sr-only sm:not-sr-only">Перемешать</span>
         </button>
       </div>
 
-      <div className="flex flex-wrap items-center gap-1.5">
+      <div className="-mx-4 flex items-center gap-1.5 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
         <Chip active={!filters.topic && !filters.favorites} onClick={() => update({ topic: null, fav: null })}>
-          All
+          Все
         </Chip>
         <Chip active={filters.favorites} onClick={() => update({ fav: filters.favorites ? null : "1" })}>
-          <StarIcon className={cn("-mt-0.5 mr-1 inline size-3", filters.favorites && "fill-current")} />
-          Starred
+          <StarIcon className={cn("size-3.5", filters.favorites && "fill-current text-ember")} />
+          Со звездой
         </Chip>
         {[...selectedHidden, ...shownTopics].map((t) => (
           <Chip
@@ -225,35 +224,45 @@ export function BacklogToolbar({ filters, topics }: { filters: BacklogFilters; t
           <button
             type="button"
             onClick={() => setAllTopics((v) => !v)}
-            className="px-2 font-mono text-[11px] text-faint hover:text-muted-foreground"
+            aria-expanded={allTopics}
+            className="min-h-8 shrink-0 px-2 text-sm text-muted-foreground hover:text-foreground pointer-coarse:min-h-11"
           >
-            {allTopics ? "less" : `+${topics.length - VISIBLE_TOPICS} more`}
+            {allTopics ? "меньше" : `ещё ${topics.length - VISIBLE_TOPICS}`}
           </button>
         )}
-        {(filters.q || filters.topic || filters.favorites || extraFilterCount > 0) && (
+      </div>
+
+      {(contextFilters.length > 0 || anyFilter) && (
+        <div className="flex flex-wrap items-center gap-1.5">
+          {contextFilters.map((f) => (
+            <Chip key={f.key} active onClick={() => update({ [f.key]: null })} aria-label={`Убрать фильтр «${f.label}»`}>
+              {f.label}
+              <XIcon className="size-3.5" />
+            </Chip>
+          ))}
           <button
             type="button"
             onClick={() => {
               setQ("")
               update({ q: null, topic: null, fav: null, time: null, location: null, money: null })
             }}
-            className="ml-1 inline-flex items-center gap-1 px-2 font-mono text-[11px] text-faint hover:text-muted-foreground"
+            className="inline-flex min-h-8 items-center gap-1 px-2 text-sm text-muted-foreground hover:text-foreground pointer-coarse:min-h-11"
           >
-            <XIcon className="size-3" />
-            reset
+            <XIcon className="size-3.5" />
+            Сбросить всё
           </button>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }
 
-function FilterGroup({ label, children }: { label: string; children: React.ReactNode }) {
+function FilterGroup({ label, children, last }: { label: string; children: React.ReactNode; last?: boolean }) {
   return (
-    <div className="mb-4">
-      <div className="label-mono mb-2 text-[10px]">{label}</div>
+    <fieldset className={cn(!last && "mb-4")}>
+      <legend className="mb-2 text-xs text-faint">{label}</legend>
       <div className="flex flex-wrap gap-1.5">{children}</div>
-    </div>
+    </fieldset>
   )
 }
 

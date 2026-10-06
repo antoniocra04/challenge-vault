@@ -1,123 +1,132 @@
 import Link from "next/link"
-import { ArrowUpRightIcon } from "lucide-react"
+import { ArrowRightIcon } from "lucide-react"
 import type { ActiveChallenge } from "@/lib/challenges/queries"
-import { ago, shortDate } from "@/lib/dates"
+import { accession, ago, shortDate } from "@/lib/dates"
+import { plural } from "@/lib/plural"
 import { cn } from "@/lib/utils"
-import {
-  AbandonDialog,
-  AddNoteDialog,
-  CompleteDialog,
-  ReturnToVaultButton,
-  SessionControls,
-} from "./actions"
+import { AddNoteDialog, CompleteButton, SessionControls, SetAsideMenu } from "./actions"
 import { LiveTimeSpent } from "./live-duration"
 import { TagList } from "./meta"
 
-export function CurrentChallenge({
-  challenge: c,
-  variant = "hero",
-}: {
-  challenge: ActiveChallenge
-  variant?: "hero" | "compact"
-}) {
-  const hero = variant === "hero"
+/** Full panel for a challenge under observation (the /active page). */
+export function CurrentChallenge({ challenge: c }: { challenge: ActiveChallenge }) {
   return (
-    <article className={cn("ember-panel rounded-2xl", hero ? "p-6 sm:p-8" : "p-5 sm:p-6")}>
-      <header className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <span className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold tracking-[0.2em] text-ember uppercase">
-          <span className="ember-dot size-2 rounded-full bg-ember" />⚡ Active
-        </span>
+    <article className="ember-panel p-5 sm:p-7" aria-labelledby={`cc-${c.id}`}>
+      <header className="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <span className="data text-xs text-ember">{accession(c.accession)}</span>
         <TagList category={c.category} tags={c.tags} />
       </header>
 
-      <Link href={`/challenge/${c.id}`} className="group block">
-        <h3
-          className={cn(
-            "font-semibold tracking-tight text-balance transition-colors group-hover:text-ember",
-            hero ? "text-2xl sm:text-3xl" : "text-xl",
-          )}
-        >
+      <h2 id={`cc-${c.id}`} className="mt-3 text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
+        <Link href={`/challenge/${c.id}`} className="underline-offset-4 transition-colors hover:text-ember hover:underline">
           {c.title}
-          <ArrowUpRightIcon className="ml-1 inline size-5 -translate-y-0.5 text-faint opacity-0 transition-opacity group-hover:opacity-100" />
-        </h3>
-      </Link>
+        </Link>
+      </h2>
 
       {c.description && (
-        <p
-          className={cn(
-            "mt-3 leading-relaxed whitespace-pre-line text-muted-foreground",
-            hero ? "max-w-3xl text-[15px]" : "line-clamp-3 text-sm",
-          )}
-        >
+        <p className="mt-3 max-w-[68ch] text-[15px] leading-relaxed whitespace-pre-line text-muted-foreground">
           {c.description}
         </p>
       )}
 
-      {c.spark && (
-        <blockquote
-          className={cn(
-            "mt-5 border-l-2 border-ember/40 pl-4 text-foreground/85 italic",
-            hero ? "max-w-3xl text-[15px]" : "line-clamp-2 text-sm",
+      {(c.spark || c.lastNote) && (
+        <dl className="mt-6 grid max-w-[68ch] gap-4 border-t border-rule pt-4">
+          {c.spark && (
+            <div>
+              <dt className="text-xs text-faint">Искра</dt>
+              <dd className="mt-1 text-[15px] leading-relaxed whitespace-pre-line text-foreground/90">«{c.spark}»</dd>
+            </div>
           )}
-        >
-          <span className="label-mono mb-1 block text-[10px] not-italic">Spark</span>
-          <span className="whitespace-pre-line">“{c.spark}”</span>
-        </blockquote>
+          {c.lastNote && (
+            <div>
+              <dt className="text-xs text-faint">С чего продолжить</dt>
+              <dd className="mt-1 line-clamp-3 text-[15px] leading-relaxed whitespace-pre-line">{c.lastNote}</dd>
+            </div>
+          )}
+        </dl>
       )}
 
-      {c.lastNote && (
-        <div className="mt-5 max-w-3xl rounded-lg border border-border bg-black/20 px-4 py-3">
-          <span className="label-mono text-[10px]">Where you left off</span>
-          <p className={cn("mt-1 text-sm whitespace-pre-line text-foreground/80", hero ? "line-clamp-3" : "line-clamp-2")}>
-            {c.lastNote}
-          </p>
-        </div>
-      )}
-
-      <dl className="mt-6 flex flex-wrap gap-x-8 gap-y-3">
+      <dl className="mt-6 flex flex-wrap gap-x-10 gap-y-3 border-t border-rule pt-4">
         <div>
-          <dt className="label-mono text-[10px]">Started</dt>
+          <dt className="text-xs text-faint">Начато</dt>
           <dd className="mt-1 text-sm" title={c.startedAt?.toISOString()}>
-            {shortDate(c.startedAt)} <span className="text-faint">· {ago(c.startedAt)}</span>
+            <span className="data">{shortDate(c.startedAt)}</span> <span className="text-faint">· {ago(c.startedAt)}</span>
           </dd>
         </div>
         <div>
-          <dt className="label-mono text-[10px]">Time spent</dt>
-          <dd className="mt-1 font-mono text-sm">
+          <dt className="text-xs text-faint">Потрачено</dt>
+          <dd className="data mt-1 text-sm">
             <LiveTimeSpent trackedSeconds={c.trackedSeconds} sessionStartedAt={c.sessionStartedAt} />
           </dd>
         </div>
         {c.noteCount > 0 && (
           <div>
-            <dt className="label-mono text-[10px]">Log</dt>
-            <dd className="mt-1 font-mono text-sm">
-              {c.noteCount} {c.noteCount === 1 ? "entry" : "entries"}
+            <dt className="text-xs text-faint">Журнал</dt>
+            <dd className="mt-1 text-sm">
+              <span className="data">{c.noteCount}</span> {plural(c.noteCount, "запись", "записи", "записей")}
             </dd>
           </div>
         )}
+        <div className="self-end">
+          <SessionControls id={c.id} sessionStartedAt={c.sessionStartedAt} />
+        </div>
       </dl>
 
-      <div className="mt-4">
-        <SessionControls id={c.id} sessionStartedAt={c.sessionStartedAt} compact={!hero} />
-      </div>
-
-      <footer className="mt-6 flex flex-wrap items-center gap-2 border-t border-white/5 pt-5">
-        <AddNoteDialog id={c.id} />
-        <CompleteDialog
+      <footer className="mt-6 flex flex-wrap items-center gap-2 border-t border-rule pt-5">
+        <CompleteButton
           id={c.id}
           title={c.title}
+          accessionNo={c.accession}
           trackedSeconds={c.trackedSeconds}
           sessionStartedAt={c.sessionStartedAt}
         />
-        <ReturnToVaultButton id={c.id} />
-        <AbandonDialog id={c.id} title={c.title} />
+        <AddNoteDialog id={c.id} />
+        <SetAsideMenu id={c.id} title={c.title} />
         <Link
           href={`/challenge/${c.id}`}
-          className="ml-auto font-mono text-[11px] tracking-[0.14em] text-muted-foreground uppercase transition-colors hover:text-foreground"
+          className="ml-auto inline-flex min-h-9 items-center gap-1.5 rounded-md px-2 text-sm text-muted-foreground transition-colors hover:text-foreground pointer-coarse:min-h-11"
         >
-          Open challenge →
+          Открыть
+          <ArrowRightIcon className="size-4" />
         </Link>
       </footer>
+    </article>
+  )
+}
+
+/** Slim strip on the vault: what is under observation, without crowding browsing. */
+export function ActiveStrip({ challenge: c, className }: { challenge: ActiveChallenge; className?: string }) {
+  const resume = c.lastNote ?? c.spark ?? c.description
+  return (
+    <article className={cn("ember-panel flex items-center gap-4 px-4 py-3 sm:px-5", className)}>
+      <span className="ember-dot size-2 shrink-0 rounded-full bg-ember" aria-hidden />
+      <div className="min-w-0 flex-1">
+        <div className="flex items-baseline gap-3">
+          <Link
+            href={`/challenge/${c.id}`}
+            className="truncate font-semibold tracking-tight underline-offset-4 hover:text-ember hover:underline"
+          >
+            {c.title}
+          </Link>
+          <span className="data hidden shrink-0 text-xs text-faint sm:inline">{accession(c.accession)}</span>
+        </div>
+        {resume && (
+          <p className="mt-0.5 truncate text-sm text-muted-foreground">
+            {c.lastNote ? <span className="text-faint">С чего продолжить: </span> : null}
+            {resume}
+          </p>
+        )}
+      </div>
+      <span className="data hidden shrink-0 text-sm text-ember sm:inline" title="Потрачено">
+        <LiveTimeSpent trackedSeconds={c.trackedSeconds} sessionStartedAt={c.sessionStartedAt} />
+      </span>
+      <Link
+        href={`/challenge/${c.id}`}
+        aria-label={`Открыть «${c.title}»`}
+        className="grid size-9 shrink-0 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground pointer-coarse:size-11"
+      >
+        <ArrowRightIcon className="size-4" />
+      </Link>
     </article>
   )
 }

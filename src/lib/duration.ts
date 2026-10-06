@@ -1,17 +1,17 @@
 // Durations are stored in minutes. These helpers turn them into short
-// human strings ("1h 20m") and parse loose user input back.
+// human strings ("1 ч 20 мин") and parse loose user input back.
 
 export function formatMinutes(minutes: number | null | undefined): string {
   if (minutes == null || !Number.isFinite(minutes)) return ""
   const total = Math.max(0, Math.round(minutes))
-  if (total < 60) return `${total}m`
+  if (total < 60) return `${total} мин`
   const h = Math.floor(total / 60)
   const m = total % 60
-  return m === 0 ? `${h}h` : `${h}h ${m}m`
+  return m === 0 ? `${h} ч` : `${h} ч ${m} мин`
 }
 
 export function formatSeconds(seconds: number): string {
-  if (seconds < 60) return seconds <= 0 ? "0m" : "<1m"
+  if (seconds < 60) return seconds <= 0 ? "0 мин" : "<1 мин"
   return formatMinutes(Math.floor(seconds / 60))
 }
 

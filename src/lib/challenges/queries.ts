@@ -29,9 +29,17 @@ const lastNote = sql<string | null>`(
   limit 1
 )`.as("last_note")
 
+// Accession number: the specimen's place in the collection, by capture order.
+const accessionNo = sql<number>`(
+  select count(*)::int from challenges c2
+  where c2.created_at < "challenges"."created_at"
+     or (c2.created_at = "challenges"."created_at" and c2.id <= "challenges"."id")
+)`.as("accession")
+
 export type ChallengeListItem = Challenge & {
   noteCount: number
   attachmentCount: number
+  accession: number
 }
 
 export type ActiveChallenge = ChallengeListItem & { lastNote: string | null }
@@ -118,7 +126,7 @@ export async function getBacklog(f: BacklogFilters): Promise<ChallengeListItem[]
   })()
 
   const rows = await db
-    .select({ ...challengeColumns(), noteCount, attachmentCount })
+    .select({ ...challengeColumns(), noteCount, attachmentCount, accession: accessionNo })
     .from(challenges)
     .where(and(...backlogConditions(f)))
     .orderBy(...order, asc(challenges.id))
@@ -145,7 +153,7 @@ export async function searchElsewhere(q: string): Promise<ChallengeListItem[]> {
   const search = searchCondition(q)
   if (!search) return []
   return db
-    .select({ ...challengeColumns(), noteCount, attachmentCount })
+    .select({ ...challengeColumns(), noteCount, attachmentCount, accession: accessionNo })
     .from(challenges)
     .where(and(ne(challenges.status, "backlog"), search))
     .orderBy(desc(challenges.updatedAt))
@@ -180,7 +188,7 @@ export async function getBacklogTopics(): Promise<Topic[]> {
 
 export async function getActiveChallenges(): Promise<ActiveChallenge[]> {
   return db
-    .select({ ...challengeColumns(), noteCount, attachmentCount, lastNote })
+    .select({ ...challengeColumns(), noteCount, attachmentCount, accession: accessionNo, lastNote })
     .from(challenges)
     .where(eq(challenges.status, "active"))
     .orderBy(desc(challenges.startedAt), asc(challenges.id))
@@ -194,15 +202,20 @@ export async function getChallengesByStatus(status: ChallengeStatus): Promise<Ch
         ? desc(challenges.abandonedAt)
         : desc(challenges.createdAt)
   return db
-    .select({ ...challengeColumns(), noteCount, attachmentCount })
+    .select({ ...challengeColumns(), noteCount, attachmentCount, accession: accessionNo })
     .from(challenges)
     .where(eq(challenges.status, status))
     .orderBy(order, asc(challenges.id))
 }
 
 export async function getChallenge(id: string) {
-  const [challenge] = await db.select().from(challenges).where(eq(challenges.id, id)).limit(1)
-  if (!challenge) return null
+  const [row] = await db
+    .select({ challenge: challenges, accession: accessionNo })
+    .from(challenges)
+    .where(eq(challenges.id, id))
+    .limit(1)
+  if (!row) return null
+  const { challenge, accession } = row
   const [log, files] = await Promise.all([
     db
       .select()
@@ -215,7 +228,7 @@ export async function getChallenge(id: string) {
       .where(eq(attachments.challengeId, id))
       .orderBy(asc(attachments.createdAt), asc(attachments.id)),
   ])
-  return { challenge, log, attachments: files }
+  return { challenge, accession, log, attachments: files }
 }
 
 export type ChallengeDetail = NonNullable<Awaited<ReturnType<typeof getChallenge>>>

@@ -14,10 +14,10 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { EnjoymentScale } from "@/components/challenge/actions"
 import type { Challenge } from "@/db/schema"
 import { useAction } from "@/hooks/use-action"
 import { formatMinutes, parseDuration } from "@/lib/duration"
-import { cn } from "@/lib/utils"
 
 export function EditChallenge({ challenge: c, tagSuggestions }: { challenge: Challenge; tagSuggestions: string[] }) {
   const [open, setOpen] = useState(false)
@@ -48,7 +48,7 @@ export function EditChallenge({ challenge: c, tagSuggestions }: { challenge: Cha
         if (!res.ok || !completed) return res
         return updateResult(c.id, { result, enjoymentScore: score, actualDuration: parseDuration(time) })
       },
-      { success: "Saved.", onSuccess: () => setOpen(false) },
+      { success: "Сохранено.", onSuccess: () => setOpen(false) },
     )
   }
 
@@ -58,16 +58,16 @@ export function EditChallenge({ challenge: c, tagSuggestions }: { challenge: Cha
         variant="ghost"
         size="sm"
         onClick={openDialog}
-        className="font-mono text-[11px] tracking-wider text-muted-foreground uppercase"
+        className="text-muted-foreground"
       >
         <PencilIcon />
-        Edit
+        Изменить
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-h-[90dvh] overflow-y-auto p-6 sm:max-w-2xl">
           <DialogHeader>
-            <DialogTitle className="label-mono text-foreground">Edit challenge</DialogTitle>
-            <DialogDescription className="sr-only">Change the details of this challenge.</DialogDescription>
+            <DialogTitle>Изменить идею</DialogTitle>
+            <DialogDescription className="sr-only">Название, искра и подробности.</DialogDescription>
           </DialogHeader>
           <form
             className="grid gap-4"
@@ -77,48 +77,33 @@ export function EditChallenge({ challenge: c, tagSuggestions }: { challenge: Cha
             }}
           >
             <label className="grid gap-1.5">
-              <span className="text-sm text-muted-foreground">Title</span>
+              <span className="text-sm text-muted-foreground">Название</span>
               <Input value={state.title} onChange={(e) => patch({ title: e.target.value })} className="text-base" />
             </label>
             <label className="grid gap-1.5">
-              <span className="text-sm text-muted-foreground">Spark — why did this seem interesting?</span>
+              <span className="text-sm text-muted-foreground">Искра — почему это казалось интересным?</span>
               <Textarea rows={3} value={state.spark} onChange={(e) => patch({ spark: e.target.value })} />
             </label>
             <ChallengeDetailFields state={state} onChange={patch} tagSuggestions={tagSuggestions} />
 
             {completed && (
-              <div className="mt-2 grid gap-4 border-t border-white/5 pt-4">
+              <div className="mt-2 grid gap-4 border-t border-rule pt-4">
                 <label className="grid gap-1.5">
-                  <span className="text-sm text-muted-foreground">What happened?</span>
+                  <span className="text-sm text-muted-foreground">Что получилось?</span>
                   <Textarea rows={3} value={result} onChange={(e) => setResult(e.target.value)} />
                 </label>
                 <div className="grid gap-1.5">
-                  <span className="text-sm text-muted-foreground">Enjoyment</span>
-                  <div className="grid grid-cols-10 gap-1">
-                    {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
-                      <button
-                        key={n}
-                        type="button"
-                        aria-pressed={score === n}
-                        onClick={() => setScore(score === n ? null : n)}
-                        className={cn(
-                          "h-8 rounded-md border font-mono text-xs",
-                          score != null && n <= score ? "border-jade/50 bg-jade/15 text-jade" : "border-border text-muted-foreground",
-                        )}
-                      >
-                        {n}
-                      </button>
-                    ))}
-                  </div>
+                  <span className="text-sm text-muted-foreground">Насколько было интересно</span>
+                  <EnjoymentScale value={score} onChange={setScore} />
                 </div>
                 <label className="grid gap-1.5">
-                  <span className="text-sm text-muted-foreground">Time spent</span>
+                  <span className="text-sm text-muted-foreground">Сколько времени ушло</span>
                   <Input
                     value={time}
                     onChange={(e) => setTime(e.target.value)}
                     aria-invalid={timeInvalid}
-                    className="max-w-40 font-mono"
-                    placeholder="4h"
+                    className="data max-w-40"
+                    placeholder="4 ч"
                   />
                 </label>
               </div>
@@ -126,10 +111,10 @@ export function EditChallenge({ challenge: c, tagSuggestions }: { challenge: Cha
 
             <DialogFooter className="mt-2">
               <Button type="button" variant="ghost" onClick={() => setOpen(false)}>
-                Cancel
+                Отмена
               </Button>
               <Button type="submit" disabled={pending || invalid}>
-                Save
+                Сохранить
               </Button>
             </DialogFooter>
           </form>

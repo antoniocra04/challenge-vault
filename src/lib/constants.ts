@@ -13,19 +13,19 @@ export const SUGGESTED_CATEGORIES = [
 ] as const
 
 export const ABANDON_REASONS = [
-  { value: "lost interest", label: "lost interest" },
-  { value: "too expensive", label: "too expensive" },
-  { value: "too complicated", label: "too complicated" },
-  { value: "not interesting anymore", label: "not interesting anymore" },
-  { value: "other", label: "other" },
+  { value: "пропал интерес", label: "пропал интерес" },
+  { value: "слишком дорого", label: "слишком дорого" },
+  { value: "слишком сложно", label: "слишком сложно" },
+  { value: "уже не актуально", label: "уже не актуально" },
+  { value: "другое", label: "другое" },
 ] as const
 
 export const ESTIMATE_PRESETS = [
-  { label: "30m", minutes: 30 },
-  { label: "1h", minutes: 60 },
-  { label: "2h", minutes: 120 },
-  { label: "4h", minutes: 240 },
-  { label: "a day", minutes: 480 },
+  { label: "30 мин", minutes: 30 },
+  { label: "1 ч", minutes: 60 },
+  { label: "2 ч", minutes: 120 },
+  { label: "4 ч", minutes: 240 },
+  { label: "день", minutes: 480 },
 ] as const
 
 /** A running session longer than this probably means someone forgot to pause. */

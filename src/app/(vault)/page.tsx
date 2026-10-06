@@ -1,6 +1,7 @@
-import { CurrentChallenge } from "@/components/challenge/current-challenge"
+import Link from "next/link"
+import { ActiveStrip } from "@/components/challenge/current-challenge"
 import { ChallengeCard } from "@/components/challenge/challenge-card"
-import { SectionLabel } from "@/components/challenge/meta"
+import { SectionHeading } from "@/components/challenge/meta"
 import { BacklogToolbar } from "@/components/vault/backlog-toolbar"
 import { EmptyVault } from "@/components/vault/empty-state"
 import { SearchElsewhere } from "@/components/vault/search-elsewhere"
@@ -15,7 +16,8 @@ import {
   searchElsewhere,
 } from "@/lib/challenges/queries"
 import { computeStats } from "@/lib/challenges/stats"
-import { ago } from "@/lib/dates"
+import { waitingFor } from "@/lib/dates"
+import { plural } from "@/lib/plural"
 
 export default async function VaultPage({ searchParams }: PageProps<"/">) {
   const filters = parseBacklogFilters(await searchParams)
@@ -28,43 +30,43 @@ export default async function VaultPage({ searchParams }: PageProps<"/">) {
     getAllChallengesForStats(),
   ])
   const filtered = hasActiveFilters(filters)
-  const vaultEmpty = total === 0 && active.length === 0 && statRows.length === 0
+  const vaultEmpty = statRows.length === 0
 
   return (
-    <div className="grid gap-14">
+    <div className="grid grid-cols-1 gap-10">
       {active.length > 0 && (
-        <section>
-          <SectionLabel count={active.length > 1 ? active.length : undefined}>Currently exploring</SectionLabel>
-          {active.length === 1 ? (
-            <CurrentChallenge challenge={active[0]} />
-          ) : (
-            <div className="grid gap-5 lg:grid-cols-2">
-              {active.map((c) => (
-                <CurrentChallenge key={c.id} challenge={c} variant="compact" />
-              ))}
-            </div>
-          )}
+        <section aria-label="Сейчас в работе" className="grid grid-cols-1 gap-2">
+          {active.map((c) => (
+            <ActiveStrip key={c.id} challenge={c} />
+          ))}
           {active.length >= 3 && (
-            <p className="mt-4 font-mono text-xs text-faint">
-              {active.length} fires lit at once. Totally allowed — but if one has gone cold, it can go back to the vault.
+            <p className="text-sm text-muted-foreground">
+              {active.length} {plural(active.length, "огонь горит", "огня горят", "огней горят")} одновременно. Это нормально — но если какой-то остыл, его можно{" "}
+              <Link href="/active" className="underline underline-offset-4 hover:text-foreground">
+                вернуть в хранилище
+              </Link>
+              .
             </p>
           )}
         </section>
       )}
 
-      <section>
-        <SectionLabel
+      <section aria-labelledby="vault-heading">
+        <SectionHeading
+          as="h1"
+          id="vault-heading"
           count={filtered ? undefined : total}
           right={
             filtered ? (
-              <span className="font-mono text-[11px] text-faint">
-                {backlog.length} of {total}
+              <span className="text-sm text-muted-foreground">
+                нашлось <span className="data text-foreground">{backlog.length}</span> из{" "}
+                <span className="data">{total}</span>
               </span>
             ) : null
           }
         >
-          Backlog
-        </SectionLabel>
+          Хранилище
+        </SectionHeading>
 
         {vaultEmpty ? (
           <EmptyVault />
@@ -72,15 +74,15 @@ export default async function VaultPage({ searchParams }: PageProps<"/">) {
           <>
             <BacklogToolbar filters={filters} topics={topics} />
             {backlog.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-white/10 px-6 py-12 text-center text-muted-foreground">
+              <div className="specimen border-dashed px-6 py-12 text-center text-muted-foreground">
                 {total === 0
-                  ? "Everything in the vault is in play right now. Capture something new when it sparks."
-                  : "Nothing in the backlog matches. Try fewer filters."}
+                  ? "Всё из хранилища сейчас в работе. Поймай что-нибудь новое, когда заискрит."
+                  : "Ничего не нашлось. Попробуй убрать часть фильтров."}
               </div>
             ) : (
               <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,19rem),1fr))] items-start gap-4">
                 {backlog.map((c) => (
-                  <ChallengeCard key={c.id} challenge={c} capturedAgo={ago(c.createdAt)} />
+                  <ChallengeCard key={c.id} challenge={c} waiting={waitingFor(c.createdAt)} />
                 ))}
               </div>
             )}

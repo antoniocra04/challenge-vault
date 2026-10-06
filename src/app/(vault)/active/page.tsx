@@ -1,25 +1,28 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { CurrentChallenge } from "@/components/challenge/current-challenge"
-import { SectionLabel } from "@/components/challenge/meta"
+import { SectionHeading } from "@/components/challenge/meta"
 import { countBacklog, getActiveChallenges } from "@/lib/challenges/queries"
+import { plural } from "@/lib/plural"
 
-export const metadata: Metadata = { title: "Active" }
+export const metadata: Metadata = { title: "Сейчас" }
 
 export default async function ActivePage() {
   const [active, backlog] = await Promise.all([getActiveChallenges(), countBacklog()])
   return (
     <div>
-      <SectionLabel count={active.length}>Active challenges</SectionLabel>
+      <SectionHeading as="h1" count={active.length}>
+        Сейчас в работе
+      </SectionHeading>
       {active.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-white/10 px-6 py-16 text-center">
-          <p className="text-muted-foreground">Nothing in play right now.</p>
+        <div className="specimen border-dashed px-6 py-14 text-center">
+          <p className="text-muted-foreground">Сейчас ничего не в работе.</p>
           {backlog > 0 && (
             <Link
               href="/"
-              className="mt-4 inline-block font-mono text-xs tracking-[0.16em] text-ember uppercase underline-offset-4 hover:underline"
+              className="mt-4 inline-flex min-h-10 items-center text-sm text-cabinet underline-offset-4 hover:underline"
             >
-              Browse {backlog} {backlog === 1 ? "idea" : "ideas"} in the vault →
+              {backlog} {plural(backlog, "идея ждёт", "идеи ждут", "идей ждут")} в хранилище →
             </Link>
           )}
         </div>
@@ -29,9 +32,9 @@ export default async function ActivePage() {
             <CurrentChallenge key={c.id} challenge={c} />
           ))}
           {active.length >= 3 && (
-            <p className="font-mono text-xs text-faint">
-              Lots of fires lit. That&apos;s allowed — just check each one still feels warm. Anything that doesn&apos;t
-              can go back to the vault, no harm done.
+            <p className="text-sm text-muted-foreground">
+              Много огней сразу — это можно. Просто проверь, что каждый ещё греет. Остывшее можно отложить на потом,
+              ничего не потеряется.
             </p>
           )}
         </div>

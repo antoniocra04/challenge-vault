@@ -51,3 +51,6 @@ next-env.d.ts
 # impeccable engine binary (the skill launcher downloads it on first run)
 /.claude/skills/impeccable/scripts/bin/
 .claude/settings.local.json
+
+# impeccable review captures (regenerated per review)
+/.impeccable/review/

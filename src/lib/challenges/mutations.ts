@@ -55,7 +55,7 @@ async function transition(
     .returning()
   if (!row) {
     const exists = await db.select({ id: challenges.id }).from(challenges).where(eq(challenges.id, id))
-    throw new VaultError(exists.length ? failMessage : "This challenge no longer exists.")
+    throw new VaultError(exists.length ? failMessage : "Этой идеи больше нет в хранилище.")
   }
   return row
 }
@@ -80,7 +80,7 @@ export async function updateChallenge(id: string, input: ChallengeInput): Promis
     .set({ ...data, updatedAt: now })
     .where(eq(challenges.id, id))
     .returning()
-  if (!row) throw new VaultError("This challenge no longer exists.")
+  if (!row) throw new VaultError("Этой идеи больше нет в хранилище.")
   return row
 }
 
@@ -100,7 +100,7 @@ export async function setFavorite(id: string, favorite: boolean) {
     .set({ favorite })
     .where(eq(challenges.id, id))
     .returning({ id: challenges.id })
-  if (!row) throw new VaultError("This challenge no longer exists.")
+  if (!row) throw new VaultError("Этой идеи больше нет в хранилище.")
 }
 
 export async function startChallenge(id: string): Promise<Challenge> {
@@ -116,9 +116,9 @@ export async function startChallenge(id: string): Promise<Challenge> {
       startedAt: sql`coalesce(${challenges.startedAt}, now())`,
       sessionStartedAt: now,
     },
-    "Only challenges from the vault can be started.",
+    "Начать можно только идею из хранилища.",
   )
-  await logEvent(id, before?.startedAt ? "Picked up again" : "Challenge started")
+  await logEvent(id, before?.startedAt ? "Снова в работе" : "Начато")
   return row
 }
 
@@ -127,9 +127,9 @@ export async function returnToVault(id: string): Promise<Challenge> {
     id,
     ["active"],
     { status: "backlog", ...closeSession },
-    "Only an active challenge can go back to the vault.",
+    "Вернуть в хранилище можно только то, что сейчас в работе.",
   )
-  await logEvent(id, "Returned to the vault")
+  await logEvent(id, "Возвращено в хранилище")
   return row
 }
 
@@ -150,9 +150,9 @@ export async function completeChallenge(id: string, input: CompleteInput): Promi
         data.actualDuration ??
         sql`round((${challenges.trackedSeconds} + ${runningSeconds}) / 60.0)::int`,
     },
-    "This challenge can't be completed from its current state.",
+    "Эту идею сейчас нельзя завершить.",
   )
-  await logEvent(id, "Completed")
+  await logEvent(id, "Завершено")
   return row
 }
 
@@ -162,9 +162,9 @@ export async function abandonChallenge(id: string, input: { reason?: string | nu
     id,
     ["active", "backlog"],
     { status: "abandoned", ...closeSession, abandonedAt: now, abandonReason: data.reason },
-    "This challenge can't be set aside from its current state.",
+    "Эту идею сейчас нельзя отпустить.",
   )
-  await logEvent(id, data.reason ? `Set aside — ${data.reason}` : "Set aside")
+  await logEvent(id, data.reason ? `Отпущено — ${data.reason}` : "Отпущено")
   return row
 }
 
@@ -174,9 +174,9 @@ export async function restoreToVault(id: string): Promise<Challenge> {
     id,
     ["abandoned", "completed"],
     { status: "backlog", abandonedAt: null, abandonReason: null, completedAt: null },
-    "This challenge is already in play.",
+    "Эта идея уже в игре.",
   )
-  await logEvent(id, "Back in the vault")
+  await logEvent(id, "Снова в хранилище")
   return row
 }
 
@@ -185,7 +185,7 @@ export async function pauseSession(id: string, opts: { discard?: boolean } = {})
     id,
     ["active"],
     opts.discard ? { sessionStartedAt: null } : closeSession,
-    "Only an active challenge has a running session.",
+    "Сессия идёт только у того, что сейчас в работе.",
   )
 }
 
@@ -194,14 +194,14 @@ export async function resumeSession(id: string) {
     id,
     ["active"],
     { sessionStartedAt: sql`coalesce(${challenges.sessionStartedAt}, now())` },
-    "Only an active challenge can run a session.",
+    "Запустить сессию можно только для того, что сейчас в работе.",
   )
 }
 
 /** Manually correct the time spent. A running session restarts from now. */
 export async function setTrackedMinutes(id: string, minutes: number) {
   if (!Number.isFinite(minutes) || minutes < 0 || minutes > 1_000_000) {
-    throw new VaultError("That doesn't look like a valid amount of time.")
+    throw new VaultError("Не получилось понять это время.")
   }
   const [row] = await db
     .update(challenges)
@@ -213,7 +213,7 @@ export async function setTrackedMinutes(id: string, minutes: number) {
     })
     .where(eq(challenges.id, id))
     .returning({ id: challenges.id })
-  if (!row) throw new VaultError("This challenge no longer exists.")
+  if (!row) throw new VaultError("Этой идеи больше нет в хранилище.")
 }
 
 export async function addLogEntry(challengeId: string, input: { content: string }) {
@@ -292,5 +292,5 @@ export async function updateResult(id: string, input: CompleteInput) {
     })
     .where(and(eq(challenges.id, id), eq(challenges.status, "completed")))
     .returning({ id: challenges.id })
-  if (!row) throw new VaultError("Only a completed challenge has a result to edit.")
+  if (!row) throw new VaultError("Результат есть только у завершённой идеи.")
 }

@@ -2,55 +2,55 @@ import Link from "next/link"
 import { DatabaseIcon, LogOutIcon } from "lucide-react"
 import { logout } from "@/app/actions"
 import { CaptureButton } from "@/components/capture/capture-provider"
-import { NavLinks } from "./nav-links"
+import { BottomNav, NavLinks } from "./nav-links"
+
+const iconLink =
+  "grid size-9 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground pointer-coarse:size-11"
 
 export function VaultHeader({ activeCount, authEnabled }: { activeCount: number; authEnabled: boolean }) {
   return (
-    <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-background/75 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3 sm:px-6">
-        <Link href="/" className="group flex items-center gap-2.5">
-          <VaultMark />
-          <span className="font-mono text-[13px] font-semibold tracking-[0.24em] uppercase">
-            Challenge <span className="text-ember transition-colors group-hover:text-foreground">Vault</span>
-          </span>
-        </Link>
-        <div className="order-3 w-full sm:order-none sm:w-auto">
-          <NavLinks activeCount={activeCount} />
-        </div>
-        <div className="ml-auto flex items-center gap-1">
-          <Link
-            href="/data"
-            title="Export / import"
-            className="grid size-9 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
-          >
-            <DatabaseIcon className="size-4" />
-            <span className="sr-only">Export / import</span>
+    <>
+      <a
+        href="#main"
+        className="sr-only rounded-md bg-foreground px-3 py-2 text-sm font-medium text-background focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50"
+      >
+        К содержимому
+      </a>
+      <header className="sticky top-0 z-40 border-b border-rule bg-shell/90 backdrop-blur-md">
+        <div className="mx-auto flex h-14 max-w-6xl items-center gap-6 px-4 sm:px-6">
+          <Link href="/" className="flex items-center gap-2.5 rounded-md">
+            <VaultMark />
+            <span className="text-[15px] font-semibold tracking-tight">Challenge Vault</span>
           </Link>
-          {authEnabled && (
-            <form action={logout}>
-              <button
-                type="submit"
-                title="Lock the vault"
-                className="grid size-9 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
-              >
-                <LogOutIcon className="size-4" />
-                <span className="sr-only">Lock the vault</span>
-              </button>
-            </form>
-          )}
-          <CaptureButton className="ml-2" />
+          <NavLinks activeCount={activeCount} />
+          <div className="ml-auto flex items-center gap-1">
+            <Link href="/data" title="Экспорт и импорт" className={iconLink}>
+              <DatabaseIcon className="size-4" />
+              <span className="sr-only">Экспорт и импорт</span>
+            </Link>
+            {authEnabled && (
+              <form action={logout}>
+                <button type="submit" title="Закрыть хранилище" className={iconLink}>
+                  <LogOutIcon className="size-4" />
+                  <span className="sr-only">Закрыть хранилище</span>
+                </button>
+              </form>
+            )}
+            <CaptureButton className="ml-2 hidden md:inline-flex" />
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+      <BottomNav activeCount={activeCount} />
+    </>
   )
 }
 
 function VaultMark() {
   return (
     <svg viewBox="0 0 32 32" className="size-6" aria-hidden>
-      <circle cx="16" cy="16" r="10" fill="none" stroke="var(--ember)" strokeWidth="2" />
-      <circle cx="16" cy="16" r="3" fill="var(--ember)" />
-      <path d="M16 6v3M16 23v3M6 16h3M23 16h3" stroke="var(--ember)" strokeWidth="2" strokeLinecap="round" />
+      <rect x="4" y="4" width="24" height="24" rx="5" fill="none" stroke="var(--cabinet)" strokeWidth="2" />
+      <circle cx="16" cy="16" r="5.5" fill="none" stroke="var(--ember)" strokeWidth="2" />
+      <path d="M16 10.5v-2M16 23.5v-2M10.5 16h-2M23.5 16h-2" stroke="var(--ember)" strokeWidth="2" strokeLinecap="round" />
     </svg>
   )
 }

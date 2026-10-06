@@ -14,10 +14,10 @@ export async function POST(request: Request) {
   try {
     const form = await request.formData()
     const file = form.get("file")
-    if (!(file instanceof File)) return Response.json({ error: "Choose a JSON file first." }, { status: 400 })
+    if (!(file instanceof File)) return Response.json({ error: "Сначала выбери JSON-файл." }, { status: 400 })
     json = JSON.parse(await file.text())
   } catch {
-    return Response.json({ error: "That file isn't valid JSON." }, { status: 400 })
+    return Response.json({ error: "Это не JSON." }, { status: 400 })
   }
 
   try {
@@ -27,6 +27,6 @@ export async function POST(request: Request) {
   } catch (err) {
     if (err instanceof VaultError) return Response.json({ error: err.message }, { status: 400 })
     console.error(err)
-    return Response.json({ error: "Import failed. Check the server logs." }, { status: 500 })
+    return Response.json({ error: "Импорт не удался. Подробности в логах сервера." }, { status: 500 })
   }
 }

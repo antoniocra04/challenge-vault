@@ -1,27 +1,30 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import { CheckIcon } from "lucide-react"
 import { TagList } from "@/components/challenge/meta"
 import { getChallengesByStatus } from "@/lib/challenges/queries"
-import { shortDate } from "@/lib/dates"
+import { accession, shortDate } from "@/lib/dates"
 import { formatMinutes } from "@/lib/duration"
+import { plural } from "@/lib/plural"
 import { cn } from "@/lib/utils"
 
-export const metadata: Metadata = { title: "Completed" }
+export const metadata: Metadata = { title: "Коллекция" }
 
 function Enjoyment({ score }: { score: number }) {
   return (
     <span className="inline-flex items-center gap-2">
       <span className="flex gap-0.5" aria-hidden>
         {Array.from({ length: 10 }, (_, i) => (
-          <span key={i} className={cn("h-2.5 w-1 rounded-full", i < score ? "bg-jade/80" : "bg-white/10")} />
+          <span key={i} className={cn("h-3 w-1 rounded-full", i < score ? "bg-jade/80" : "bg-white/10")} />
         ))}
       </span>
-      <span className="tabular-nums">{score}/10</span>
+      <span className="data">{score}/10</span>
     </span>
   )
 }
 
-export default async function CompletedPage() {
+export default async function CompletedPage({ searchParams }: PageProps<"/completed">) {
+  const { new: fresh } = await searchParams
   const items = await getChallengesByStatus("completed")
   const minutes = items.reduce((sum, c) => sum + (c.actualDuration ?? 0), 0)
   const byYear = new Map<number, typeof items>()
@@ -32,80 +35,82 @@ export default async function CompletedPage() {
 
   return (
     <div>
-      <header className="mb-12">
-        <h1 className="label-mono text-jade">Completed</h1>
-        <div className="mt-4 flex flex-wrap items-baseline gap-x-10 gap-y-2">
-          <p className="text-5xl font-semibold tracking-tight tabular-nums">
-            {items.length}
-            <span className="ml-3 align-middle font-mono text-sm tracking-[0.2em] text-muted-foreground uppercase">
-              {items.length === 1 ? "challenge" : "challenges"}
-            </span>
-          </p>
-          <p className="text-5xl font-semibold tracking-tight tabular-nums">
-            {Math.round(minutes / 60)}
-            <span className="ml-3 align-middle font-mono text-sm tracking-[0.2em] text-muted-foreground uppercase">
-              hours
-            </span>
-          </p>
-        </div>
-        <p className="mt-4 max-w-xl text-muted-foreground">All the things you actually went and did.</p>
+      <header className="mb-10 max-w-2xl">
+        <h1 className="text-2xl font-semibold tracking-tight">Коллекция</h1>
+        <p className="mt-2 text-muted-foreground">
+          Всё, что получилось сделать.
+          {items.length > 0 && (
+            <>
+              {" "}
+              <span className="data text-foreground">{items.length}</span>{" "}
+              {plural(items.length, "находка", "находки", "находок")} и{" "}
+              <span className="data text-foreground">{Math.round(minutes / 60)}</span> ч исследований.
+            </>
+          )}
+        </p>
       </header>
 
       {items.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-white/10 px-6 py-16 text-center text-muted-foreground">
-          The collection starts with the first completed challenge.
+        <div className="specimen border-dashed px-6 py-14 text-center text-muted-foreground">
+          Коллекция начнётся с первой завершённой идеи.
         </div>
       ) : (
         [...byYear.entries()].map(([year, list]) => (
-          <section key={year} className="mb-14">
-            <div className="mb-5 flex items-center gap-4">
-              <h2 className="font-mono text-sm tracking-[0.2em] text-muted-foreground">{year}</h2>
-              <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent" />
-              <span className="font-mono text-[11px] text-faint">{list.length}</span>
+          <section key={year} className="mb-12" aria-labelledby={`year-${year}`}>
+            <div className="mb-4 flex items-baseline gap-3 border-b border-rule pb-2">
+              <h2 id={`year-${year}`} className="data text-sm text-muted-foreground">
+                {year}
+              </h2>
+              <span className="data ml-auto text-xs text-faint">{list.length}</span>
             </div>
-            <div className="grid gap-4 md:grid-cols-2">
+            <ul className="grid items-start gap-4 md:grid-cols-2">
               {list.map((c) => (
-                <Link
-                  key={c.id}
-                  href={`/challenge/${c.id}`}
-                  className="artifact-card group flex flex-col rounded-2xl border border-border p-6 transition-colors hover:border-jade/30"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <h3 className="text-lg font-semibold tracking-tight uppercase transition-colors group-hover:text-jade">
+                <li key={c.id}>
+                  <Link
+                    href={`/challenge/${c.id}`}
+                    className={cn(
+                      "catalogued group flex flex-col p-5 transition-colors hover:bg-label-hi",
+                      fresh === c.id && "catalogue-in ring-2 ring-jade/60",
+                    )}
+                  >
+                    <div className="flex items-center justify-between gap-4 text-xs">
+                      <span className="data text-jade">{accession(c.accession)}</span>
+                      <span className="inline-flex items-center gap-1.5 text-muted-foreground">
+                        <CheckIcon className="size-3.5 text-jade" />
+                        <span className="data">{shortDate(c.completedAt)}</span>
+                      </span>
+                    </div>
+                    <h3 className="mt-3 text-lg font-semibold tracking-tight text-balance group-hover:text-jade">
                       {c.title}
                     </h3>
-                    <span className="shrink-0 font-mono text-[11px] text-faint">{shortDate(c.completedAt)}</span>
-                  </div>
-                  <span className="mt-1 font-mono text-[11px] tracking-[0.16em] text-jade uppercase">✓ Completed</span>
-                  {c.description && (
-                    <p className="mt-4 line-clamp-2 text-sm whitespace-pre-line text-muted-foreground">{c.description}</p>
-                  )}
-                  {c.result && (
-                    <div className="mt-4">
-                      <div className="label-mono mb-1 text-[10px]">Result</div>
-                      <p className="line-clamp-4 text-[15px] leading-relaxed whitespace-pre-line">{c.result}</p>
-                    </div>
-                  )}
-                  <div className="mt-auto flex flex-wrap items-center gap-x-8 gap-y-2 pt-5 font-mono text-xs text-muted-foreground">
-                    {c.actualDuration != null && c.actualDuration > 0 && (
-                      <span>
-                        <span className="label-mono mr-2 text-[10px]">Time</span>
-                        <span className="text-foreground">{formatMinutes(c.actualDuration)}</span>
-                      </span>
-                    )}
-                    {c.enjoymentScore != null && (
-                      <span className="inline-flex items-center">
-                        <span className="label-mono mr-2 text-[10px]">Enjoyment</span>
-                        <span className="text-foreground">
-                          <Enjoyment score={c.enjoymentScore} />
-                        </span>
-                      </span>
-                    )}
-                  </div>
-                  <TagList category={c.category} tags={c.tags} className="mt-4" />
-                </Link>
+                    {c.result ? (
+                      <p className="mt-2 line-clamp-4 text-[15px] leading-relaxed whitespace-pre-line text-foreground/90">
+                        {c.result}
+                      </p>
+                    ) : c.description ? (
+                      <p className="mt-2 line-clamp-2 text-sm whitespace-pre-line text-muted-foreground">{c.description}</p>
+                    ) : null}
+                    <dl className="mt-auto flex flex-wrap items-center gap-x-8 gap-y-2 border-t border-rule pt-3 text-sm [&:not(:first-child)]:mt-4">
+                      {c.actualDuration != null && c.actualDuration > 0 && (
+                        <div className="flex items-baseline gap-2">
+                          <dt className="text-xs text-faint">Потрачено</dt>
+                          <dd className="data">{formatMinutes(c.actualDuration)}</dd>
+                        </div>
+                      )}
+                      {c.enjoymentScore != null && (
+                        <div className="flex items-center gap-2">
+                          <dt className="text-xs text-faint">Интерес</dt>
+                          <dd>
+                            <Enjoyment score={c.enjoymentScore} />
+                          </dd>
+                        </div>
+                      )}
+                    </dl>
+                    <TagList category={c.category} tags={c.tags} className="mt-3" />
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           </section>
         ))
       )}

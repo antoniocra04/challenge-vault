@@ -7,23 +7,27 @@ the ideas that once made you think *"oh, that would be interesting to try"*,
 and gives them back to you when you have free time:
 
 ```
-interesting idea → CAPTURE → backlog → … time passes … → open the vault →
+interesting idea → capture («Поймать») → backlog → … time passes … → open the vault →
 browse → "oh, I want to do THIS" → START CHALLENGE → do the thing →
-COMPLETE / RETURN TO VAULT / ABANDON
+complete («Завершить») / back to the vault later or let it go («Отложить»)
 ```
 
 There are no deadlines, priorities, streaks, reminders or productivity scores.
 
 ## Features
 
+The interface is in Russian; the design is a dark "specimen collection": every idea gets an
+accession number and a specimen-label card, active challenges glow ember, completed ones are
+catalogued in jade.
+
 - **Backlog** of challenge cards: browse, expand, start. Search, topic chips,
   context filters (time / location / money), starred ideas, and sorting by
   newest, oldest, recently updated, estimated time or **random order**.
-- **Capture** in seconds: `+ CAPTURE` button or press <kbd>C</kbd> anywhere.
+- **Capture** in seconds: the **+ Поймать** button (bottom bar on phones) or press <kbd>C</kbd> anywhere.
   Only the idea itself is required; the *spark* (why it seemed interesting)
   is optional but encouraged.
-- **Currently exploring**: active challenges get a glowing panel on top of
-  the vault with time spent, the spark and where you left off. Several can be
+- **Currently exploring**: active challenges show as a slim ember strip on top
+  of the vault and as a full glowing panel on **Сейчас** (`/active`) with time spent, the spark and where you left off. Several can be
   active at once.
 - **Session clock**: starting a challenge starts a clock; pause / resume it,
   discard a forgotten session, or adjust the time by hand. No fake progress
@@ -89,7 +93,7 @@ Data is stored in two Docker volumes:
 ## Backup
 
 The simplest complete backup is a **full JSON export**: open the database icon
-in the header (`/data`) and click **JSON — full backup**. The file contains every
+in the header (`/data`) and click **JSON — полная копия**. The file contains every
 challenge, log entry and attachment, with uploaded files embedded.
 
 From the command line (add `-H "Cookie: …"` if you set a password, or use the UI):
@@ -111,8 +115,8 @@ docker compose run --rm --no-deps --user root --entrypoint sh -v "$PWD":/backup 
 
 ## Restore
 
-From a JSON export: open `/data`, choose the file, select **Replace everything**
-and click **Import**. (Use **Merge** to add challenges from a file without
+From a JSON export: open `/data`, choose the file, select **Заменить всё**
+and click **Импортировать**. (Use **Добавить** to add challenges from a file without
 removing what's already there.)
 
 From a database dump and uploads archive:
@@ -129,8 +133,8 @@ docker compose up -d
 
 ## JSON export
 
-- `/data` → **JSON — full backup**, or `GET /api/export/json`
-- Without file contents (much smaller): **JSON — without files**, or
+- `/data` → **JSON — полная копия**, or `GET /api/export/json`
+- Without file contents (much smaller): **JSON — без файлов**, or
   `GET /api/export/json?files=0`
 - Readable document: **Markdown**, or `GET /api/export/markdown`
 
@@ -169,12 +173,12 @@ Durations are in minutes.
 
 ## JSON import
 
-`/data` → choose a `.json` file → pick a mode → **Import**.
+`/data` → choose a `.json` file → pick a mode → **Импортировать**.
 
-- **Merge**: challenges from the file are added; a challenge whose `id`
+- **Добавить** (merge): challenges from the file are added; a challenge whose `id`
   already exists is replaced by the file's version (including its log and
   attachments). Importing the same file twice doesn't create duplicates.
-- **Replace everything**: the vault is wiped first, then restored from the file.
+- **Заменить всё** (replace): the vault is wiped first, then restored from the file.
 
 Only `title` is required, so hand-written files work too:
 

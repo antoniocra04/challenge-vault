@@ -20,7 +20,7 @@ const optionalMinutes = z
   .transform((v) => v ?? null)
 
 export const challengeInputSchema = z.object({
-  title: z.string().trim().min(1, "Give it a name").max(300),
+  title: z.string().trim().min(1, "Назови идею").max(300),
   description: optionalText(20_000),
   spark: optionalText(20_000),
   category: optionalText(60),
@@ -51,7 +51,7 @@ export const abandonInputSchema = z.object({
 })
 
 export const logEntryInputSchema = z.object({
-  content: z.string().trim().min(1, "Write something first").max(20_000),
+  content: z.string().trim().min(1, "Сначала напиши что-нибудь").max(20_000),
 })
 
 export const linkAttachmentSchema = z.object({
@@ -61,13 +61,13 @@ export const linkAttachmentSchema = z.object({
     .min(1)
     .max(4000)
     .transform((v) => (/^[a-z][a-z0-9+.-]*:/i.test(v) ? v : `https://${v}`))
-    .pipe(z.url({ protocol: /^https?$/, message: "That doesn't look like a link" })),
+    .pipe(z.url({ protocol: /^https?$/, message: "Это не похоже на ссылку" })),
   title: optionalText(300),
 })
 
 export const textAttachmentSchema = z.object({
   title: optionalText(300),
-  content: z.string().trim().min(1, "The note is empty").max(100_000),
+  content: z.string().trim().min(1, "Заметка пустая").max(100_000),
 })
 
 export const idSchema = z.uuid()

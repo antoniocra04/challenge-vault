@@ -61,10 +61,10 @@ export async function buildJsonExport(opts: { includeFiles: boolean }) {
 }
 
 const STATUS_SECTIONS = [
-  { status: "active", heading: "Currently exploring" },
-  { status: "backlog", heading: "Backlog" },
-  { status: "completed", heading: "Completed" },
-  { status: "abandoned", heading: "Archive" },
+  { status: "active", heading: "Сейчас в работе" },
+  { status: "backlog", heading: "Хранилище" },
+  { status: "completed", heading: "Коллекция" },
+  { status: "abandoned", heading: "Архив" },
 ] as const
 
 function fmtDate(d: Date | null | undefined, withTime = false) {
@@ -80,14 +80,14 @@ function quote(text: string) {
 }
 
 function attachmentLine(a: Attachment) {
-  const label = a.title || a.fileName || a.url || "note"
+  const label = a.title || a.fileName || a.url || "заметка"
   if (a.kind === "url" && a.url) return `- [${label}](${a.url})`
-  if (a.kind === "text") return `- 📝 ${a.title ?? "Note"}\n\n${quote(a.content ?? "")}`
-  return `- 📎 ${label}${a.mimeType ? ` (${a.mimeType})` : ""}`
+  if (a.kind === "text") return `- ${a.title ?? "Заметка"}\n\n${quote(a.content ?? "")}`
+  return `- ${label}${a.mimeType ? ` (${a.mimeType})` : ""}`
 }
 
 export function renderMarkdown(vault: VaultSnapshot, now: Date = new Date()): string {
-  const lines: string[] = [`# Challenge Vault`, "", `_Exported ${fmtDate(now, true)}_`, ""]
+  const lines: string[] = [`# Challenge Vault`, "", `_Экспорт ${fmtDate(now, true)}_`, ""]
   for (const section of STATUS_SECTIONS) {
     const items = vault.filter((c) => c.status === section.status)
     if (items.length === 0) continue
@@ -95,26 +95,26 @@ export function renderMarkdown(vault: VaultSnapshot, now: Date = new Date()): st
     for (const c of items) {
       lines.push(`### ${c.favorite ? "⭐ " : ""}${c.title}`, "")
       const meta: string[] = []
-      if (c.category) meta.push(`**Category:** ${c.category}`)
-      if (c.tags.length) meta.push(`**Tags:** ${c.tags.map((t) => `#${t}`).join(" ")}`)
-      if (c.estimatedDuration) meta.push(`**Estimate:** ~${formatMinutes(c.estimatedDuration)}`)
-      meta.push(`**Captured:** ${fmtDate(c.createdAt)}`)
-      if (c.startedAt) meta.push(`**Started:** ${fmtDate(c.startedAt)}`)
-      if (c.completedAt) meta.push(`**Completed:** ${fmtDate(c.completedAt)}`)
-      if (c.abandonedAt) meta.push(`**Set aside:** ${fmtDate(c.abandonedAt)}${c.abandonReason ? ` — ${c.abandonReason}` : ""}`)
+      if (c.category) meta.push(`**Категория:** ${c.category}`)
+      if (c.tags.length) meta.push(`**Теги:** ${c.tags.map((t) => `#${t}`).join(" ")}`)
+      if (c.estimatedDuration) meta.push(`**Оценка:** ~${formatMinutes(c.estimatedDuration)}`)
+      meta.push(`**Поймана:** ${fmtDate(c.createdAt)}`)
+      if (c.startedAt) meta.push(`**Начата:** ${fmtDate(c.startedAt)}`)
+      if (c.completedAt) meta.push(`**Завершена:** ${fmtDate(c.completedAt)}`)
+      if (c.abandonedAt) meta.push(`**Отпущена:** ${fmtDate(c.abandonedAt)}${c.abandonReason ? ` — ${c.abandonReason}` : ""}`)
       const minutes = c.status === "completed" ? c.actualDuration : Math.round(c.trackedSeconds / 60)
-      if (minutes) meta.push(`**Time spent:** ${formatMinutes(minutes)}`)
-      if (c.enjoymentScore) meta.push(`**Enjoyment:** ${c.enjoymentScore}/10`)
+      if (minutes) meta.push(`**Потрачено:** ${formatMinutes(minutes)}`)
+      if (c.enjoymentScore) meta.push(`**Удовольствие:** ${c.enjoymentScore}/10`)
       lines.push(meta.join("  \n"), "")
       if (c.description) lines.push(c.description, "")
-      if (c.spark) lines.push("**Spark**", "", quote(c.spark), "")
-      if (c.result) lines.push("**Result**", "", c.result, "")
+      if (c.spark) lines.push("**Искра**", "", quote(c.spark), "")
+      if (c.result) lines.push("**Результат**", "", c.result, "")
       if (c.attachments.length) {
-        lines.push("**Attachments**", "", ...c.attachments.map(attachmentLine), "")
+        lines.push("**Вложения**", "", ...c.attachments.map(attachmentLine), "")
       }
       const notes = c.log
       if (notes.length) {
-        lines.push("**Log**", "")
+        lines.push("**Журнал**", "")
         for (const e of notes) {
           const body = e.kind === "event" ? `_${e.content}_` : e.content.replace(/\n/g, "\n  ")
           lines.push(`- ${fmtDate(e.createdAt, true)} — ${body}`)
@@ -123,6 +123,6 @@ export function renderMarkdown(vault: VaultSnapshot, now: Date = new Date()): st
       }
     }
   }
-  if (vault.length === 0) lines.push("_The vault is empty._", "")
+  if (vault.length === 0) lines.push("_Хранилище пусто._", "")
   return lines.join("\n")
 }

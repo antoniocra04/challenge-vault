@@ -2,28 +2,28 @@
 // bookmarked. These helpers parse and serialize it.
 
 export const SORT_OPTIONS = [
-  { value: "newest", label: "Newest" },
-  { value: "oldest", label: "Oldest" },
-  { value: "updated", label: "Recently updated" },
-  { value: "estimate", label: "Estimated time" },
-  { value: "random", label: "Random" },
+  { value: "newest", label: "Сначала новые" },
+  { value: "oldest", label: "Сначала старые" },
+  { value: "updated", label: "Недавно изменённые" },
+  { value: "estimate", label: "По времени" },
+  { value: "random", label: "Вперемешку" },
 ] as const
 
 export const TIME_FILTERS = [
-  { value: "30m", label: "< 30m" },
-  { value: "1h", label: "< 1h" },
-  { value: "1-3h", label: "1–3h" },
-  { value: "3h+", label: "3h+" },
+  { value: "30m", label: "до 30 мин" },
+  { value: "1h", label: "до часа" },
+  { value: "1-3h", label: "1–3 ч" },
+  { value: "3h+", label: "от 3 ч" },
 ] as const
 
 export const LOCATION_FILTERS = [
-  { value: "home", label: "🏠 Home" },
-  { value: "outside", label: "🚶 Outside" },
+  { value: "home", label: "Дома" },
+  { value: "outside", label: "Вне дома" },
 ] as const
 
 export const MONEY_FILTERS = [
-  { value: "free", label: "Free" },
-  { value: "money", label: "💰 Requires money" },
+  { value: "free", label: "Бесплатно" },
+  { value: "money", label: "Нужны деньги" },
 ] as const
 
 export type SortOption = (typeof SORT_OPTIONS)[number]["value"]

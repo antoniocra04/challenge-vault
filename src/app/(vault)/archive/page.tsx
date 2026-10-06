@@ -1,49 +1,50 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { RestoreButton } from "@/components/challenge/actions"
-import { SectionLabel } from "@/components/challenge/meta"
+import { SectionHeading } from "@/components/challenge/meta"
 import { getChallengesByStatus } from "@/lib/challenges/queries"
-import { shortDate } from "@/lib/dates"
+import { accession, shortDate } from "@/lib/dates"
 import { formatSeconds } from "@/lib/duration"
+import { plural } from "@/lib/plural"
 
-export const metadata: Metadata = { title: "Archive" }
+export const metadata: Metadata = { title: "Архив" }
 
 export default async function ArchivePage() {
   const items = await getChallengesByStatus("abandoned")
   return (
     <div>
-      <SectionLabel count={items.length}>Archive</SectionLabel>
-      <p className="mb-8 max-w-xl text-muted-foreground">
-        Ideas that ran their course. Losing interest isn&apos;t failing — it means you learned what you wanted to know,
-        or found something better to do.
+      <SectionHeading as="h1" count={items.length}>
+        Архив
+      </SectionHeading>
+      <p className="-mt-2 mb-8 max-w-xl text-muted-foreground">
+        Идеи, которые отжили своё. Потерять интерес — не провал: значит, нужное уже понятно или нашлось что-то
+        интереснее.
       </p>
       {items.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-white/10 px-6 py-16 text-center text-muted-foreground">
-          Nothing set aside yet.
-        </div>
+        <div className="specimen border-dashed px-6 py-14 text-center text-muted-foreground">Пока ничего не отпущено.</div>
       ) : (
-        <ul className="grid gap-3">
+        <ul className="specimen divide-y divide-rule">
           {items.map((c) => (
-            <li
-              key={c.id}
-              className="flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl border border-border bg-card/50 px-5 py-4"
-            >
-              <div className="min-w-0 flex-1">
-                <Link href={`/challenge/${c.id}`} className="font-medium transition-colors hover:text-foreground/70">
-                  {c.title}
-                </Link>
-                <p className="mt-1 font-mono text-[11px] text-faint">
+            <li key={c.id} className="flex flex-wrap items-center gap-x-6 gap-y-3 px-4 py-4 sm:px-5">
+              <div className="min-w-0 basis-full sm:basis-auto sm:flex-1">
+                <div className="flex items-baseline gap-3">
+                  <span className="data shrink-0 text-xs whitespace-nowrap text-faint">{accession(c.accession)}</span>
+                  <Link href={`/challenge/${c.id}`} className="font-medium underline-offset-4 hover:underline">
+                    {c.title}
+                  </Link>
+                </div>
+                <p className="mt-1 text-sm text-muted-foreground">
                   {[
-                    `set aside ${shortDate(c.abandonedAt)}`,
+                    `отпущена ${shortDate(c.abandonedAt)}`,
                     c.abandonReason,
-                    c.trackedSeconds >= 60 ? `explored ${formatSeconds(c.trackedSeconds)}` : null,
-                    c.noteCount > 0 ? `${c.noteCount} log ${c.noteCount === 1 ? "entry" : "entries"}` : null,
+                    c.trackedSeconds >= 60 ? `исследовалась ${formatSeconds(c.trackedSeconds)}` : null,
+                    c.noteCount > 0 ? `${c.noteCount} ${plural(c.noteCount, "запись", "записи", "записей")} в журнале` : null,
                   ]
                     .filter(Boolean)
                     .join(" · ")}
                 </p>
               </div>
-              <RestoreButton id={c.id} size="sm" />
+              <RestoreButton id={c.id} />
             </li>
           ))}
         </ul>

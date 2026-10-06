@@ -38,15 +38,15 @@ export function TimeSpentEditor({
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={(e) => e.key === "Escape" && setEditing(false)}
-          className="w-24 rounded-md border border-input bg-input/30 px-2 py-0.5 font-mono text-sm outline-none focus:border-ring"
-          aria-label="Time spent"
+          className="data w-28 rounded-md border border-input bg-label px-2 py-1 text-sm outline-none focus:border-ring"
+          aria-label="Сколько времени ушло"
           aria-invalid={value.trim() !== "" && minutes == null}
         />
-        <button type="submit" disabled={pending || minutes == null} className="font-mono text-[11px] text-ember disabled:opacity-40">
-          save
+        <button type="submit" disabled={pending || minutes == null} className="min-h-8 px-1 text-sm text-ember disabled:opacity-40 pointer-coarse:min-h-11">
+          сохранить
         </button>
-        <button type="button" onClick={() => setEditing(false)} className="font-mono text-[11px] text-faint">
-          cancel
+        <button type="button" onClick={() => setEditing(false)} className="min-h-8 px-1 text-sm text-muted-foreground pointer-coarse:min-h-11">
+          отмена
         </button>
       </form>
     )
@@ -54,9 +54,9 @@ export function TimeSpentEditor({
 
   return (
     <span className="inline-flex items-baseline gap-2">
-      <span className="font-mono">
+      <span className="data">
         {actualDuration != null ? (
-          formatMinutes(actualDuration) || "0m"
+          formatMinutes(actualDuration) || "0 мин"
         ) : (
           <LiveTimeSpent trackedSeconds={trackedSeconds} sessionStartedAt={sessionStartedAt} />
         )}
@@ -68,9 +68,9 @@ export function TimeSpentEditor({
           setValue(current ? formatMinutes(current) : "")
           setEditing(true)
         }}
-        className="font-mono text-[10px] tracking-wider text-faint uppercase hover:text-muted-foreground"
+        className="min-h-7 text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline pointer-coarse:min-h-10"
       >
-        adjust
+        поправить
       </button>
     </span>
   )

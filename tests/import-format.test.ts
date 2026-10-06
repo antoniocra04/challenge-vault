@@ -15,11 +15,11 @@ describe("parseImport", () => {
   })
 
   it("rejects files without challenges", () => {
-    expect(() => parseImport({ hello: "world" })).toThrow(/Challenge Vault export/)
+    expect(() => parseImport({ hello: "world" })).toThrow(/экспорт Challenge Vault/)
   })
 
   it("rejects exports from newer versions", () => {
-    expect(() => parseImport({ format: "challenge-vault", version: 99, challenges: [] })).toThrow(/newer version/)
+    expect(() => parseImport({ format: "challenge-vault", version: 99, challenges: [] })).toThrow(/более новой версией/)
   })
 })
 
@@ -39,11 +39,11 @@ describe("renderMarkdown", () => {
       ],
       d,
     )
-    expect(md).toContain("## Completed (1)")
+    expect(md).toContain("## Коллекция (1)")
     expect(md).toContain("### ⭐ Smart Apartment")
     expect(md).toContain("> ЖКХ")
     expect(md).toContain("Found ~800 ₽/month")
-    expect(md).toContain("**Time spent:** 12h")
+    expect(md).toContain("**Потрачено:** 12 ч")
     expect(md).toContain("2026-10-05 21:14 — Поднял MQTT")
   })
 })

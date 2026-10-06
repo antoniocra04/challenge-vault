@@ -13,6 +13,7 @@ describe("parseDuration", () => {
     ["1:30", 90],
     ["2ч", 120],
     ["30 мин", 30],
+    ["1 ч 20 мин", 80],
     ["1 day", 1440],
     ["~4h", 240],
   ])("parses %s", (input, expected) => {
@@ -26,17 +27,17 @@ describe("parseDuration", () => {
 
 describe("formatting", () => {
   it("formats minutes", () => {
-    expect(formatMinutes(0)).toBe("0m")
-    expect(formatMinutes(45)).toBe("45m")
-    expect(formatMinutes(60)).toBe("1h")
-    expect(formatMinutes(80)).toBe("1h 20m")
+    expect(formatMinutes(0)).toBe("0 мин")
+    expect(formatMinutes(45)).toBe("45 мин")
+    expect(formatMinutes(60)).toBe("1 ч")
+    expect(formatMinutes(80)).toBe("1 ч 20 мин")
     expect(formatMinutes(null)).toBe("")
   })
 
   it("formats estimates and seconds", () => {
-    expect(formatEstimate(240)).toBe("~4h")
-    expect(formatSeconds(30)).toBe("<1m")
-    expect(formatSeconds(3 * 3600 + 42 * 60)).toBe("3h 42m")
+    expect(formatEstimate(240)).toBe("~4 ч")
+    expect(formatSeconds(30)).toBe("<1 мин")
+    expect(formatSeconds(3 * 3600 + 42 * 60)).toBe("3 ч 42 мин")
     expect(formatClock(3729)).toBe("1:02:09")
     expect(formatClock(65)).toBe("1:05")
   })

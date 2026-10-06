@@ -1,116 +1,127 @@
 "use client"
 
-import { useState } from "react"
-import Link from "next/link"
-import { HistoryIcon, MessageSquareTextIcon, PaperclipIcon } from "lucide-react"
+import { useId, useState } from "react"
+import { ChevronDownIcon, HistoryIcon, MessageSquareTextIcon, PaperclipIcon } from "lucide-react"
 import type { ChallengeListItem } from "@/lib/challenges/queries"
+import { accession } from "@/lib/dates"
 import { formatSeconds } from "@/lib/duration"
 import { cn } from "@/lib/utils"
-import { FavoriteButton, StartChallengeButton } from "./actions"
+import { FavoriteButton, OpenChallengeLink, StartChallengeButton } from "./actions"
 import { Indicators, TagList } from "./meta"
 
-export function ChallengeCard({ challenge: c, capturedAgo }: { challenge: ChallengeListItem; capturedAgo: string }) {
+/** A backlog idea, set as a specimen label: accession, spark, measurements. */
+export function ChallengeCard({ challenge: c, waiting }: { challenge: ChallengeListItem; waiting: string }) {
   const [expanded, setExpanded] = useState(false)
-  const exploredBefore = c.startedAt != null
+  const regionId = useId()
+  const lead = c.spark ?? c.description
+  const leadIsSpark = c.spark != null
 
   return (
     <article
       data-backlog-card
-      role="button"
-      tabIndex={0}
-      aria-expanded={expanded}
-      onClick={() => setExpanded((v) => !v)}
-      onKeyDown={(e) => {
-        if (e.target !== e.currentTarget) return
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault()
-          setExpanded((v) => !v)
-        }
-      }}
+      aria-labelledby={`${regionId}-title`}
       className={cn(
-        "group relative flex flex-col rounded-xl border bg-card/80 p-5 text-left backdrop-blur-[2px] transition-all duration-200 outline-none",
-        "hover:-translate-y-0.5 hover:border-white/15 hover:bg-card hover:shadow-[0_8px_30px_-12px_rgb(0_0_0/0.6)]",
-        "focus-visible:ring-2 focus-visible:ring-ring",
-        expanded ? "border-white/15 bg-card shadow-[0_8px_30px_-12px_rgb(0_0_0/0.6)]" : "border-border",
-        c.favorite && "border-ember/20",
+        "specimen group relative flex flex-col transition-colors duration-200",
+        "hover:border-white/20 hover:bg-label-hi has-[button[aria-expanded=true]]:bg-label-hi",
+        c.favorite && "border-ember/35",
       )}
     >
-      <div className="flex items-start justify-between gap-3">
-        <TagList category={c.category} tags={expanded ? c.tags : c.tags.slice(0, 3)} className="min-h-5 pt-0.5" />
-        <FavoriteButton id={c.id} favorite={c.favorite} className="-mt-1 -mr-2 shrink-0" />
-      </div>
+      <header className="flex items-center gap-3 px-4 pt-3">
+        <span className="data text-xs text-cabinet">{accession(c.accession)}</span>
+        <span className="text-xs text-faint">{waiting}</span>
+        <FavoriteButton id={c.id} favorite={c.favorite} className="relative z-10 -mr-2 ml-auto" />
+      </header>
 
-      <h3 className="mt-3 text-[17px] leading-snug font-semibold tracking-tight text-balance">{c.title}</h3>
+      <h3 id={`${regionId}-title`} className="px-4 pt-1 text-[17px] leading-snug font-semibold tracking-tight text-balance">
+        {/* The title is the disclosure; its overlay makes the whole label clickable. */}
+        <button
+          type="button"
+          aria-expanded={expanded}
+          aria-controls={regionId}
+          onClick={() => setExpanded((v) => !v)}
+          className="text-left outline-none after:absolute after:inset-0 after:rounded-[inherit] after:content-[''] focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-ring"
+        >
+          {c.title}
+        </button>
+      </h3>
 
-      {c.description && (
+      {lead && (
         <p
           className={cn(
-            "mt-2 text-sm leading-relaxed whitespace-pre-line text-muted-foreground",
-            !expanded && "line-clamp-3",
+            "px-4 pt-2 text-[15px] leading-relaxed whitespace-pre-line",
+            leadIsSpark ? "text-foreground/85" : "text-muted-foreground",
+            !expanded && "line-clamp-4",
           )}
         >
-          {c.description}
+          {leadIsSpark ? (
+            <>
+              <span className="sr-only">Искра: </span>«{c.spark}»
+            </>
+          ) : (
+            c.description
+          )}
         </p>
       )}
 
       <div
+        id={regionId}
+        inert={!expanded}
         className={cn(
-          "grid transition-[grid-template-rows,opacity] duration-300 ease-out",
+          "grid transition-[grid-template-rows,opacity] duration-250 ease-out",
           expanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
         )}
       >
         <div className="overflow-hidden">
-          {c.spark && (
-            <blockquote className="mt-4 border-l-2 border-ember/30 pl-3 text-sm text-foreground/80 italic">
-              <span className="label-mono mb-1 block text-[10px] not-italic">Spark</span>
-              <span className="whitespace-pre-line">“{c.spark}”</span>
-            </blockquote>
+          {leadIsSpark && c.description && (
+            <p className="px-4 pt-3 text-sm leading-relaxed whitespace-pre-line text-muted-foreground">{c.description}</p>
           )}
-          <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11px] text-faint">
-            <span>captured {capturedAgo}</span>
-            {c.noteCount > 0 && (
-              <span className="inline-flex items-center gap-1">
-                <MessageSquareTextIcon className="size-3" />
-                {c.noteCount}
-              </span>
-            )}
-            {c.attachmentCount > 0 && (
-              <span className="inline-flex items-center gap-1">
-                <PaperclipIcon className="size-3" />
-                {c.attachmentCount}
-              </span>
-            )}
-          </div>
-          <div className="mt-4 flex items-center gap-2">
-            <StartChallengeButton id={c.id} tabIndex={expanded ? 0 : -1} />
-            <Link
-              href={`/challenge/${c.id}`}
-              tabIndex={expanded ? 0 : -1}
-              onClick={(e) => e.stopPropagation()}
-              className="px-2 font-mono text-[11px] tracking-[0.14em] text-muted-foreground uppercase transition-colors hover:text-foreground"
-            >
-              Open →
-            </Link>
+          {(c.noteCount > 0 || c.attachmentCount > 0) && (
+            <p className="flex gap-4 px-4 pt-3 text-xs text-muted-foreground">
+              {c.noteCount > 0 && (
+                <span className="inline-flex items-center gap-1.5">
+                  <MessageSquareTextIcon className="size-3.5 text-faint" />
+                  <span className="data">{c.noteCount}</span> в журнале
+                </span>
+              )}
+              {c.attachmentCount > 0 && (
+                <span className="inline-flex items-center gap-1.5">
+                  <PaperclipIcon className="size-3.5 text-faint" />
+                  <span className="data">{c.attachmentCount}</span> вложений
+                </span>
+              )}
+            </p>
+          )}
+          <div className="relative z-10 flex items-center gap-2 px-4 pt-4">
+            <StartChallengeButton id={c.id} />
+            <OpenChallengeLink id={c.id}>Открыть →</OpenChallengeLink>
           </div>
         </div>
       </div>
 
-      <div className="mt-auto flex items-center justify-between gap-3 pt-4">
-        <Indicators
-          estimatedDuration={c.estimatedDuration}
-          requiresLeavingHome={c.requiresLeavingHome}
-          requiresMoney={c.requiresMoney}
-        />
-        {exploredBefore && (
-          <span
-            className="inline-flex items-center gap-1 font-mono text-[11px] text-ember/70"
-            title="You started this before and put it back in the vault"
-          >
-            <HistoryIcon className="size-3" />
-            explored{c.trackedSeconds >= 60 ? ` · ${formatSeconds(c.trackedSeconds)}` : " before"}
-          </span>
-        )}
-      </div>
+      <footer className="mt-auto grid gap-2 px-4 pt-4 pb-3">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 border-t border-rule pt-2.5">
+          <Indicators
+            estimatedDuration={c.estimatedDuration}
+            requiresLeavingHome={c.requiresLeavingHome}
+            requiresMoney={c.requiresMoney}
+          />
+          {c.startedAt != null && (
+            <span
+              className="inline-flex items-center gap-1.5 text-xs whitespace-nowrap text-ember/90"
+              title="Уже начиналась и вернулась в хранилище"
+            >
+              <HistoryIcon className="size-3.5" />
+              изучалась
+              {c.trackedSeconds >= 60 && <span className="data">· {formatSeconds(c.trackedSeconds)}</span>}
+            </span>
+          )}
+          <ChevronDownIcon
+            aria-hidden
+            className={cn("ml-auto size-4 text-faint transition-transform duration-200", expanded && "rotate-180")}
+          />
+        </div>
+        <TagList category={c.category} tags={c.tags} />
+      </footer>
     </article>
   )
 }

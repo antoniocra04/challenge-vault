@@ -1,50 +1,109 @@
+"use client"
+
+import { useLayoutEffect, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
 
-// A few hand-drawn loops; each idea always gets the same one.
-const LOOPS = [
-  "M 24 10 C 72 1, 162 3, 190 22 C 203 39, 198 71, 175 89 C 139 101, 52 99, 17 87 C 1 74, -1 32, 16 16 C 26 8, 46 5, 66 6",
-  "M 30 8 C 80 0, 158 4, 186 19 C 201 33, 201 68, 181 86 C 147 100, 60 101, 21 90 C 3 79, -2 38, 12 20 C 22 9, 50 4, 74 4",
-  "M 18 14 C 60 2, 150 0, 184 16 C 202 29, 200 66, 179 87 C 150 99, 66 102, 25 92 C 5 83, -1 44, 9 25 C 15 13, 34 7, 58 5",
-]
+function hash(seed: string) {
+  let h = 2166136261
+  for (let i = 0; i < seed.length; i++) h = Math.imul(h ^ seed.charCodeAt(i), 16777619)
+  return h >>> 0
+}
 
-function pick(seed: string) {
-  let h = 0
-  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) | 0
-  return Math.abs(h)
+function rng(seed: number) {
+  let a = seed
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0
+    let t = Math.imul(a ^ (a >>> 15), a | 1)
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
 }
 
 /**
- * Red china-marker loop around its parent (which must be positioned). It
- * marks what is in progress — the only job red has. Two offset passes give
- * the waxy, uneven line of a grease pencil.
+ * A loop drawn at the box's real size (never stretched): a superellipse that
+ * clears the corners of the text it surrounds, with a little hand wobble and
+ * an overshoot where the pencil comes back past its start.
  */
-export function MarkerCircle({ seed = "", className }: { seed?: string; className?: string }) {
-  const n = pick(seed)
-  const d = LOOPS[n % LOOPS.length]
-  const tilt = ((n >> 3) % 5) - 2 // -2..2 degrees
+function loopPath(w: number, h: number, pad: number, seed: string) {
+  const r = rng(hash(seed))
+  const cx = w / 2
+  const cy = h / 2
+  // With the svg inset by pad×1.6 and pad, these axes clear the text box corners.
+  const a = w / 2 - pad * 0.3
+  const b = h / 2
+  const n = 4
+  const start = -Math.PI * (0.62 + r() * 0.12)
+  const sweep = Math.PI * 2 * (1.07 + r() * 0.05)
+  const phase = r() * Math.PI * 2
+  const steps = 72
+  const pts: [number, number][] = []
+  for (let i = 0; i <= steps; i++) {
+    const t = start + (sweep * i) / steps
+    const c = Math.cos(t)
+    const s = Math.sin(t)
+    // Superellipse radius, slight low-frequency wobble, and a drift outward
+    // on the overshoot so the end doesn't land on the start.
+    const wobble = 1 + 0.015 * Math.sin(3 * t + phase) + 0.008 * Math.sin(7 * t + phase * 2)
+    const drift = 1 + 0.05 * Math.max(0, i / steps - 0.9) * 10
+    const x = cx + a * wobble * drift * Math.sign(c) * Math.abs(c) ** (2 / n)
+    const y = cy + b * wobble * drift * Math.sign(s) * Math.abs(s) ** (2 / n)
+    pts.push([x, y])
+  }
+  return "M " + pts.map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`).join(" L ")
+}
+
+/**
+ * Red china-marker loop around its positioned parent. It marks what is in
+ * progress — the only job red has. Each idea gets its own stable loop.
+ */
+export function MarkerCircle({ seed = "", pad = 12, className }: { seed?: string; pad?: number; className?: string }) {
+  const ref = useRef<SVGSVGElement>(null)
+  const [size, setSize] = useState<{ w: number; h: number } | null>(null)
+
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const measure = () => {
+      const { width, height } = el.getBoundingClientRect()
+      setSize((s) => (s && Math.abs(s.w - width) < 1 && Math.abs(s.h - height) < 1 ? s : { w: width, h: height }))
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
+  const d = size ? loopPath(size.w, size.h, pad, seed) : null
   return (
     <svg
+      ref={ref}
       aria-hidden
-      viewBox="0 0 200 100"
-      preserveAspectRatio="none"
-      style={{ rotate: `${tilt * 0.6}deg` }}
-      className={cn(
-        "marker-circle pointer-events-none absolute -inset-x-2 -inset-y-2.5 h-[calc(100%+1.25rem)] w-[calc(100%+1rem)] overflow-visible",
-        className,
-      )}
+      viewBox={size ? `0 0 ${size.w} ${size.h}` : undefined}
+      // An absolutely positioned svg is a replaced element: insets alone fall
+      // back to 300×150, so the size is set explicitly.
+      style={{
+        top: -pad,
+        left: -pad * 1.6,
+        width: `calc(100% + ${pad * 3.2}px)`,
+        height: `calc(100% + ${pad * 2}px)`,
+      }}
+      className={cn("marker-circle pointer-events-none absolute overflow-visible", className)}
     >
-      <path d={d} pathLength={1} fill="none" stroke="var(--marker)" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
-      <path
-        d={d}
-        pathLength={1}
-        transform="translate(1.5 1.2)"
-        fill="none"
-        stroke="var(--marker)"
-        strokeOpacity={0.45}
-        strokeWidth={2}
-        strokeLinecap="round"
-        vectorEffect="non-scaling-stroke"
-      />
+      {d && (
+        <>
+          <path d={d} pathLength={1} fill="none" stroke="var(--marker)" strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            d={d}
+            pathLength={1}
+            transform="translate(1.2 1)"
+            fill="none"
+            stroke="var(--marker)"
+            strokeOpacity={0.45}
+            strokeWidth={1.6}
+            strokeLinecap="round"
+          />
+        </>
+      )}
     </svg>
   )
 }

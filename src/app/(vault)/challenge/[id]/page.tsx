@@ -50,14 +50,15 @@ export default async function ChallengePage({ params }: PageProps<"/challenge/[i
         {back.label}
       </Link>
 
-      <div className="mt-4 grid gap-x-12 gap-y-8 lg:grid-cols-[minmax(0,1fr)_20rem]">
-        {/* Order on phones: title, actions, content, details. */}
-        <header className="min-w-0 lg:col-start-1 lg:row-start-1">
+      {/* Two independent columns on desktop; on phones the order is title, actions, content, details. */}
+      <div className="mt-4 flex flex-col gap-8 lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-x-12">
+        <div className="contents lg:block lg:min-w-0">
+        <header className="order-1 min-w-0">
           <div className="flex items-start gap-3">
           <h1 className="mt-2 min-w-0 flex-1 text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
             {c.status === "active" ? (
               <span className="relative inline-block">
-                <MarkerCircle seed={c.id} className="-inset-x-2 -inset-y-3 h-[calc(100%+1.5rem)] w-[calc(100%+1rem)] sm:-inset-x-4 sm:w-[calc(100%+2rem)]" />
+                <MarkerCircle seed={c.id} pad={10} />
                 <span className="relative">{c.title}</span>
               </span>
             ) : (
@@ -69,11 +70,7 @@ export default async function ChallengePage({ params }: PageProps<"/challenge/[i
           <TagList category={c.category} tags={c.tags} linkable className="mt-3 text-sm" />
         </header>
 
-        <section aria-label="Действия" className="lg:col-start-2 lg:row-start-1 lg:self-end">
-          <DetailActions challenge={c} />
-        </section>
-
-        <div className="min-w-0 lg:col-start-1 lg:row-start-2">
+        <div className="order-3 min-w-0 lg:mt-8">
           {c.description && (
             <p className="max-w-[68ch] text-[17px] leading-relaxed whitespace-pre-line text-foreground/90">{c.description}</p>
           )}
@@ -113,7 +110,14 @@ export default async function ChallengePage({ params }: PageProps<"/challenge/[i
           </section>
         </div>
 
-        <aside className="grid content-start gap-10 lg:col-start-2 lg:row-start-2">
+        </div>
+
+        <div className="contents lg:flex lg:flex-col lg:gap-10">
+        <section aria-label="Действия" className="order-2">
+          <DetailActions challenge={c} />
+        </section>
+
+        <aside className="order-4 grid content-start gap-10">
           <section aria-labelledby="details-heading">
             <h2 id="details-heading" className="mb-3 text-sm font-semibold">
               Детали
@@ -179,6 +183,7 @@ export default async function ChallengePage({ params }: PageProps<"/challenge/[i
             <DeleteChallengeButton id={c.id} title={c.title} />
           </div>
         </aside>
+        </div>
       </div>
     </div>
   )

@@ -38,9 +38,10 @@ It answers "what of the things that once interested me do I want to do now?", no
 ## Brand Commitments
 
 - Name: Challenge Vault.
-- Voice: warm, frank, no guilt. Letting an idea go is fine ("Ideas are allowed to stop being interesting"). The existing wording and voice are to be kept when copy is translated.
-- Dark mode first. The active challenge carries a subtle, breathing ember glow (from the original brief).
+- Voice: short, plain, natural Russian, like a well-made ordinary app. No literary, motivational or "wise" lines, no metaphors in labels, no exclamation marks. Abandoning is neutral ("в архив"), never framed as failure or as a lesson.
+- Dark mode first.
 - No percentage progress bars, productivity scores, failure statistics, red warnings or streak loss.
+- The user rejected the earlier "specimen collection" look and its copy as generic AI output (accession numbers, "catalogued", glowing panels, literary microcopy). Do not bring them back.
 
 ## Evidence on Hand
 

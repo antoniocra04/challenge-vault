@@ -66,7 +66,7 @@ export const importChallengeSchema = z.object({
 
 export const importFileSchema = z.object({
   format: z.literal(EXPORT_FORMAT).optional(),
-  version: z.number().int().max(EXPORT_VERSION, "Этот экспорт сделан более новой версией Challenge Vault").optional(),
+  version: z.number().int().max(EXPORT_VERSION, "Файл создан более новой версией Challenge Vault").optional(),
   challenges: z.array(importChallengeSchema),
 })
 

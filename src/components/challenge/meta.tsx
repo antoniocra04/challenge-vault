@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { CoinsIcon, FootprintsIcon, HomeIcon, TimerIcon } from "lucide-react"
 import { formatEstimate } from "@/lib/duration"
 import { cn } from "@/lib/utils"
 
@@ -14,17 +13,17 @@ export function TagList({
   className?: string
   linkable?: boolean
 }) {
-  if (!category && tags.length === 0) return null
   const items = [
     ...(category ? [{ key: `c:${category}`, label: category, text: category, strong: true }] : []),
     ...tags
       .filter((t) => t.toLowerCase() !== category?.toLowerCase())
       .map((t) => ({ key: t, label: t, text: `#${t}`, strong: false })),
   ]
+  if (items.length === 0) return null
   return (
-    <ul className={cn("flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs text-muted-foreground", className)}>
+    <ul className={cn("flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs text-faint", className)}>
       {items.map((i) => {
-        const node = <span className={cn(i.strong && "font-medium text-foreground/85")}>{i.text}</span>
+        const node = <span className={cn(i.strong && "text-muted-foreground")}>{i.text}</span>
         return (
           <li key={i.key}>
             {linkable ? (
@@ -44,35 +43,29 @@ export function TagList({
   )
 }
 
-/** The ruled measurement strip of a specimen label: time, place, money. */
-export function Indicators({
+/** "≈ 2 ч · дома · нужны деньги" — only what is known. */
+export function metaParts({
   estimatedDuration,
   requiresLeavingHome,
   requiresMoney,
-  className,
 }: {
   estimatedDuration?: number | null
   requiresLeavingHome?: boolean | null
   requiresMoney?: boolean | null
-  className?: string
 }) {
-  const items: { key: string; icon: React.ReactNode; text: string; data?: boolean }[] = []
-  if (estimatedDuration != null)
-    items.push({ key: "time", icon: <TimerIcon />, text: formatEstimate(estimatedDuration), data: true })
-  if (requiresLeavingHome === false) items.push({ key: "home", icon: <HomeIcon />, text: "дома" })
-  if (requiresLeavingHome === true) items.push({ key: "out", icon: <FootprintsIcon />, text: "вне дома" })
-  if (requiresMoney === true) items.push({ key: "money", icon: <CoinsIcon />, text: "нужны деньги" })
-  if (items.length === 0) return null
-  return (
-    <ul className={cn("flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground", className)}>
-      {items.map((i) => (
-        <li key={i.key} className="inline-flex items-center gap-1.5 [&_svg]:size-3.5 [&_svg]:text-faint">
-          {i.icon}
-          <span className={cn(i.data && "data")}>{i.text}</span>
-        </li>
-      ))}
-    </ul>
-  )
+  const parts: string[] = []
+  if (estimatedDuration != null) parts.push(formatEstimate(estimatedDuration))
+  if (requiresLeavingHome === false) parts.push("дома")
+  if (requiresLeavingHome === true) parts.push("не дома")
+  if (requiresMoney === true) parts.push("нужны деньги")
+  if (requiresMoney === false) parts.push("бесплатно")
+  return parts
+}
+
+export function MetaLine({ className, ...props }: Parameters<typeof metaParts>[0] & { className?: string }) {
+  const parts = metaParts(props)
+  if (parts.length === 0) return null
+  return <p className={cn("data text-xs text-muted-foreground", className)}>{parts.join(" · ")}</p>
 }
 
 /** Section heading with an optional count and a trailing slot. */
@@ -92,17 +85,17 @@ export function SectionHeading({
   id?: string
 }) {
   return (
-    <div className={cn("mb-5 flex flex-wrap items-baseline gap-x-3 gap-y-2", className)}>
-      <Tag id={id} className="text-lg font-semibold tracking-tight">
+    <div className={cn("mb-4 flex flex-wrap items-baseline gap-x-3 gap-y-2", className)}>
+      <Tag id={id} className={cn("font-semibold tracking-tight", Tag === "h1" ? "text-2xl" : "text-lg")}>
         {children}
       </Tag>
-      {count != null && <span className="data text-sm text-faint">{count}</span>}
+      {count != null && <span className="data text-muted-foreground">{count}</span>}
       {right && <div className="ml-auto">{right}</div>}
     </div>
   )
 }
 
-/** A labelled field on a specimen label: small label above, value below. */
+/** A labelled value: small label above, value below. */
 export function Field({
   label,
   children,

@@ -27,7 +27,7 @@ export function parseImport(json: unknown): ImportFile {
   if (!parsed.success) {
     const issue = parsed.error.issues[0]
     const where = issue.path.length ? ` (at ${issue.path.join(".")})` : ""
-    throw new VaultError(`Это не похоже на экспорт Challenge Vault: ${issue.message}${where}`)
+    throw new VaultError(`Файл не похож на экспорт Challenge Vault: ${issue.message}${where}`)
   }
   return parsed.data
 }

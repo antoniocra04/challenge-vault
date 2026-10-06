@@ -5,7 +5,7 @@ import { CaptureButton } from "@/components/capture/capture-provider"
 import { BottomNav, NavLinks } from "./nav-links"
 
 const iconLink =
-  "grid size-9 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground pointer-coarse:size-11"
+  "grid size-9 place-items-center rounded text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground pointer-coarse:size-11"
 
 export function VaultHeader({ activeCount, authEnabled }: { activeCount: number; authEnabled: boolean }) {
   return (
@@ -16,11 +16,10 @@ export function VaultHeader({ activeCount, authEnabled }: { activeCount: number;
       >
         К содержимому
       </a>
-      <header className="sticky top-0 z-40 border-b border-rule bg-shell/90 backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b border-rule bg-shell">
         <div className="mx-auto flex h-14 max-w-6xl items-center gap-6 px-4 sm:px-6">
-          <Link href="/" className="flex items-center gap-2.5 rounded-md">
-            <VaultMark />
-            <span className="text-[15px] font-semibold tracking-tight">Challenge Vault</span>
+          <Link href="/" className="rounded text-[15px] font-semibold tracking-tight">
+            Challenge Vault
           </Link>
           <NavLinks activeCount={activeCount} />
           <div className="ml-auto flex items-center gap-1">
@@ -30,9 +29,9 @@ export function VaultHeader({ activeCount, authEnabled }: { activeCount: number;
             </Link>
             {authEnabled && (
               <form action={logout}>
-                <button type="submit" title="Закрыть хранилище" className={iconLink}>
+                <button type="submit" title="Выйти" className={iconLink}>
                   <LogOutIcon className="size-4" />
-                  <span className="sr-only">Закрыть хранилище</span>
+                  <span className="sr-only">Выйти</span>
                 </button>
               </form>
             )}
@@ -42,15 +41,5 @@ export function VaultHeader({ activeCount, authEnabled }: { activeCount: number;
       </header>
       <BottomNav activeCount={activeCount} />
     </>
-  )
-}
-
-function VaultMark() {
-  return (
-    <svg viewBox="0 0 32 32" className="size-6" aria-hidden>
-      <rect x="4" y="4" width="24" height="24" rx="5" fill="none" stroke="var(--cabinet)" strokeWidth="2" />
-      <circle cx="16" cy="16" r="5.5" fill="none" stroke="var(--cabinet)" strokeWidth="2" />
-      <path d="M16 10.5v-2M16 23.5v-2M10.5 16h-2M23.5 16h-2" stroke="var(--cabinet)" strokeWidth="2" strokeLinecap="round" />
-    </svg>
   )
 }

@@ -14,9 +14,9 @@ export const SUGGESTED_CATEGORIES = [
 
 export const ABANDON_REASONS = [
   { value: "пропал интерес", label: "пропал интерес" },
-  { value: "слишком дорого", label: "слишком дорого" },
-  { value: "слишком сложно", label: "слишком сложно" },
-  { value: "уже не актуально", label: "уже не актуально" },
+  { value: "дорого", label: "дорого" },
+  { value: "сложно", label: "сложно" },
+  { value: "неактуально", label: "неактуально" },
   { value: "другое", label: "другое" },
 ] as const
 

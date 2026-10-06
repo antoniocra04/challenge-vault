@@ -18,7 +18,7 @@ export function ImportForm() {
     if (!file) return
     if (
       mode === "replace" &&
-      !confirm("Заменить всё? Сначала будут удалены все текущие идеи, журналы и вложения.")
+      !confirm("Все текущие идеи, заметки и вложения будут удалены. Продолжить?")
     ) {
       return
     }
@@ -34,7 +34,7 @@ export function ImportForm() {
       }
       const r = body.result
       toast.success(
-        `Импортировано: идей — ${r.challenges}, записей журнала — ${r.logEntries}, вложений — ${r.attachments}.`,
+        `Импортировано: идей — ${r.challenges}, заметок — ${r.logEntries}, вложений — ${r.attachments}`,
       )
       setFile(null)
       if (inputRef.current) inputRef.current.value = ""
@@ -45,11 +45,11 @@ export function ImportForm() {
   }
 
   return (
-    <div className="specimen grid gap-5 p-5">
+    <div className="frame grid gap-5 p-5">
       <div className="flex flex-wrap items-center gap-3">
         <Button variant="outline" onClick={() => inputRef.current?.click()}>
           <UploadIcon />
-          Выбрать JSON-файл
+          Выбрать файл
         </Button>
         <span className="truncate text-sm text-muted-foreground">{file ? file.name : "файл не выбран"}</span>
         <input
@@ -62,11 +62,11 @@ export function ImportForm() {
       </div>
 
       <fieldset className="grid gap-2">
-        <legend className="mb-2 text-sm text-muted-foreground">Как импортировать</legend>
+        <legend className="mb-2 text-sm text-muted-foreground">Режим</legend>
         {(
           [
-            ["merge", "Добавить", "Добавить идеи из файла. Уже существующие (с тем же id) заменятся версией из файла."],
-            ["replace", "Заменить всё", "Очистить хранилище и восстановить его из файла. Для восстановления из резервной копии."],
+            ["merge", "Добавить", "Идеи из файла добавятся к текущим. Совпадающие по id будут заменены."],
+            ["replace", "Заменить всё", "Текущие данные будут удалены и загружены из файла."],
           ] as const
         ).map(([value, label, desc]) => (
           <label
@@ -82,7 +82,7 @@ export function ImportForm() {
               value={value}
               checked={mode === value}
               onChange={() => setMode(value)}
-              className="mt-1 accent-[var(--cabinet)]"
+              className="mt-1 accent-[var(--foreground)]"
             />
             <span>
               <span className="block text-sm font-medium">{label}</span>

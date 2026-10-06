@@ -29,13 +29,13 @@ async function run<T>(fn: () => Promise<T>): Promise<ActionResult<T>> {
     if (err instanceof VaultError) return { ok: false, error: err.message }
     if (err instanceof z.ZodError) return { ok: false, error: err.issues[0]?.message ?? "Проверь введённые данные" }
     console.error(err)
-    return { ok: false, error: "Что-то пошло не так. Подробности в логах сервера." }
+    return { ok: false, error: "Что-то пошло не так. Подробности — в логах сервера." }
   }
 }
 
 function id(value: string) {
   const parsed = idSchema.safeParse(value)
-  if (!parsed.success) throw new VaultError("Такой идеи нет.")
+  if (!parsed.success) throw new VaultError("Идея не найдена.")
   return parsed.data
 }
 
@@ -150,7 +150,7 @@ export async function login(_prev: LoginState, formData: FormData): Promise<Logi
   const given = String(formData.get("password") ?? "")
   if (!constantTimeEqual(await sessionToken(given), await sessionToken(pw))) {
     await new Promise((r) => setTimeout(r, 400))
-    return { error: "Не тот пароль." }
+    return { error: "Неверный пароль." }
   }
   const jar = await cookies()
   jar.set(SESSION_COOKIE, await sessionToken(pw), {

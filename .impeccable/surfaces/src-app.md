@@ -7,24 +7,22 @@ related_targets: []
 
 # Surface brief: Challenge Vault app (all routes)
 
-Scope: whole app shell and routes — vault (/), active (/active), collection (/completed), archive (/archive), challenge detail, data, login. Visitor mode: Operate, with a browsing/rediscovery moment on the vault.
+Scope: whole app shell and routes — ideas (/), in progress (/active), done (/completed), archive (/archive), idea detail, data, login. Visitor mode: Operate, with a browsing moment on the ideas page.
 
-Job: open the vault in free time, browse ideas by eye until one sparks, start it, keep notes, and finish by completing, returning to the vault, or letting go. Success: an old idea is recognized from its spark and the user goes to do it.
+Job: open the app in free time, scan many ideas quickly, pick one, start it, keep short notes, finish it or put it back. Success: an old idea is recognised at a glance and started.
 
-Constraints: UI copy in Russian, voice preserved from the incumbent English copy; ember glow on active kept; no feature or flow removed; dark mode first; no telemetry or external assets. Build path: code-led (no image generation available).
-
-Inputs: critique snapshot .impeccable/critique/2026-10-06T06-14-14Z__src-app.md (26/40) — all priority issues in scope.
+Constraints: UI in short, plain Russian (rewrite all copy, no literary lines); no feature or flow removed; dark first; no telemetry or external assets. Build path: code-led (no image generation). The previous specimen-collection world and its copy were rejected by the user as AI slop and are anti-reference only.
 
 ## Direction contract
 
-THESIS: The vault is a specimen collection of curiosity. Every idea is a catalogued specimen with an accession number and a label you read, not a ticket in a grid. Refuses the category default: uniform tag-led SaaS cards, tracked-caps kickers, metric heroes, neon-on-black glow.
+THESIS: Browsing ideas is reading a contact sheet: many small frames at once, and you circle the one worth doing in red grease pencil. Refuses the category default of rounded SaaS cards with an accent glow, and the previous metaphor costume (numbers, "catalogued", glowing panels).
 
-OWN-WORLD: Specimen-cabinet slate-teal ground and darker cabinet shell; label-stock cards in warm off-white ink with hairline field rules; three state colours doing jobs — cabinet teal for the vault and accession numbers, ember for "under observation" (active, breathing glow), jade for "catalogued" (completed). Inter for all UI, sentence case; JetBrains Mono only for data: accession №, dates, durations, clocks, counts. Lucide icons with text, no emoji.
+OWN-WORLD: Darkroom neutrals: near-black sheet with a darker shell, frames in dark greys with light text, dense tight grid. The only saturated colour is china-marker red, used for one job: what is in progress (the circle, the active dot, the in-progress nav count). Done items are "prints": a paper-white border. Archived items are dimmed. Inter for everything, a real type scale, tabular figures; no monospace costume, no emoji, Lucide icons.
 
-STORY: The visitor sees what they are exploring right now in one slim ember strip, then browses specimen labels led by each idea's spark, filters by context if they like, starts one, and later files the result into a collection of catalogued findings.
+STORY: The visitor sees the circled frames they are working on, then a dense sheet of ideas, each frame showing title and why it was wanted; they open one, start it (a red circle is drawn round it), and later it becomes a print in "Сделано".
 
-FIRST VIEWPORT: Cabinet-shell header (mark, nav, + Поймать) on desktop; on mobile a single-row header plus bottom nav with the capture button in thumb reach. Under it, one ember strip per active challenge (clock, title, where to continue, open). Then the vault heading with count, search, filters, sort and shuffle, then the specimen-label grid starting within the first viewport.
+FIRST VIEWPORT: Black shell header with name, standard nav (Идеи, В работе, Сделано, Архив) and a white "Добавить" button (bottom bar with add button on phones). Under it, in-progress ideas as wide frames circled in red, then the "Идеи" heading with count, search, filters, sort, shuffle, and a dense grid of frames starting inside the first viewport.
 
-FORM: Pinned by the user ("Lab / terminal" translated into a specimen collection under operate-mode rules); user-pinned direction, no concept-seed roll. Signature move: the specimen label — accession number, collected date, spark as the label's body, a ruled field strip of measurements — and the moment a completed challenge is catalogued into the collection.
+FORM: Contact sheet with grease-pencil selection; position 1 of my ordered list (the pick card, chosen by the user over the assigned bookshelf); seed key f9ef55e6. Signature move: starting an idea draws a hand-drawn red grease-pencil circle around its frame; opening a frame enlarges it in place like a loupe on the sheet.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

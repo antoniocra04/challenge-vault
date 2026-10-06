@@ -8,12 +8,12 @@ export const metadata: Metadata = {
     default: "Challenge Vault",
     template: "%s · Challenge Vault",
   },
-  description: "Хранилище того, что хочется попробовать.",
+  description: "Список того, что хочется попробовать.",
   robots: { index: false, follow: false },
 }
 
 export const viewport: Viewport = {
-  themeColor: "#04161f",
+  themeColor: "#0a0a0a",
   colorScheme: "dark",
 }
 

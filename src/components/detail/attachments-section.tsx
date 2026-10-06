@@ -81,14 +81,14 @@ export function AttachmentsSection({ challengeId, items }: { challengeId: string
       )}
 
       {items.length === 0 && mode == null && (
-        <p className="text-sm text-muted-foreground">Референсы, ссылки, фото, запись рифа — всё, что поможет.</p>
+        <p className="text-sm text-muted-foreground">Ссылки, файлы и заметки к идее.</p>
       )}
 
       <div className="flex flex-wrap gap-1">
         {(
           [
             ["link", LinkIcon, "Ссылка"],
-            ["note", NotebookPenIcon, "Заметка"],
+            ["note", NotebookPenIcon, "Текст"],
             ["file", UploadIcon, "Файл"],
           ] as const
         ).map(([m, Icon, label]) => (
@@ -125,7 +125,7 @@ function AttachmentRow({ a }: { a: Attachment }) {
     return (
       <li className={cn(base, "flex items-center gap-3")}>
         <LinkIcon className="size-4 shrink-0 text-faint" />
-        <a href={a.url} target="_blank" rel="noreferrer noopener" className="min-w-0 flex-1 hover:text-cabinet">
+        <a href={a.url} target="_blank" rel="noreferrer noopener" className="min-w-0 flex-1 hover:underline">
           <span className="block truncate text-sm">{a.title ?? hostname(a.url)}</span>
           <span className="block truncate text-xs text-muted-foreground">{a.title ? hostname(a.url) : a.url}</span>
         </a>
@@ -140,7 +140,7 @@ function AttachmentRow({ a }: { a: Attachment }) {
         <div className="flex items-center gap-3">
           <NotebookPenIcon className="size-4 shrink-0 text-faint" />
           <button type="button" onClick={() => setOpen((v) => !v)} className="min-w-0 flex-1 truncate text-left text-sm">
-            {a.title ?? a.content?.split("\n")[0] ?? "Заметка"}
+            {a.title ?? a.content?.split("\n")[0] ?? "Текст"}
           </button>
           <DeleteAttachment id={a.id} />
         </div>
@@ -158,7 +158,7 @@ function AttachmentRow({ a }: { a: Attachment }) {
         <div className="min-w-0 flex-1">
           <span className="block truncate text-sm">{a.title ?? a.fileName}</span>
           <span className="block text-xs text-muted-foreground">
-            {missing ? "файл пропал из хранилища" : [a.mimeType, formatBytes(a.size)].filter(Boolean).join(" · ")}
+            {missing ? "файл не найден на сервере" : [a.mimeType, formatBytes(a.size)].filter(Boolean).join(" · ")}
           </span>
         </div>
         {!missing && (
@@ -195,7 +195,7 @@ function LinkForm({ challengeId, onDone }: { challengeId: string; onDone: () => 
       <Input autoFocus value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://youtube.com/…" aria-label="Ссылка" />
       <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Название (необязательно)" aria-label="Название" />
       <Button type="submit" size="sm" disabled={pending || !url.trim()} className="justify-self-end">
-        Прикрепить ссылку
+        Прикрепить
       </Button>
     </form>
   )
@@ -214,9 +214,9 @@ function NoteForm({ challengeId, onDone }: { challengeId: string; onDone: () => 
       }}
     >
       <Input autoFocus value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Название (необязательно)" aria-label="Название" />
-      <Textarea rows={4} value={content} onChange={(e) => setContent(e.target.value)} placeholder="Табы, аккорды, список деталей…" aria-label="Текст заметки" />
+      <Textarea rows={4} value={content} onChange={(e) => setContent(e.target.value)} placeholder="Текст" aria-label="Текст" />
       <Button type="submit" size="sm" disabled={pending || !content.trim()} className="justify-self-end">
-        Прикрепить заметку
+        Прикрепить
       </Button>
     </form>
   )
@@ -264,14 +264,14 @@ function FileForm({ challengeId, onDone }: { challengeId: string; onDone: () => 
       }}
       className={cn(
         "grid place-items-center gap-2 rounded-lg border border-dashed px-4 py-6 text-center transition-colors",
-        dragging ? "border-cabinet/60 bg-cabinet/5" : "border-white/10",
+        dragging ? "border-foreground/60 bg-white/5" : "border-white/10",
       )}
     >
       {uploading ? (
         <Loader2Icon className="size-5 animate-spin text-muted-foreground" />
       ) : (
         <>
-          <p className="text-sm text-muted-foreground">Перетащи сюда фото, аудио или любой файл</p>
+          <p className="text-sm text-muted-foreground">Перетащите файлы сюда</p>
           <Button type="button" size="sm" variant="outline" onClick={() => inputRef.current?.click()}>
             Выбрать файлы
           </Button>

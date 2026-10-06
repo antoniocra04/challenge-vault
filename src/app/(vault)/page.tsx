@@ -1,4 +1,3 @@
-import Link from "next/link"
 import { ActiveStrip } from "@/components/challenge/current-challenge"
 import { ChallengeCard } from "@/components/challenge/challenge-card"
 import { SectionHeading } from "@/components/challenge/meta"
@@ -16,8 +15,7 @@ import {
   searchElsewhere,
 } from "@/lib/challenges/queries"
 import { computeStats } from "@/lib/challenges/stats"
-import { waitingFor } from "@/lib/dates"
-import { plural } from "@/lib/plural"
+import { addedAgo } from "@/lib/dates"
 
 export default async function VaultPage({ searchParams }: PageProps<"/">) {
   const filters = parseBacklogFilters(await searchParams)
@@ -35,19 +33,13 @@ export default async function VaultPage({ searchParams }: PageProps<"/">) {
   return (
     <div className="grid grid-cols-1 gap-10">
       {active.length > 0 && (
-        <section aria-label="Сейчас в работе" className="grid grid-cols-1 gap-2">
+        <section aria-labelledby="active-heading" className="grid grid-cols-1 gap-4">
+          <h2 id="active-heading" className="sr-only">
+            В работе
+          </h2>
           {active.map((c) => (
             <ActiveStrip key={c.id} challenge={c} />
           ))}
-          {active.length >= 3 && (
-            <p className="text-sm text-muted-foreground">
-              {active.length} {plural(active.length, "огонь горит", "огня горят", "огней горят")} одновременно. Это нормально — но если какой-то остыл, его можно{" "}
-              <Link href="/active" className="underline underline-offset-4 hover:text-foreground">
-                вернуть в хранилище
-              </Link>
-              .
-            </p>
-          )}
         </section>
       )}
 
@@ -58,14 +50,13 @@ export default async function VaultPage({ searchParams }: PageProps<"/">) {
           count={filtered ? undefined : total}
           right={
             filtered ? (
-              <span className="text-sm text-muted-foreground">
-                нашлось <span className="data text-foreground">{backlog.length}</span> из{" "}
-                <span className="data">{total}</span>
+              <span className="data text-sm text-muted-foreground">
+                найдено {backlog.length} из {total}
               </span>
             ) : null
           }
         >
-          Хранилище
+          Идеи
         </SectionHeading>
 
         {vaultEmpty ? (
@@ -74,15 +65,13 @@ export default async function VaultPage({ searchParams }: PageProps<"/">) {
           <>
             <BacklogToolbar filters={filters} topics={topics} />
             {backlog.length === 0 ? (
-              <div className="specimen border-dashed px-6 py-12 text-center text-muted-foreground">
-                {total === 0
-                  ? "Всё из хранилища сейчас в работе. Поймай что-нибудь новое, когда заискрит."
-                  : "Ничего не нашлось. Попробуй убрать часть фильтров."}
-              </div>
+              <p className="frame px-6 py-12 text-center text-muted-foreground">
+                {total === 0 ? "Все идеи сейчас в работе." : "Ничего не найдено. Попробуйте изменить фильтры."}
+              </p>
             ) : (
-              <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,19rem),1fr))] items-start gap-4">
+              <div className="grid grid-flow-row-dense grid-cols-[repeat(auto-fill,minmax(min(100%,15rem),1fr))] gap-2">
                 {backlog.map((c) => (
-                  <ChallengeCard key={c.id} challenge={c} waiting={waitingFor(c.createdAt)} />
+                  <ChallengeCard key={c.id} challenge={c} added={addedAgo(c.createdAt)} />
                 ))}
               </div>
             )}

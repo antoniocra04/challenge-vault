@@ -61,9 +61,9 @@ export async function buildJsonExport(opts: { includeFiles: boolean }) {
 }
 
 const STATUS_SECTIONS = [
-  { status: "active", heading: "Сейчас в работе" },
-  { status: "backlog", heading: "Хранилище" },
-  { status: "completed", heading: "Коллекция" },
+  { status: "active", heading: "В работе" },
+  { status: "backlog", heading: "Идеи" },
+  { status: "completed", heading: "Сделано" },
   { status: "abandoned", heading: "Архив" },
 ] as const
 
@@ -97,24 +97,24 @@ export function renderMarkdown(vault: VaultSnapshot, now: Date = new Date()): st
       const meta: string[] = []
       if (c.category) meta.push(`**Категория:** ${c.category}`)
       if (c.tags.length) meta.push(`**Теги:** ${c.tags.map((t) => `#${t}`).join(" ")}`)
-      if (c.estimatedDuration) meta.push(`**Оценка:** ~${formatMinutes(c.estimatedDuration)}`)
-      meta.push(`**Поймана:** ${fmtDate(c.createdAt)}`)
+      if (c.estimatedDuration) meta.push(`**Займёт:** ~${formatMinutes(c.estimatedDuration)}`)
+      meta.push(`**Добавлена:** ${fmtDate(c.createdAt)}`)
       if (c.startedAt) meta.push(`**Начата:** ${fmtDate(c.startedAt)}`)
       if (c.completedAt) meta.push(`**Завершена:** ${fmtDate(c.completedAt)}`)
-      if (c.abandonedAt) meta.push(`**Отпущена:** ${fmtDate(c.abandonedAt)}${c.abandonReason ? ` — ${c.abandonReason}` : ""}`)
+      if (c.abandonedAt) meta.push(`**В архиве с:** ${fmtDate(c.abandonedAt)}${c.abandonReason ? ` — ${c.abandonReason}` : ""}`)
       const minutes = c.status === "completed" ? c.actualDuration : Math.round(c.trackedSeconds / 60)
       if (minutes) meta.push(`**Потрачено:** ${formatMinutes(minutes)}`)
-      if (c.enjoymentScore) meta.push(`**Удовольствие:** ${c.enjoymentScore}/10`)
+      if (c.enjoymentScore) meta.push(`**Оценка:** ${c.enjoymentScore}/10`)
       lines.push(meta.join("  \n"), "")
       if (c.description) lines.push(c.description, "")
-      if (c.spark) lines.push("**Искра**", "", quote(c.spark), "")
+      if (c.spark) lines.push("**Почему захотелось**", "", quote(c.spark), "")
       if (c.result) lines.push("**Результат**", "", c.result, "")
       if (c.attachments.length) {
         lines.push("**Вложения**", "", ...c.attachments.map(attachmentLine), "")
       }
       const notes = c.log
       if (notes.length) {
-        lines.push("**Журнал**", "")
+        lines.push("**Заметки**", "")
         for (const e of notes) {
           const body = e.kind === "event" ? `_${e.content}_` : e.content.replace(/\n/g, "\n  ")
           lines.push(`- ${fmtDate(e.createdAt, true)} — ${body}`)
@@ -123,6 +123,6 @@ export function renderMarkdown(vault: VaultSnapshot, now: Date = new Date()): st
       }
     }
   }
-  if (vault.length === 0) lines.push("_Хранилище пусто._", "")
+  if (vault.length === 0) lines.push("_Идей нет._", "")
   return lines.join("\n")
 }

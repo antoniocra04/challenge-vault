@@ -11,11 +11,10 @@ import {
 } from "@/components/challenge/actions"
 import type { Challenge } from "@/db/schema"
 
-export function DetailActions({ challenge: c, accessionNo }: { challenge: Challenge; accessionNo: number }) {
+export function DetailActions({ challenge: c }: { challenge: Challenge }) {
   const complete = {
     id: c.id,
     title: c.title,
-    accessionNo,
     trackedSeconds: c.trackedSeconds,
     sessionStartedAt: c.sessionStartedAt,
   }
@@ -26,15 +25,15 @@ export function DetailActions({ challenge: c, accessionNo }: { challenge: Challe
         <div className="grid gap-2">
           <StartChallengeButton id={c.id} size="lg" className="w-full" />
           <div className="flex flex-wrap items-center gap-1">
-            <CompleteButton {...complete} variant="ghost" label="Уже сделано" className="text-muted-foreground" />
-            <AbandonButton id={c.id} title={c.title} neverStarted />
+            <CompleteButton {...complete} variant="ghost" label="Отметить сделанной" className="text-muted-foreground" />
+            <AbandonButton id={c.id} title={c.title} />
           </div>
         </div>
       )
     case "active":
       return (
         <div className="grid gap-3">
-          <div className="rounded-md border border-ember/30 bg-ember/[0.06] px-3 py-2">
+          <div className="rounded border border-rule px-3 py-2">
             <SessionControls id={c.id} sessionStartedAt={c.sessionStartedAt} />
           </div>
           <CompleteButton {...complete} size="lg" className="w-full" />
@@ -47,16 +46,11 @@ export function DetailActions({ challenge: c, accessionNo }: { challenge: Challe
     case "completed":
       return (
         <div className="grid gap-2">
-          <RestoreButton id={c.id} label="Сделать ещё раз" />
-          <p className="text-xs text-muted-foreground">Вернётся в хранилище, история сохранится.</p>
+          <RestoreButton id={c.id} />
+          <p className="text-xs text-muted-foreground">Идея снова появится в списке. Заметки сохранятся.</p>
         </div>
       )
     case "abandoned":
-      return (
-        <div className="grid gap-2">
-          <RestoreButton id={c.id} />
-          <p className="text-xs text-muted-foreground">Интерес вернулся? Так бывает.</p>
-        </div>
-      )
+      return <RestoreButton id={c.id} />
   }
 }

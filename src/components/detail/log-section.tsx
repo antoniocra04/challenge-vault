@@ -24,7 +24,7 @@ export function LogSection({ challengeId, entries }: { challengeId: string; entr
     <div>
       {entries.length === 0 ? (
         <p className="text-sm text-muted-foreground">
-          Пока пусто. Журнал необязателен, но помогает вспомнить, на чём остановка.
+          Заметок пока нет.
         </p>
       ) : (
         <ol className="relative grid gap-5 border-l border-rule pl-6">
@@ -36,7 +36,7 @@ export function LogSection({ challengeId, entries }: { challengeId: string; entr
                   aria-hidden
                   className={cn(
                     "absolute top-1.5 -left-[28.5px] size-2 rounded-full ring-4 ring-background",
-                    e.kind === "event" ? "bg-faint" : "bg-cabinet",
+                    e.kind === "event" ? "bg-faint" : "bg-foreground",
                   )}
                 />
                 <div className="flex min-h-7 items-center gap-2 text-xs text-muted-foreground">
@@ -46,7 +46,7 @@ export function LogSection({ challengeId, entries }: { challengeId: string; entr
                   {e.kind === "note" && (
                     <span className="opacity-100 transition-opacity group-focus-within:opacity-100 pointer-fine:opacity-0 pointer-fine:group-hover:opacity-100">
                       <ConfirmInline
-                        label="Удалить запись"
+                        label="Удалить заметку"
                         disabled={pending}
                         onConfirm={() => run(() => deleteLogEntry(e.id))}
                       />
@@ -81,13 +81,13 @@ export function LogSection({ challengeId, entries }: { challengeId: string; entr
               submit()
             }
           }}
-          placeholder="Что сделано, что выяснилось, где затык…"
-          aria-label="Новая запись в журнале"
+          placeholder="Новая заметка"
+          aria-label="Новая заметка"
         />
         <div className="flex items-center justify-between gap-3">
-          <span className="data hidden text-xs text-faint sm:inline">⌘/Ctrl + Enter</span>
+          <span className="data hidden text-xs text-faint sm:inline">Ctrl + Enter</span>
           <Button type="submit" variant="outline" disabled={pending || !content.trim()} className="ml-auto">
-            Добавить запись
+            Добавить
           </Button>
         </div>
       </form>

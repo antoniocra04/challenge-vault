@@ -26,15 +26,9 @@ export function ago(d: Date | null | undefined): string {
   return `${formatDistanceToNowStrict(d, { locale: ru })} назад`
 }
 
-/** "ждёт 3 месяца" — how long an idea has been waiting in the vault. */
-export function waitingFor(d: Date): string {
+/** "добавлена 3 месяца назад" — how long an idea has been in the list. */
+export function addedAgo(d: Date): string {
   const diff = Date.now() - d.getTime()
-  if (diff < 24 * 3600_000) return "поймана сегодня"
-  return `ждёт ${formatDistanceToNowStrict(d, { locale: ru, roundingMethod: "floor" })}`
-}
-
-/** Accession number as printed on a specimen label: № 007. */
-export function accession(n: number | null | undefined): string {
-  if (n == null) return "№ —"
-  return `№ ${String(n).padStart(3, "0")}`
+  if (diff < 24 * 3600_000) return "добавлена сегодня"
+  return `добавлена ${formatDistanceToNowStrict(d, { locale: ru, roundingMethod: "floor" })} назад`
 }

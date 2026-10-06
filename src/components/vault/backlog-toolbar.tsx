@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils"
 const VISIBLE_TOPICS = 6
 
 const control =
-  "inline-flex h-10 items-center gap-2 rounded-md border px-3 text-sm transition-colors pointer-coarse:h-11"
+  "inline-flex h-10 items-center gap-2 rounded border px-3 text-sm transition-colors pointer-coarse:h-11"
 
 function Chip({
   active,
@@ -40,8 +40,8 @@ function Chip({
       className={cn(
         "inline-flex min-h-8 shrink-0 items-center gap-1.5 rounded-full border px-3 text-sm whitespace-nowrap transition-colors pointer-coarse:min-h-11",
         active
-          ? "border-cabinet/60 bg-cabinet/15 text-foreground"
-          : "border-border text-muted-foreground hover:border-white/25 hover:text-foreground",
+          ? "border-foreground bg-foreground text-background"
+          : "border-border text-muted-foreground hover:border-white/30 hover:text-foreground",
         className,
       )}
       {...rest}
@@ -107,7 +107,7 @@ export function BacklogToolbar({ filters, topics }: { filters: BacklogFilters; t
   const sortOptions = SORT_OPTIONS.filter((o) => o.value !== "random" || filters.sort === "random")
 
   return (
-    <div className="mb-6 grid grid-cols-1 gap-3" role="search" aria-label="Поиск и фильтры">
+    <div className="mb-5 grid grid-cols-1 gap-3" role="search" aria-label="Поиск и фильтры">
       <div className="flex flex-wrap items-center gap-2">
         <div className="relative min-w-0 basis-full sm:flex-1 sm:basis-auto">
           <SearchIcon className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-faint" />
@@ -116,9 +116,9 @@ export function BacklogToolbar({ filters, topics }: { filters: BacklogFilters; t
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Искать в хранилище…"
-            aria-label="Искать в хранилище"
-            className="h-10 w-full rounded-md border border-input bg-label/70 pr-10 pl-9 text-[15px] transition-colors outline-none focus:border-ring pointer-coarse:h-11"
+            placeholder="Поиск"
+            aria-label="Поиск"
+            className="h-10 w-full rounded border border-input bg-label pr-10 pl-9 text-[15px] transition-colors outline-none focus:border-ring pointer-coarse:h-11"
           />
           {pending ? (
             <Loader2Icon className="absolute top-1/2 right-3 size-4 -translate-y-1/2 animate-spin text-faint" />
@@ -136,17 +136,17 @@ export function BacklogToolbar({ filters, topics }: { filters: BacklogFilters; t
               className={cn(
                 control,
                 contextFilters.length
-                  ? "border-cabinet/60 text-foreground"
+                  ? "border-foreground/60 text-foreground"
                   : "border-input text-muted-foreground hover:text-foreground",
               )}
             >
               <SlidersHorizontalIcon className="size-4" />
               Фильтры
-              {contextFilters.length > 0 && <span className="data text-cabinet">{contextFilters.length}</span>}
+              {contextFilters.length > 0 && <span className="data">{contextFilters.length}</span>}
             </button>
           </PopoverTrigger>
           <PopoverContent align="start" className="w-80 p-4">
-            <FilterGroup label="Сколько есть времени">
+            <FilterGroup label="Время">
               {TIME_FILTERS.map((o) => (
                 <Chip key={o.value} active={filters.time === o.value} onClick={() => update({ time: filters.time === o.value ? null : o.value })}>
                   {o.label}
@@ -189,12 +189,12 @@ export function BacklogToolbar({ filters, topics }: { filters: BacklogFilters; t
 
         <button
           type="button"
-          title="Перемешать — посмотреть на старые идеи свежим взглядом"
+          title="Показать идеи в случайном порядке"
           onClick={() => update({ sort: "random", seed: String(newSeed()) })}
           className={cn(
             control,
             filters.sort === "random"
-              ? "border-cabinet/60 text-foreground"
+              ? "border-foreground/60 text-foreground"
               : "border-input text-muted-foreground hover:text-foreground",
           )}
         >
@@ -208,8 +208,8 @@ export function BacklogToolbar({ filters, topics }: { filters: BacklogFilters; t
           Все
         </Chip>
         <Chip active={filters.favorites} onClick={() => update({ fav: filters.favorites ? null : "1" })}>
-          <StarIcon className={cn("size-3.5", filters.favorites && "fill-current text-cabinet")} />
-          Со звездой
+          <StarIcon className={cn("size-3.5", filters.favorites && "fill-current")} />
+          Избранное
         </Chip>
         {[...selectedHidden, ...shownTopics].map((t) => (
           <Chip
@@ -227,7 +227,7 @@ export function BacklogToolbar({ filters, topics }: { filters: BacklogFilters; t
             aria-expanded={allTopics}
             className="min-h-8 shrink-0 px-2 text-sm text-muted-foreground hover:text-foreground pointer-coarse:min-h-11"
           >
-            {allTopics ? "меньше" : `ещё ${topics.length - VISIBLE_TOPICS}`}
+            {allTopics ? "свернуть" : `ещё ${topics.length - VISIBLE_TOPICS}`}
           </button>
         )}
       </div>
@@ -249,7 +249,7 @@ export function BacklogToolbar({ filters, topics }: { filters: BacklogFilters; t
             className="inline-flex min-h-8 items-center gap-1 px-2 text-sm text-muted-foreground hover:text-foreground pointer-coarse:min-h-11"
           >
             <XIcon className="size-3.5" />
-            Сбросить всё
+            Сбросить фильтры
           </button>
         </div>
       )}

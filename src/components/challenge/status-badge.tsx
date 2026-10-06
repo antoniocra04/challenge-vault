@@ -2,10 +2,10 @@ import type { ChallengeStatus } from "@/db/schema"
 import { cn } from "@/lib/utils"
 
 const STYLES: Record<ChallengeStatus, { label: string; className: string; dot: string }> = {
-  backlog: { label: "В хранилище", className: "text-cabinet", dot: "bg-cabinet" },
-  active: { label: "Сейчас в работе", className: "text-ember", dot: "bg-ember ember-dot" },
-  completed: { label: "В коллекции", className: "text-jade", dot: "bg-jade" },
-  abandoned: { label: "В архиве", className: "text-muted-foreground", dot: "bg-faint" },
+  backlog: { label: "Не начата", className: "text-muted-foreground", dot: "bg-faint" },
+  active: { label: "В работе", className: "text-marker", dot: "bg-marker marker-dot" },
+  completed: { label: "Сделано", className: "text-print", dot: "bg-print" },
+  abandoned: { label: "В архиве", className: "text-faint", dot: "border border-faint" },
 }
 
 export function StatusBadge({ status, className }: { status: ChallengeStatus; className?: string }) {
@@ -16,8 +16,4 @@ export function StatusBadge({ status, className }: { status: ChallengeStatus; cl
       {s.label}
     </span>
   )
-}
-
-export function statusLabel(status: ChallengeStatus) {
-  return STYLES[status].label
 }

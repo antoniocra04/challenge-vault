@@ -24,13 +24,13 @@ export async function POST(request: Request) {
   const challengeId = idSchema.safeParse(form.get("challengeId"))
   const file = form.get("file")
   if (!challengeId.success || !(file instanceof File) || file.size === 0) {
-    return Response.json({ error: "Выбери файл." }, { status: 400 })
+    return Response.json({ error: "Выберите файл." }, { status: 400 })
   }
   if (file.size > maxUploadBytes()) {
     return Response.json({ error: "Файл слишком большой." }, { status: 413 })
   }
   if (!(await challengeExists(challengeId.data))) {
-    return Response.json({ error: "Этой идеи больше нет в хранилище." }, { status: 404 })
+    return Response.json({ error: "Идея не найдена." }, { status: 404 })
   }
 
   const mimeType = file.type || "application/octet-stream"

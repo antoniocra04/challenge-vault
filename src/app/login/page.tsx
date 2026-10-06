@@ -16,7 +16,6 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <h1 className="text-xl font-semibold tracking-tight">Challenge Vault</h1>
-          <p className="mt-2 text-sm text-muted-foreground">То, что хочется попробовать.</p>
         </div>
         <LoginForm next={typeof next === "string" ? next : "/"} />
       </div>

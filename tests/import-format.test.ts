@@ -39,7 +39,7 @@ describe("renderMarkdown", () => {
       ],
       d,
     )
-    expect(md).toContain("## Коллекция (1)")
+    expect(md).toContain("## Сделано (1)")
     expect(md).toContain("### ⭐ Smart Apartment")
     expect(md).toContain("> ЖКХ")
     expect(md).toContain("Found ~800 ₽/month")

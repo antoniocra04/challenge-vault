@@ -6,24 +6,24 @@ export const SORT_OPTIONS = [
   { value: "oldest", label: "Сначала старые" },
   { value: "updated", label: "Недавно изменённые" },
   { value: "estimate", label: "По времени" },
-  { value: "random", label: "Вперемешку" },
+  { value: "random", label: "Случайный порядок" },
 ] as const
 
 export const TIME_FILTERS = [
   { value: "30m", label: "до 30 мин" },
-  { value: "1h", label: "до часа" },
+  { value: "1h", label: "до 1 ч" },
   { value: "1-3h", label: "1–3 ч" },
-  { value: "3h+", label: "от 3 ч" },
+  { value: "3h+", label: "больше 3 ч" },
 ] as const
 
 export const LOCATION_FILTERS = [
   { value: "home", label: "Дома" },
-  { value: "outside", label: "Вне дома" },
+  { value: "outside", label: "Не дома" },
 ] as const
 
 export const MONEY_FILTERS = [
   { value: "free", label: "Бесплатно" },
-  { value: "money", label: "Нужны деньги" },
+  { value: "money", label: "Платно" },
 ] as const
 
 export type SortOption = (typeof SORT_OPTIONS)[number]["value"]

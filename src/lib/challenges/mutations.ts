@@ -55,7 +55,7 @@ async function transition(
     .returning()
   if (!row) {
     const exists = await db.select({ id: challenges.id }).from(challenges).where(eq(challenges.id, id))
-    throw new VaultError(exists.length ? failMessage : "Этой идеи больше нет в хранилище.")
+    throw new VaultError(exists.length ? failMessage : "Идея не найдена.")
   }
   return row
 }
@@ -80,7 +80,7 @@ export async function updateChallenge(id: string, input: ChallengeInput): Promis
     .set({ ...data, updatedAt: now })
     .where(eq(challenges.id, id))
     .returning()
-  if (!row) throw new VaultError("Этой идеи больше нет в хранилище.")
+  if (!row) throw new VaultError("Идея не найдена.")
   return row
 }
 
@@ -100,7 +100,7 @@ export async function setFavorite(id: string, favorite: boolean) {
     .set({ favorite })
     .where(eq(challenges.id, id))
     .returning({ id: challenges.id })
-  if (!row) throw new VaultError("Этой идеи больше нет в хранилище.")
+  if (!row) throw new VaultError("Идея не найдена.")
 }
 
 export async function startChallenge(id: string): Promise<Challenge> {
@@ -116,9 +116,9 @@ export async function startChallenge(id: string): Promise<Challenge> {
       startedAt: sql`coalesce(${challenges.startedAt}, now())`,
       sessionStartedAt: now,
     },
-    "Начать можно только идею из хранилища.",
+    "Начать можно только идею из списка.",
   )
-  await logEvent(id, before?.startedAt ? "Снова в работе" : "Начато")
+  await logEvent(id, before?.startedAt ? "Начато снова" : "Начато")
   return row
 }
 
@@ -127,9 +127,9 @@ export async function returnToVault(id: string): Promise<Challenge> {
     id,
     ["active"],
     { status: "backlog", ...closeSession },
-    "Вернуть в хранилище можно только то, что сейчас в работе.",
+    "Вернуть в список можно только идею, которая в работе.",
   )
-  await logEvent(id, "Возвращено в хранилище")
+  await logEvent(id, "Возвращено в список")
   return row
 }
 
@@ -162,9 +162,9 @@ export async function abandonChallenge(id: string, input: { reason?: string | nu
     id,
     ["active", "backlog"],
     { status: "abandoned", ...closeSession, abandonedAt: now, abandonReason: data.reason },
-    "Эту идею сейчас нельзя отпустить.",
+    "Эту идею сейчас нельзя перенести в архив.",
   )
-  await logEvent(id, data.reason ? `Отпущено — ${data.reason}` : "Отпущено")
+  await logEvent(id, data.reason ? `В архиве: ${data.reason}` : "Перенесено в архив")
   return row
 }
 
@@ -174,9 +174,9 @@ export async function restoreToVault(id: string): Promise<Challenge> {
     id,
     ["abandoned", "completed"],
     { status: "backlog", abandonedAt: null, abandonReason: null, completedAt: null },
-    "Эта идея уже в игре.",
+    "Идея уже в списке или в работе.",
   )
-  await logEvent(id, "Снова в хранилище")
+  await logEvent(id, "Возвращено в список")
   return row
 }
 
@@ -185,7 +185,7 @@ export async function pauseSession(id: string, opts: { discard?: boolean } = {})
     id,
     ["active"],
     opts.discard ? { sessionStartedAt: null } : closeSession,
-    "Сессия идёт только у того, что сейчас в работе.",
+    "Таймер есть только у идеи в работе.",
   )
 }
 
@@ -194,14 +194,14 @@ export async function resumeSession(id: string) {
     id,
     ["active"],
     { sessionStartedAt: sql`coalesce(${challenges.sessionStartedAt}, now())` },
-    "Запустить сессию можно только для того, что сейчас в работе.",
+    "Таймер можно запустить только у идеи в работе.",
   )
 }
 
 /** Manually correct the time spent. A running session restarts from now. */
 export async function setTrackedMinutes(id: string, minutes: number) {
   if (!Number.isFinite(minutes) || minutes < 0 || minutes > 1_000_000) {
-    throw new VaultError("Не получилось понять это время.")
+    throw new VaultError("Не удалось распознать время.")
   }
   const [row] = await db
     .update(challenges)
@@ -213,7 +213,7 @@ export async function setTrackedMinutes(id: string, minutes: number) {
     })
     .where(eq(challenges.id, id))
     .returning({ id: challenges.id })
-  if (!row) throw new VaultError("Этой идеи больше нет в хранилище.")
+  if (!row) throw new VaultError("Идея не найдена.")
 }
 
 export async function addLogEntry(challengeId: string, input: { content: string }) {
@@ -292,5 +292,5 @@ export async function updateResult(id: string, input: CompleteInput) {
     })
     .where(and(eq(challenges.id, id), eq(challenges.status, "completed")))
     .returning({ id: challenges.id })
-  if (!row) throw new VaultError("Результат есть только у завершённой идеи.")
+  if (!row) throw new VaultError("Результат можно изменить только у сделанной идеи.")
 }

@@ -54,7 +54,7 @@ export function formStateFrom(c: {
 
 export function estimateError(state: ChallengeFormState): string | null {
   if (!state.estimate.trim()) return null
-  return parseDuration(state.estimate) == null ? "Попробуй так: 30 мин, 2 ч или 1 ч 30 мин" : null
+  return parseDuration(state.estimate) == null ? "Например: 30 мин, 2 ч или 1 ч 30 мин" : null
 }
 
 export function toChallengeInput(state: ChallengeFormState) {
@@ -127,13 +127,12 @@ export function ChallengeDetailFields({
   return (
     <div className="grid gap-4">
       {showDescription && (
-        <Field label="Подробнее об идее" htmlFor={`${uid}-desc`}>
+        <Field label="Описание" htmlFor={`${uid}-desc`}>
           <Textarea
             id={`${uid}-desc`}
             rows={3}
             value={state.description}
             onChange={(e) => onChange({ description: e.target.value })}
-            placeholder="Что именно хочется сделать или проверить"
           />
         </Field>
       )}
@@ -160,7 +159,7 @@ export function ChallengeDetailFields({
               ))}
           </div>
         </Field>
-        <Field label="Сколько примерно займёт" htmlFor={`${uid}-est`}>
+        <Field label="Сколько займёт" htmlFor={`${uid}-est`}>
           <Input
             id={`${uid}-est`}
             value={state.estimate}
@@ -193,9 +192,9 @@ export function ChallengeDetailFields({
             value={state.requiresLeavingHome}
             onChange={(v) => onChange({ requiresLeavingHome: v })}
             options={[
-              { value: null, label: "Не важно" },
+              { value: null, label: "Неважно" },
               { value: false, label: "Дома" },
-              { value: true, label: "Вне дома" },
+              { value: true, label: "Не дома" },
             ]}
           />
         </Field>
@@ -204,7 +203,7 @@ export function ChallengeDetailFields({
             value={state.requiresMoney}
             onChange={(v) => onChange({ requiresMoney: v })}
             options={[
-              { value: null, label: "Не важно" },
+              { value: null, label: "Неважно" },
               { value: false, label: "Бесплатно" },
               { value: true, label: "Нужны деньги" },
             ]}

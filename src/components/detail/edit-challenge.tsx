@@ -48,7 +48,7 @@ export function EditChallenge({ challenge: c, tagSuggestions }: { challenge: Cha
         if (!res.ok || !completed) return res
         return updateResult(c.id, { result, enjoymentScore: score, actualDuration: parseDuration(time) })
       },
-      { success: "Сохранено.", onSuccess: () => setOpen(false) },
+      { success: "Сохранено", onSuccess: () => setOpen(false) },
     )
   }
 
@@ -67,7 +67,7 @@ export function EditChallenge({ challenge: c, tagSuggestions }: { challenge: Cha
         <DialogContent className="max-h-[90dvh] overflow-y-auto p-6 sm:max-w-2xl">
           <DialogHeader>
             <DialogTitle>Изменить идею</DialogTitle>
-            <DialogDescription className="sr-only">Название, искра и подробности.</DialogDescription>
+            <DialogDescription className="sr-only">Название, описание и подробности</DialogDescription>
           </DialogHeader>
           <form
             className="grid gap-4"
@@ -81,7 +81,7 @@ export function EditChallenge({ challenge: c, tagSuggestions }: { challenge: Cha
               <Input value={state.title} onChange={(e) => patch({ title: e.target.value })} className="text-base" />
             </label>
             <label className="grid gap-1.5">
-              <span className="text-sm text-muted-foreground">Искра — почему это казалось интересным?</span>
+              <span className="text-sm text-muted-foreground">Почему захотелось</span>
               <Textarea rows={3} value={state.spark} onChange={(e) => patch({ spark: e.target.value })} />
             </label>
             <ChallengeDetailFields state={state} onChange={patch} tagSuggestions={tagSuggestions} />
@@ -89,11 +89,11 @@ export function EditChallenge({ challenge: c, tagSuggestions }: { challenge: Cha
             {completed && (
               <div className="mt-2 grid gap-4 border-t border-rule pt-4">
                 <label className="grid gap-1.5">
-                  <span className="text-sm text-muted-foreground">Что получилось?</span>
+                  <span className="text-sm text-muted-foreground">Что получилось</span>
                   <Textarea rows={3} value={result} onChange={(e) => setResult(e.target.value)} />
                 </label>
                 <div className="grid gap-1.5">
-                  <span className="text-sm text-muted-foreground">Насколько было интересно</span>
+                  <span className="text-sm text-muted-foreground">Оценка</span>
                   <EnjoymentScale value={score} onChange={setScore} />
                 </div>
                 <label className="grid gap-1.5">

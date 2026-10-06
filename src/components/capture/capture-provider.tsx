@@ -33,7 +33,7 @@ export function CaptureProvider({ children, tagSuggestions }: { children: React.
   const [open, setOpen] = useState(false)
   const openCapture = useCallback(() => setOpen(true), [])
 
-  // Press C anywhere (any keyboard layout) to catch an idea before it evaporates.
+  // Press C anywhere (any keyboard layout) to add an idea.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey || isTyping(e.target)) return
@@ -76,7 +76,7 @@ function CaptureDialog({
     if (!canSave) return
     run(() => captureChallenge(toChallengeInput(state)), {
       onSuccess: (id) => {
-        toast.success("Поймано. Идея в хранилище.", {
+        toast.success("Идея добавлена", {
           action: { label: "Открыть", onClick: () => router.push(`/challenge/${id}`) },
         })
         setState(EMPTY_FORM)
@@ -91,7 +91,7 @@ function CaptureDialog({
       <DialogContent className="max-h-[90dvh] overflow-y-auto p-6 pb-0 sm:max-w-xl">
         <DialogHeader>
           <DialogTitle className="text-lg">Новая идея</DialogTitle>
-          <DialogDescription className="sr-only">Сохрани то, что когда-нибудь захочется попробовать.</DialogDescription>
+          <DialogDescription className="sr-only">Добавить идею в список</DialogDescription>
         </DialogHeader>
         <form
           className="grid gap-5"
@@ -107,7 +107,7 @@ function CaptureDialog({
           }}
         >
           <label className="grid gap-2">
-            <span className="text-[15px] font-medium">Что хочется попробовать?</span>
+            <span className="text-sm font-medium">Что хочется попробовать</span>
             <Textarea
               autoFocus
               rows={2}
@@ -120,20 +120,20 @@ function CaptureDialog({
                 if (window.matchMedia("(pointer: coarse)").matches) sparkRef.current?.focus()
                 else save()
               }}
-              placeholder="Запустить самую большую LLM, которую потянет мой компьютер"
+              placeholder="Например: запустить LLM на домашнем компьютере"
               className="min-h-0 resize-none text-base"
             />
           </label>
           <label className="grid gap-2">
-            <span className="text-[15px] font-medium">
-              Почему это кажется интересным? <span className="font-normal text-faint">(необязательно)</span>
+            <span className="text-sm font-medium">
+              Почему захотелось <span className="font-normal text-faint">— необязательно</span>
             </span>
             <Textarea
               ref={sparkRef}
               rows={3}
               value={state.spark}
               onChange={(e) => patch({ spark: e.target.value })}
-              placeholder="Через пару месяцев название ничего не скажет. Запиши искру."
+              placeholder="Например: пришёл большой счёт за свет"
             />
           </label>
 
@@ -145,7 +145,7 @@ function CaptureDialog({
               aria-expanded={more}
             >
               <ChevronDownIcon className={cn("size-4 transition-transform", more && "rotate-180")} />
-              Подробности
+              Подробнее
             </button>
             {more && (
               <div className="mt-4">
@@ -156,10 +156,10 @@ function CaptureDialog({
 
           <div className="sticky bottom-0 -mx-6 flex items-center justify-between gap-3 border-t border-rule bg-popover px-6 py-4">
             <span className="hidden text-xs text-faint sm:inline">
-              <span className="data">Enter</span> — сохранить, <span className="data">Shift+Enter</span> — новая строка
+              Enter — сохранить, Shift + Enter — новая строка
             </span>
-            <Button type="submit" variant="cabinet" size="lg" disabled={!canSave} className="ml-auto">
-              В хранилище
+            <Button type="submit" size="lg" disabled={!canSave} className="ml-auto">
+              Сохранить
             </Button>
           </div>
         </form>
@@ -172,14 +172,14 @@ export function CaptureButton({ className, compact = false }: { className?: stri
   const { open } = useCapture()
   return (
     <Button
-      variant="cabinet"
+     
       onClick={open}
-      title="Поймать идею (C)"
-      aria-label={compact ? "Поймать идею" : undefined}
-      className={cn(compact ? "size-12 rounded-full p-0 shadow-[0_8px_20px_-8px_oklch(0.05_0.02_230/90%)]" : "", className)}
+      title="Добавить идею (C)"
+      aria-label={compact ? "Добавить идею" : undefined}
+      className={cn(compact ? "size-12 rounded-full p-0" : "", className)}
     >
       <PlusIcon className={compact ? "size-5" : undefined} />
-      {!compact && "Поймать"}
+      {!compact && "Добавить"}
     </Button>
   )
 }

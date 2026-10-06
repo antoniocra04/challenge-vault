@@ -18,9 +18,6 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
         link: "text-primary underline-offset-4 hover:underline",
-        cabinet: "bg-cabinet text-primary-foreground hover:bg-cabinet/88 focus-visible:ring-cabinet/40",
-        ember: "bg-ember text-ember-foreground hover:bg-ember/88 focus-visible:ring-ember/40",
-        jade: "bg-jade text-jade-foreground hover:bg-jade/88 focus-visible:ring-jade/40",
       },
       size: {
         default:

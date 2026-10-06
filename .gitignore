@@ -47,3 +47,7 @@ next-env.d.ts
 # playwright
 /test-results/
 /playwright-report/
+
+# impeccable engine binary (the skill launcher downloads it on first run)
+/.claude/skills/impeccable/scripts/bin/
+.claude/settings.local.json

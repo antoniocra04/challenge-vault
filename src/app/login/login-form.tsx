@@ -15,7 +15,7 @@ export function LoginForm({ next }: { next: string }) {
         <Input name="password" type="password" autoFocus autoComplete="current-password" required />
       </label>
       {state.error && <p className="text-sm text-destructive">{state.error}</p>}
-      <Button type="submit" variant="ember" size="lg" disabled={pending}>
+      <Button type="submit" variant="cabinet" size="lg" disabled={pending}>
         Открыть хранилище
       </Button>
     </form>

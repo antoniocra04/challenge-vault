@@ -42,7 +42,7 @@ export function TimeSpentEditor({
           aria-label="Сколько времени ушло"
           aria-invalid={value.trim() !== "" && minutes == null}
         />
-        <button type="submit" disabled={pending || minutes == null} className="min-h-8 px-1 text-sm text-ember disabled:opacity-40 pointer-coarse:min-h-11">
+        <button type="submit" disabled={pending || minutes == null} className="min-h-8 px-1 text-sm text-cabinet disabled:opacity-40 pointer-coarse:min-h-11">
           сохранить
         </button>
         <button type="button" onClick={() => setEditing(false)} className="min-h-8 px-1 text-sm text-muted-foreground pointer-coarse:min-h-11">

@@ -12,7 +12,7 @@ export function EmptyVault() {
         В следующий раз, когда подумаешь «о, а вот это было бы интересно попробовать», — сохрани это сюда, пока
         мысль не улетучилась.
       </p>
-      <Button variant="ember" size="lg" className="mt-6" onClick={open}>
+      <Button variant="cabinet" size="lg" className="mt-6" onClick={open}>
         Поймать первую идею
       </Button>
       <p className="mt-3 text-xs text-faint">

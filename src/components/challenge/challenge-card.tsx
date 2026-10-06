@@ -1,13 +1,43 @@
 "use client"
 
 import { useId, useState } from "react"
-import { ChevronDownIcon, HistoryIcon, MessageSquareTextIcon, PaperclipIcon } from "lucide-react"
+import { ArrowRightIcon, ChevronDownIcon, HistoryIcon, MessageSquareTextIcon, PaperclipIcon } from "lucide-react"
 import type { ChallengeListItem } from "@/lib/challenges/queries"
 import { accession } from "@/lib/dates"
-import { formatSeconds } from "@/lib/duration"
+import { formatEstimate, formatSeconds } from "@/lib/duration"
 import { cn } from "@/lib/utils"
 import { FavoriteButton, OpenChallengeLink, StartChallengeButton } from "./actions"
-import { Indicators, TagList } from "./meta"
+import { TagList } from "./meta"
+
+/**
+ * The ruled measurement strip of a specimen label: named fields with hairline
+ * dividers. Only fields that are known are printed.
+ */
+function SpecimenFields({
+  estimatedDuration,
+  requiresLeavingHome,
+  requiresMoney,
+}: {
+  estimatedDuration: number | null
+  requiresLeavingHome: boolean | null
+  requiresMoney: boolean | null
+}) {
+  const fields: { label: string; value: string; data?: boolean }[] = []
+  if (estimatedDuration != null) fields.push({ label: "Время", value: formatEstimate(estimatedDuration), data: true })
+  if (requiresLeavingHome != null) fields.push({ label: "Где", value: requiresLeavingHome ? "вне дома" : "дома" })
+  if (requiresMoney != null) fields.push({ label: "Деньги", value: requiresMoney ? "нужны" : "не нужны" })
+  if (fields.length === 0) return null
+  return (
+    <dl className="grid auto-cols-fr grid-flow-col divide-x divide-rule border-y border-rule">
+      {fields.map((f) => (
+        <div key={f.label} className="min-w-0 px-2.5 py-2 first:pl-0 last:pr-0">
+          <dt className="truncate text-[11px] leading-tight text-faint">{f.label}</dt>
+          <dd className={cn("mt-0.5 truncate text-[13px]", f.data && "data")}>{f.value}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
 
 /** A backlog idea, set as a specimen label: accession, spark, measurements. */
 export function ChallengeCard({ challenge: c, waiting }: { challenge: ChallengeListItem; waiting: string }) {
@@ -23,11 +53,11 @@ export function ChallengeCard({ challenge: c, waiting }: { challenge: ChallengeL
       className={cn(
         "specimen group relative flex flex-col transition-colors duration-200",
         "hover:border-white/20 hover:bg-label-hi has-[button[aria-expanded=true]]:bg-label-hi",
-        c.favorite && "border-ember/35",
+        c.favorite && "border-cabinet/45",
       )}
     >
       <header className="flex items-center gap-3 px-4 pt-3">
-        <span className="data text-xs text-cabinet">{accession(c.accession)}</span>
+        <span className="data text-[13px] font-medium text-cabinet">{accession(c.accession)}</span>
         <span className="text-xs text-faint">{waiting}</span>
         <FavoriteButton id={c.id} favorite={c.favorite} className="relative z-10 -mr-2 ml-auto" />
       </header>
@@ -93,34 +123,34 @@ export function ChallengeCard({ challenge: c, waiting }: { challenge: ChallengeL
           )}
           <div className="relative z-10 flex items-center gap-2 px-4 pt-4">
             <StartChallengeButton id={c.id} />
-            <OpenChallengeLink id={c.id}>Открыть →</OpenChallengeLink>
+            <OpenChallengeLink id={c.id} className="gap-1.5">
+              Открыть
+              <ArrowRightIcon className="size-4" />
+            </OpenChallengeLink>
           </div>
         </div>
       </div>
 
-      <footer className="mt-auto grid gap-2 px-4 pt-4 pb-3">
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 border-t border-rule pt-2.5">
-          <Indicators
-            estimatedDuration={c.estimatedDuration}
-            requiresLeavingHome={c.requiresLeavingHome}
-            requiresMoney={c.requiresMoney}
-          />
-          {c.startedAt != null && (
-            <span
-              className="inline-flex items-center gap-1.5 text-xs whitespace-nowrap text-ember/90"
-              title="Уже начиналась и вернулась в хранилище"
-            >
-              <HistoryIcon className="size-3.5" />
-              изучалась
-              {c.trackedSeconds >= 60 && <span className="data">· {formatSeconds(c.trackedSeconds)}</span>}
-            </span>
-          )}
+      <footer className="mt-auto grid gap-2.5 px-4 pt-4 pb-3">
+        <SpecimenFields
+          estimatedDuration={c.estimatedDuration}
+          requiresLeavingHome={c.requiresLeavingHome}
+          requiresMoney={c.requiresMoney}
+        />
+        {c.startedAt != null && (
+          <p className="inline-flex items-center gap-1.5 text-xs text-muted-foreground" title="Уже начиналась и вернулась в хранилище">
+            <HistoryIcon className="size-3.5 text-cabinet" />
+            изучалась
+            {c.trackedSeconds >= 60 && <span className="data">· {formatSeconds(c.trackedSeconds)}</span>}
+          </p>
+        )}
+        <div className="flex items-start gap-3">
+          <TagList category={c.category} tags={c.tags} className="min-w-0 flex-1" />
           <ChevronDownIcon
             aria-hidden
-            className={cn("ml-auto size-4 text-faint transition-transform duration-200", expanded && "rotate-180")}
+            className={cn("ml-auto size-4 shrink-0 text-faint transition-transform duration-200", expanded && "rotate-180")}
           />
         </div>
-        <TagList category={c.category} tags={c.tags} />
       </footer>
     </article>
   )

@@ -125,7 +125,7 @@ function AttachmentRow({ a }: { a: Attachment }) {
     return (
       <li className={cn(base, "flex items-center gap-3")}>
         <LinkIcon className="size-4 shrink-0 text-faint" />
-        <a href={a.url} target="_blank" rel="noreferrer noopener" className="min-w-0 flex-1 hover:text-ember">
+        <a href={a.url} target="_blank" rel="noreferrer noopener" className="min-w-0 flex-1 hover:text-cabinet">
           <span className="block truncate text-sm">{a.title ?? hostname(a.url)}</span>
           <span className="block truncate text-xs text-muted-foreground">{a.title ? hostname(a.url) : a.url}</span>
         </a>
@@ -264,7 +264,7 @@ function FileForm({ challengeId, onDone }: { challengeId: string; onDone: () => 
       }}
       className={cn(
         "grid place-items-center gap-2 rounded-lg border border-dashed px-4 py-6 text-center transition-colors",
-        dragging ? "border-ember/60 bg-ember/5" : "border-white/10",
+        dragging ? "border-cabinet/60 bg-cabinet/5" : "border-white/10",
       )}
     >
       {uploading ? (

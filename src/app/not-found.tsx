@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { ArrowLeftIcon } from "lucide-react"
 
 export default function NotFound() {
   return (
@@ -9,9 +10,10 @@ export default function NotFound() {
         <p className="mt-2 text-muted-foreground">Идеи не существует — или её удалили.</p>
         <Link
           href="/"
-          className="mt-6 inline-flex min-h-10 items-center text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+          className="mt-6 inline-flex min-h-10 items-center gap-1.5 text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
         >
-          ← В хранилище
+          <ArrowLeftIcon className="size-4" />
+          В хранилище
         </Link>
       </div>
     </main>

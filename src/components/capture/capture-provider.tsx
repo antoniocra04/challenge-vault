@@ -158,7 +158,7 @@ function CaptureDialog({
             <span className="hidden text-xs text-faint sm:inline">
               <span className="data">Enter</span> — сохранить, <span className="data">Shift+Enter</span> — новая строка
             </span>
-            <Button type="submit" variant="ember" size="lg" disabled={!canSave} className="ml-auto">
+            <Button type="submit" variant="cabinet" size="lg" disabled={!canSave} className="ml-auto">
               В хранилище
             </Button>
           </div>
@@ -172,7 +172,7 @@ export function CaptureButton({ className, compact = false }: { className?: stri
   const { open } = useCapture()
   return (
     <Button
-      variant="ember"
+      variant="cabinet"
       onClick={open}
       title="Поймать идею (C)"
       aria-label={compact ? "Поймать идею" : undefined}

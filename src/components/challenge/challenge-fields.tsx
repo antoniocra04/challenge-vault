@@ -141,16 +141,24 @@ export function ChallengeDetailFields({
         <Field label="Категория" htmlFor={`${uid}-cat`}>
           <Input
             id={`${uid}-cat`}
-            list={`${uid}-cats`}
             value={state.category}
             onChange={(e) => onChange({ category: e.target.value })}
             placeholder="без категории"
           />
-          <datalist id={`${uid}-cats`}>
-            {SUGGESTED_CATEGORIES.map((c) => (
-              <option key={c} value={c} />
-            ))}
-          </datalist>
+          <div className="flex flex-wrap gap-1">
+            {SUGGESTED_CATEGORIES.filter((c) => c.toLowerCase() !== state.category.trim().toLowerCase())
+              .slice(0, 6)
+              .map((c) => (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => onChange({ category: c })}
+                  className="min-h-7 rounded px-1.5 text-xs text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground pointer-coarse:min-h-10"
+                >
+                  {c}
+                </button>
+              ))}
+          </div>
         </Field>
         <Field label="Сколько примерно займёт" htmlFor={`${uid}-est`}>
           <Input
@@ -185,7 +193,7 @@ export function ChallengeDetailFields({
             value={state.requiresLeavingHome}
             onChange={(v) => onChange({ requiresLeavingHome: v })}
             options={[
-              { value: null, label: "—" },
+              { value: null, label: "Не важно" },
               { value: false, label: "Дома" },
               { value: true, label: "Вне дома" },
             ]}
@@ -196,7 +204,7 @@ export function ChallengeDetailFields({
             value={state.requiresMoney}
             onChange={(v) => onChange({ requiresMoney: v })}
             options={[
-              { value: null, label: "—" },
+              { value: null, label: "Не важно" },
               { value: false, label: "Бесплатно" },
               { value: true, label: "Нужны деньги" },
             ]}

@@ -12,19 +12,18 @@ import { TagList } from "./meta"
 export function CurrentChallenge({ challenge: c }: { challenge: ActiveChallenge }) {
   return (
     <article className="ember-panel p-5 sm:p-7" aria-labelledby={`cc-${c.id}`}>
-      <header className="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <span className="data text-xs text-ember">{accession(c.accession)}</span>
-        <TagList category={c.category} tags={c.tags} />
-      </header>
+      <span className="data text-[13px] font-medium text-ember">{accession(c.accession)}</span>
 
-      <h2 id={`cc-${c.id}`} className="mt-3 text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
+      <h2 id={`cc-${c.id}`} className="mt-2 text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
         <Link href={`/challenge/${c.id}`} className="underline-offset-4 transition-colors hover:text-ember hover:underline">
           {c.title}
         </Link>
       </h2>
 
+      <TagList category={c.category} tags={c.tags} className="mt-2" />
+
       {c.description && (
-        <p className="mt-3 max-w-[68ch] text-[15px] leading-relaxed whitespace-pre-line text-muted-foreground">
+        <p className="mt-4 max-w-[68ch] text-[15px] leading-relaxed whitespace-pre-line text-muted-foreground">
           {c.description}
         </p>
       )}
@@ -48,7 +47,7 @@ export function CurrentChallenge({ challenge: c }: { challenge: ActiveChallenge 
 
       <dl className="mt-6 flex flex-wrap gap-x-10 gap-y-3 border-t border-rule pt-4">
         <div>
-          <dt className="text-xs text-faint">Начато</dt>
+          <dt className="text-xs text-faint">Начата</dt>
           <dd className="mt-1 text-sm" title={c.startedAt?.toISOString()}>
             <span className="data">{shortDate(c.startedAt)}</span> <span className="text-faint">· {ago(c.startedAt)}</span>
           </dd>
@@ -117,7 +116,7 @@ export function ActiveStrip({ challenge: c, className }: { challenge: ActiveChal
           </p>
         )}
       </div>
-      <span className="data hidden shrink-0 text-sm text-ember sm:inline" title="Потрачено">
+      <span className="data shrink-0 text-sm text-ember" title="Потрачено">
         <LiveTimeSpent trackedSeconds={c.trackedSeconds} sessionStartedAt={c.sessionStartedAt} />
       </span>
       <Link

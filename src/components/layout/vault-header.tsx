@@ -49,8 +49,8 @@ function VaultMark() {
   return (
     <svg viewBox="0 0 32 32" className="size-6" aria-hidden>
       <rect x="4" y="4" width="24" height="24" rx="5" fill="none" stroke="var(--cabinet)" strokeWidth="2" />
-      <circle cx="16" cy="16" r="5.5" fill="none" stroke="var(--ember)" strokeWidth="2" />
-      <path d="M16 10.5v-2M16 23.5v-2M10.5 16h-2M23.5 16h-2" stroke="var(--ember)" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="16" cy="16" r="5.5" fill="none" stroke="var(--cabinet)" strokeWidth="2" />
+      <path d="M16 10.5v-2M16 23.5v-2M10.5 16h-2M23.5 16h-2" stroke="var(--cabinet)" strokeWidth="2" strokeLinecap="round" />
     </svg>
   )
 }

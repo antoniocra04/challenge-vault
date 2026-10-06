@@ -93,7 +93,7 @@ Data is stored in two Docker volumes:
 ## Backup
 
 The simplest complete backup is a **full JSON export**: open the database icon
-in the header (`/data`) and click **JSON — полная копия**. The file contains every
+in the header (`/data`) and click **Полная копия**. The file contains every
 challenge, log entry and attachment, with uploaded files embedded.
 
 From the command line (add `-H "Cookie: …"` if you set a password, or use the UI):
@@ -133,10 +133,10 @@ docker compose up -d
 
 ## JSON export
 
-- `/data` → **JSON — полная копия**, or `GET /api/export/json`
-- Without file contents (much smaller): **JSON — без файлов**, or
+- `/data` → **Полная копия**, or `GET /api/export/json`
+- Without file contents (much smaller): **Без файлов**, or
   `GET /api/export/json?files=0`
-- Readable document: **Markdown**, or `GET /api/export/markdown`
+- Readable document: **Читаемый документ** (Markdown), or `GET /api/export/markdown`
 
 Format (version 1):
 

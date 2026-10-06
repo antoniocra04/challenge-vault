@@ -36,7 +36,7 @@ export function LogSection({ challengeId, entries }: { challengeId: string; entr
                   aria-hidden
                   className={cn(
                     "absolute top-1.5 -left-[28.5px] size-2 rounded-full ring-4 ring-background",
-                    e.kind === "event" ? "bg-faint" : "bg-ember",
+                    e.kind === "event" ? "bg-faint" : "bg-cabinet",
                   )}
                 />
                 <div className="flex min-h-7 items-center gap-2 text-xs text-muted-foreground">

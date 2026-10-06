@@ -103,10 +103,10 @@
   }
   body {
     @apply bg-background text-foreground;
-    caret-color: var(--ember);
+    caret-color: var(--cabinet);
   }
   ::selection {
-    background: oklch(0.81 0.15 70 / 35%);
+    background: oklch(0.8 0.075 200 / 35%);
     color: var(--foreground);
   }
   :focus-visible {
@@ -117,11 +117,6 @@
   [role="button"]:not(:disabled),
   summary {
     cursor: pointer;
-  }
-  /* The datalist arrow on category inputs. */
-  input[list]::-webkit-calendar-picker-indicator {
-    opacity: 0.45;
-    filter: invert(1);
   }
   ::placeholder {
     color: var(--faint);

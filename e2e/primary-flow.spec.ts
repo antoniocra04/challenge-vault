@@ -28,7 +28,7 @@ function backlogCard(page: Page, title: string) {
 async function openFromBacklog(page: Page, title: string) {
   const card = backlogCard(page, title)
   await card.getByRole("button", { name: title }).click()
-  await card.getByRole("link", { name: "Открыть →" }).click()
+  await card.getByRole("link", { name: "Открыть", exact: true }).click()
   await expect(page.getByRole("heading", { level: 1, name: title })).toBeVisible()
 }
 

@@ -78,7 +78,7 @@ export function StartChallengeButton({
   const { pending, run } = useAction()
   return (
     <Button
-      variant="ember"
+      variant="cabinet"
       size={size}
       disabled={pending}
       tabIndex={tabIndex}
@@ -111,7 +111,7 @@ export function FavoriteButton({ id, favorite, className }: { id: string; favori
       title={label}
       className={cn(
         "grid size-8 place-items-center rounded-md transition-colors hover:bg-white/5 pointer-coarse:size-11",
-        optimistic ? "text-ember" : "text-faint hover:text-muted-foreground",
+        optimistic ? "text-cabinet" : "text-faint hover:text-muted-foreground",
         className,
       )}
       onClick={(e) => {
@@ -331,7 +331,7 @@ export function EnjoymentScale({ value, onChange }: { value: number | null; onCh
     <div
       role="radiogroup"
       aria-label="Насколько было интересно, от 1 до 10"
-      className="grid grid-cols-10 gap-1"
+      className="grid grid-cols-5 gap-1.5 sm:grid-cols-10 sm:gap-1"
       onKeyDown={(e) => {
         const current = value ?? 0
         if (e.key === "ArrowRight" || e.key === "ArrowUp") {
@@ -361,7 +361,7 @@ export function EnjoymentScale({ value, onChange }: { value: number | null; onCh
           tabIndex={n === focusable ? 0 : -1}
           onClick={() => onChange(value === n ? null : n)}
           className={cn(
-            "data h-9 rounded-md border text-sm transition-colors pointer-coarse:h-11",
+            "data h-11 rounded-md border text-sm transition-colors sm:h-9 pointer-coarse:h-11",
             value != null && n <= value
               ? "border-jade/50 bg-jade/15 text-jade"
               : "border-border text-muted-foreground hover:border-white/25 hover:text-foreground",

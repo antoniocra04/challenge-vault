@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import { ArrowRightIcon } from "lucide-react"
 import { CurrentChallenge } from "@/components/challenge/current-challenge"
 import { SectionHeading } from "@/components/challenge/meta"
 import { countBacklog, getActiveChallenges } from "@/lib/challenges/queries"
@@ -20,9 +21,10 @@ export default async function ActivePage() {
           {backlog > 0 && (
             <Link
               href="/"
-              className="mt-4 inline-flex min-h-10 items-center text-sm text-cabinet underline-offset-4 hover:underline"
+              className="mt-4 inline-flex min-h-10 items-center gap-1.5 text-sm text-cabinet underline-offset-4 hover:underline"
             >
-              {backlog} {plural(backlog, "идея ждёт", "идеи ждут", "идей ждут")} в хранилище →
+              {backlog} {plural(backlog, "идея ждёт", "идеи ждут", "идей ждут")} в хранилище
+              <ArrowRightIcon className="size-4" />
             </Link>
           )}
         </div>

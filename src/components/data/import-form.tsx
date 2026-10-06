@@ -82,7 +82,7 @@ export function ImportForm() {
               value={value}
               checked={mode === value}
               onChange={() => setMode(value)}
-              className="mt-1 accent-[var(--ember)]"
+              className="mt-1 accent-[var(--cabinet)]"
             />
             <span>
               <span className="block text-sm font-medium">{label}</span>

@@ -90,6 +90,11 @@ export default async function CompletedPage({ searchParams }: PageProps<"/comple
                     ) : c.description ? (
                       <p className="mt-2 line-clamp-2 text-sm whitespace-pre-line text-muted-foreground">{c.description}</p>
                     ) : null}
+                    {c.spark && (
+                      <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
+                        <span className="text-faint">Искра: </span>«{c.spark}»
+                      </p>
+                    )}
                     <dl className="mt-auto flex flex-wrap items-center gap-x-8 gap-y-2 border-t border-rule pt-3 text-sm [&:not(:first-child)]:mt-4">
                       {c.actualDuration != null && c.actualDuration > 0 && (
                         <div className="flex items-baseline gap-2">

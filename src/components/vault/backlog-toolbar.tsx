@@ -208,7 +208,7 @@ export function BacklogToolbar({ filters, topics }: { filters: BacklogFilters; t
           Все
         </Chip>
         <Chip active={filters.favorites} onClick={() => update({ fav: filters.favorites ? null : "1" })}>
-          <StarIcon className={cn("size-3.5", filters.favorites && "fill-current text-ember")} />
+          <StarIcon className={cn("size-3.5", filters.favorites && "fill-current text-cabinet")} />
           Со звездой
         </Chip>
         {[...selectedHidden, ...shownTopics].map((t) => (

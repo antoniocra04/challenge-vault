@@ -53,20 +53,19 @@ export default async function ChallengePage({ params }: PageProps<"/challenge/[i
       <div className="mt-4 grid gap-x-12 gap-y-8 lg:grid-cols-[minmax(0,1fr)_20rem]">
         {/* Order on phones: title, actions, content, details. */}
         <header className="min-w-0 lg:col-start-1 lg:row-start-1">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-            <StatusBadge status={c.status} />
-            <FavoriteButton id={c.id} favorite={c.favorite} className="-ml-1" />
-          </div>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+          <div className="flex items-start gap-3">
+          <h1 className="mt-2 min-w-0 flex-1 text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
             {c.status === "active" ? (
               <span className="relative inline-block">
-                <MarkerCircle className="-inset-x-4 -inset-y-3 h-[calc(100%+1.5rem)] w-[calc(100%+2rem)]" />
+                <MarkerCircle seed={c.id} className="-inset-x-2 -inset-y-3 h-[calc(100%+1.5rem)] w-[calc(100%+1rem)] sm:-inset-x-4 sm:w-[calc(100%+2rem)]" />
                 <span className="relative">{c.title}</span>
               </span>
             ) : (
               c.title
             )}
           </h1>
+            <FavoriteButton id={c.id} favorite={c.favorite} className="mt-2 shrink-0" />
+          </div>
           <TagList category={c.category} tags={c.tags} linkable className="mt-3 text-sm" />
         </header>
 
@@ -100,7 +99,7 @@ export default async function ChallengePage({ params }: PageProps<"/challenge/[i
               )}
               {c.enjoymentScore != null && (
                 <p className="mt-4 text-sm text-muted-foreground">
-                  Оценка <span className="data text-foreground">{c.enjoymentScore}/10</span>
+                  Понравилось на <span className="data text-foreground">{c.enjoymentScore} из 10</span>
                 </p>
               )}
             </section>
@@ -120,6 +119,9 @@ export default async function ChallengePage({ params }: PageProps<"/challenge/[i
               Детали
             </h2>
             <dl className="frame grid gap-3 p-4">
+              <Field label="Статус">
+                <StatusBadge status={c.status} />
+              </Field>
               <Field label="Добавлена">
                 <span title={longDate(c.createdAt)}>
                   <span className="data">{shortDate(c.createdAt)}</span>{" "}

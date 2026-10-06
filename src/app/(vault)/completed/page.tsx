@@ -64,7 +64,7 @@ export default async function CompletedPage({ searchParams }: PageProps<"/comple
                     <p className="data mt-3 text-xs text-muted-foreground">
                       {[
                         c.actualDuration ? `потрачено ${formatMinutes(c.actualDuration)}` : null,
-                        c.enjoymentScore != null ? `оценка ${c.enjoymentScore}/10` : null,
+                        c.enjoymentScore != null ? `понравилось на ${c.enjoymentScore} из 10` : null,
                       ]
                         .filter(Boolean)
                         .join(" · ")}

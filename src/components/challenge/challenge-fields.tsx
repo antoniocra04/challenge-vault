@@ -142,7 +142,7 @@ export function ChallengeDetailFields({
             id={`${uid}-cat`}
             value={state.category}
             onChange={(e) => onChange({ category: e.target.value })}
-            placeholder="без категории"
+            placeholder="Например: Музыка"
           />
           <div className="flex flex-wrap gap-1">
             {SUGGESTED_CATEGORIES.filter((c) => c.toLowerCase() !== state.category.trim().toLowerCase())
@@ -165,7 +165,7 @@ export function ChallengeDetailFields({
             value={state.estimate}
             aria-invalid={estimateErr != null}
             onChange={(e) => onChange({ estimate: e.target.value })}
-            placeholder="например, 2 ч"
+            placeholder="Например: 2 ч"
             className="data"
           />
           <div className="flex flex-wrap gap-1">

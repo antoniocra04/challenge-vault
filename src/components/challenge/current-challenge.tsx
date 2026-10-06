@@ -15,7 +15,7 @@ export function CurrentChallenge({ challenge: c }: { challenge: ActiveChallenge 
     <article className="frame p-5 sm:p-7" aria-labelledby={`cc-${c.id}`}>
       <h2 id={`cc-${c.id}`} className="text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
         <span className="relative inline-block">
-          <MarkerCircle className="-inset-x-4 -inset-y-3 h-[calc(100%+1.5rem)] w-[calc(100%+2rem)]" />
+          <MarkerCircle seed={c.id} className="-inset-x-3 -inset-y-3 h-[calc(100%+1.5rem)] w-[calc(100%+1.5rem)] sm:-inset-x-4 sm:w-[calc(100%+2rem)]" />
           <Link href={`/challenge/${c.id}`} className="relative underline-offset-4 hover:underline">
             {c.title}
           </Link>
@@ -91,7 +91,7 @@ export function ActiveStrip({ challenge: c, className }: { challenge: ActiveChal
     <article className={cn("frame flex items-center gap-4 px-5 py-4", className)}>
       <div className="min-w-0 flex-1">
         <span className="relative inline-block max-w-full">
-          <MarkerCircle className="-inset-x-3 -inset-y-2 h-[calc(100%+1rem)] w-[calc(100%+1.5rem)]" />
+          <MarkerCircle seed={c.id} className="-inset-x-3 -inset-y-2 h-[calc(100%+1rem)] w-[calc(100%+1.5rem)]" />
           <Link
             href={`/challenge/${c.id}`}
             className="relative block truncate font-semibold tracking-tight underline-offset-4 hover:underline"
@@ -100,7 +100,7 @@ export function ActiveStrip({ challenge: c, className }: { challenge: ActiveChal
           </Link>
         </span>
         {resume && (
-          <p className="mt-1.5 truncate text-sm text-muted-foreground">
+          <p className="mt-1.5 line-clamp-2 text-sm text-muted-foreground">
             {c.lastNote ? <span className="hidden text-faint sm:inline">Последняя заметка: </span> : null}
             {resume}
           </p>

@@ -71,7 +71,7 @@ export function TagInput({
             }
           }}
           onBlur={() => draft.trim() && commit(draft)}
-          placeholder={value.length ? "" : "через запятую"}
+          placeholder={value.length ? "" : "Например: дом, железо"}
           className="min-w-24 flex-1 bg-transparent text-sm outline-none"
         />
       </div>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useId, useState } from "react"
-import { ArrowRightIcon, MessageSquareTextIcon, PaperclipIcon } from "lucide-react"
+import { ArrowRightIcon, MessageSquareTextIcon, PaperclipIcon, StarIcon } from "lucide-react"
 import type { ChallengeListItem } from "@/lib/challenges/queries"
 import { formatSeconds } from "@/lib/duration"
 import { cn } from "@/lib/utils"
@@ -9,8 +9,8 @@ import { FavoriteButton, OpenChallengeLink, StartChallengeButton } from "./actio
 import { MetaLine, TagList } from "./meta"
 
 /**
- * One frame on the contact sheet. Clicking it enlarges it in place, like a
- * loupe over the sheet: the frame takes two columns and shows everything.
+ * One frame on the contact sheet: title and why it was wanted, nothing else.
+ * Clicking it enlarges it in place to two columns with everything else.
  */
 export function ChallengeCard({ challenge: c, added }: { challenge: ChallengeListItem; added: string }) {
   const [open, setOpen] = useState(false)
@@ -22,16 +22,14 @@ export function ChallengeCard({ challenge: c, added }: { challenge: ChallengeLis
       data-backlog-card
       aria-labelledby={`${id}-title`}
       className={cn(
-        "frame group relative flex flex-col p-4 transition-colors duration-150 hover:bg-label-hi",
-        open && "bg-label-hi sm:col-span-2",
+        "frame group relative flex min-h-32 flex-col p-3 transition-colors duration-150 hover:bg-label-hi sm:p-4",
+        open && "col-span-2 bg-label-hi",
       )}
     >
-      <header className="flex items-center gap-2 text-xs text-faint">
-        <span>{added}</span>
-        <FavoriteButton id={c.id} favorite={c.favorite} className="relative z-10 -my-1.5 -mr-2 ml-auto" />
-      </header>
-
-      <h3 id={`${id}-title`} className={cn("mt-1 font-semibold tracking-tight text-balance", open ? "text-xl" : "text-[15px] leading-snug")}>
+      <h3
+        id={`${id}-title`}
+        className={cn("pr-5 font-semibold tracking-tight text-balance", open ? "text-lg sm:text-xl" : "text-sm leading-snug sm:text-[15px]")}
+      >
         {/* The title is the disclosure; its overlay makes the whole frame clickable. */}
         <button
           type="button"
@@ -43,9 +41,12 @@ export function ChallengeCard({ challenge: c, added }: { challenge: ChallengeLis
           {c.title}
         </button>
       </h3>
+      {c.favorite && !open && (
+        <StarIcon role="img" aria-label="В избранном" className="absolute top-3 right-3 size-3.5 fill-current sm:top-4 sm:right-4" />
+      )}
 
       {lead && (
-        <p className={cn("mt-1.5 text-sm leading-relaxed whitespace-pre-line text-muted-foreground", !open && "line-clamp-3")}>
+        <p className={cn("mt-1.5 text-[13px] leading-snug whitespace-pre-line text-muted-foreground sm:text-sm", !open && "line-clamp-2")}>
           {lead}
         </p>
       )}
@@ -54,8 +55,22 @@ export function ChallengeCard({ challenge: c, added }: { challenge: ChallengeLis
         {c.spark && c.description && (
           <p className="mt-3 text-sm leading-relaxed whitespace-pre-line text-muted-foreground">{c.description}</p>
         )}
-        {(c.noteCount > 0 || c.attachmentCount > 0 || c.startedAt) && (
-          <p className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <StartChallengeButton id={c.id} />
+          <OpenChallengeLink id={c.id} className="gap-1.5">
+            Подробнее
+            <ArrowRightIcon className="size-4" />
+          </OpenChallengeLink>
+          <FavoriteButton id={c.id} favorite={c.favorite} className="ml-auto" />
+        </div>
+        <div className="mt-4 grid gap-1.5 border-t border-rule pt-3">
+          <MetaLine
+            estimatedDuration={c.estimatedDuration}
+            requiresLeavingHome={c.requiresLeavingHome}
+            requiresMoney={c.requiresMoney}
+          />
+          <p className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+            <span>{added}</span>
             {c.startedAt && (
               <span>
                 уже начиналась{c.trackedSeconds >= 60 && <>, потрачено <span className="data">{formatSeconds(c.trackedSeconds)}</span></>}
@@ -74,24 +89,9 @@ export function ChallengeCard({ challenge: c, added }: { challenge: ChallengeLis
               </span>
             )}
           </p>
-        )}
-        <div className="mt-4 flex items-center gap-2">
-          <StartChallengeButton id={c.id} />
-          <OpenChallengeLink id={c.id} className="gap-1.5">
-            Подробнее
-            <ArrowRightIcon className="size-4" />
-          </OpenChallengeLink>
+          <TagList category={c.category} tags={c.tags} />
         </div>
       </div>
-
-      <footer className="mt-auto grid gap-1.5 pt-3">
-        <MetaLine
-          estimatedDuration={c.estimatedDuration}
-          requiresLeavingHome={c.requiresLeavingHome}
-          requiresMoney={c.requiresMoney}
-        />
-        <TagList category={c.category} tags={c.tags} />
-      </footer>
     </article>
   )
 }

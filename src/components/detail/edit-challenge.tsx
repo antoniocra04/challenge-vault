@@ -93,7 +93,7 @@ export function EditChallenge({ challenge: c, tagSuggestions }: { challenge: Cha
                   <Textarea rows={3} value={result} onChange={(e) => setResult(e.target.value)} />
                 </label>
                 <div className="grid gap-1.5">
-                  <span className="text-sm text-muted-foreground">Оценка</span>
+                  <span className="text-sm text-muted-foreground">Насколько понравилось</span>
                   <EnjoymentScale value={score} onChange={setScore} />
                 </div>
                 <label className="grid gap-1.5">
@@ -103,7 +103,7 @@ export function EditChallenge({ challenge: c, tagSuggestions }: { challenge: Cha
                     onChange={(e) => setTime(e.target.value)}
                     aria-invalid={timeInvalid}
                     className="data max-w-40"
-                    placeholder="4 ч"
+                    placeholder="Например: 2 ч"
                   />
                 </label>
               </div>

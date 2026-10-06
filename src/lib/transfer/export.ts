@@ -104,7 +104,7 @@ export function renderMarkdown(vault: VaultSnapshot, now: Date = new Date()): st
       if (c.abandonedAt) meta.push(`**В архиве с:** ${fmtDate(c.abandonedAt)}${c.abandonReason ? ` — ${c.abandonReason}` : ""}`)
       const minutes = c.status === "completed" ? c.actualDuration : Math.round(c.trackedSeconds / 60)
       if (minutes) meta.push(`**Потрачено:** ${formatMinutes(minutes)}`)
-      if (c.enjoymentScore) meta.push(`**Оценка:** ${c.enjoymentScore}/10`)
+      if (c.enjoymentScore) meta.push(`**Понравилось:** ${c.enjoymentScore} из 10`)
       lines.push(meta.join("  \n"), "")
       if (c.description) lines.push(c.description, "")
       if (c.spark) lines.push("**Почему захотелось**", "", quote(c.spark), "")

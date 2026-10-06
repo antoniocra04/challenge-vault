@@ -69,7 +69,7 @@ export default async function VaultPage({ searchParams }: PageProps<"/">) {
                 {total === 0 ? "Все идеи сейчас в работе." : "Ничего не найдено. Попробуйте изменить фильтры."}
               </p>
             ) : (
-              <div className="grid grid-flow-row-dense grid-cols-[repeat(auto-fill,minmax(min(100%,15rem),1fr))] gap-2">
+              <div className="grid grid-flow-row-dense grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {backlog.map((c) => (
                   <ChallengeCard key={c.id} challenge={c} added={addedAgo(c.createdAt)} />
                 ))}

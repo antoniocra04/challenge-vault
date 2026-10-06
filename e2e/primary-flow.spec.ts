@@ -102,7 +102,7 @@ test("add → start → note → back to the list → start again → complete",
   await expect(done).toBeVisible()
   await expect(done.getByText("Сыграл от начала до конца")).toBeVisible()
   await expect(done.getByText(/1 ч 20 мин/)).toBeVisible()
-  await expect(done.getByText(/9\/10/)).toBeVisible()
+  await expect(done.getByText(/понравилось на 9 из 10/)).toBeVisible()
 
   await deleteChallenge(page, title)
 })

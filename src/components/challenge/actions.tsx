@@ -321,7 +321,7 @@ export function EnjoymentScale({ value, onChange }: { value: number | null; onCh
   return (
     <div
       role="radiogroup"
-      aria-label="Оценка от 1 до 10"
+      aria-label="Насколько понравилось, от 1 до 10"
       className="grid grid-cols-5 gap-1.5 sm:grid-cols-10 sm:gap-1"
       onKeyDown={(e) => {
         const current = value ?? 0
@@ -427,7 +427,7 @@ export function CompleteDialog({
             <Textarea autoFocus rows={4} value={result} onChange={(e) => setResult(e.target.value)} />
           </label>
           <div className="grid gap-2">
-            <span className="text-sm text-muted-foreground">Оценка</span>
+            <span className="text-sm text-muted-foreground">Насколько понравилось</span>
             <EnjoymentScale value={score} onChange={setScore} />
           </div>
           <label className="grid gap-2">
@@ -435,7 +435,7 @@ export function CompleteDialog({
             <Input
               value={time}
               onChange={(e) => setTime(e.target.value)}
-              placeholder="например, 2 ч"
+              placeholder="Например: 2 ч"
               aria-invalid={timeInvalid}
               className="data max-w-40"
             />

@@ -23,6 +23,6 @@ STORY: The visitor sees the circled frames they are working on, then a dense she
 
 FIRST VIEWPORT: Black shell header with name, standard nav (Идеи, В работе, Сделано, Архив) and a white "Добавить" button (bottom bar with add button on phones). Under it, in-progress ideas as wide frames circled in red, then the "Идеи" heading with count, search, filters, sort, shuffle, and a dense grid of frames starting inside the first viewport.
 
-FORM: Contact sheet with grease-pencil selection; position 1 of my ordered list (the pick card, chosen by the user over the assigned bookshelf); seed key f9ef55e6. Signature move: starting an idea draws a hand-drawn red grease-pencil circle around its frame; opening a frame enlarges it in place like a loupe on the sheet.
+FORM: Contact sheet with grease-pencil selection; position 1 of my ordered list (the pick card, chosen by the user over the assigned bookshelf); seed key f9ef55e6. Signature move: starting an idea draws a hand-drawn red grease-pencil circle round it; opening a frame enlarges it in place across two columns. Adaptation (cited): the circle wraps the idea's title rather than the whole frame, because a loop stretched over a wide strip flattened into two straight strokes in the first inspection round; each idea gets its own seeded loop.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

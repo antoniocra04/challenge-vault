@@ -111,7 +111,7 @@ export function ActiveStrip({ challenge: c, className }: { challenge: ActiveChal
         </div>
         {resume && (
           <p className="mt-0.5 truncate text-sm text-muted-foreground">
-            {c.lastNote ? <span className="text-faint">С чего продолжить: </span> : null}
+            {c.lastNote ? <span className="hidden text-faint sm:inline">С чего продолжить: </span> : null}
             {resume}
           </p>
         )}

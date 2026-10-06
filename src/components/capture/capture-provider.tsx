@@ -88,7 +88,7 @@ function CaptureDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90dvh] overflow-y-auto p-6 sm:max-w-xl">
+      <DialogContent className="max-h-[90dvh] overflow-y-auto p-6 pb-0 sm:max-w-xl">
         <DialogHeader>
           <DialogTitle className="text-lg">Новая идея</DialogTitle>
           <DialogDescription className="sr-only">Сохрани то, что когда-нибудь захочется попробовать.</DialogDescription>
@@ -154,7 +154,7 @@ function CaptureDialog({
             )}
           </div>
 
-          <div className="flex items-center justify-between gap-3 pt-1">
+          <div className="sticky bottom-0 -mx-6 flex items-center justify-between gap-3 border-t border-rule bg-popover px-6 py-4">
             <span className="hidden text-xs text-faint sm:inline">
               <span className="data">Enter</span> — сохранить, <span className="data">Shift+Enter</span> — новая строка
             </span>

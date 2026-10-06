@@ -72,7 +72,7 @@ export function toChallengeInput(state: ChallengeFormState) {
 
 function Field({ label, htmlFor, children, hint }: { label: string; htmlFor?: string; children: React.ReactNode; hint?: string }) {
   return (
-    <div className="grid gap-1.5">
+    <div className="grid content-start gap-1.5">
       <label htmlFor={htmlFor} className="text-sm text-muted-foreground">
         {label} {hint && <span className="text-faint">{hint}</span>}
       </label>

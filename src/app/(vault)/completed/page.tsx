@@ -45,7 +45,7 @@ export default async function CompletedPage({ searchParams }: PageProps<"/comple
                     href={`/challenge/${c.id}`}
                     className={cn(
                       "print flex flex-col p-4 transition-colors hover:bg-label-hi",
-                      fresh === c.id && "outline-2 outline-offset-4 outline-marker",
+                      fresh === c.id && "outline-2 outline-offset-4 outline-print",
                     )}
                   >
                     <div className="flex items-baseline justify-between gap-3">

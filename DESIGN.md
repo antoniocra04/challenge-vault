@@ -1,25 +1,29 @@
 ---
 name: Challenge Vault
-description: A dark specimen cabinet of curiosity, where every idea is a catalogued label you read by eye.
+description: A contact sheet of ideas in darkroom greys; what you are doing is circled in red grease pencil.
 colors:
-  shell: "oklch(0.19 0.03 230)"
-  background: "oklch(0.225 0.032 222)"
-  label: "oklch(0.265 0.03 218)"
-  label-hi: "oklch(0.3 0.03 218)"
-  popover: "oklch(0.28 0.03 220)"
-  foreground: "oklch(0.945 0.012 95)"
-  muted-foreground: "oklch(0.79 0.016 215)"
-  faint: "oklch(0.69 0.018 215)"
-  primary-foreground: "oklch(0.2 0.03 225)"
-  rule: "oklch(0.8 0.04 210 / 14%)"
-  input: "oklch(0.8 0.04 210 / 20%)"
-  cabinet: "oklch(0.8 0.075 200)"
-  ember: "oklch(0.81 0.15 70)"
-  ember-foreground: "oklch(0.22 0.04 60)"
-  jade: "oklch(0.8 0.11 165)"
-  jade-foreground: "oklch(0.2 0.03 165)"
-  destructive: "oklch(0.72 0.15 28)"
+  shell: "oklch(0.13 0 0)"
+  background: "oklch(0.16 0.002 90)"
+  underexposed: "oklch(0.19 0.002 90)"
+  label: "oklch(0.215 0.002 90)"
+  popover: "oklch(0.22 0.002 90)"
+  label-hi: "oklch(0.25 0.002 90)"
+  foreground: "oklch(0.95 0.004 90)"
+  muted-foreground: "oklch(0.79 0.006 90)"
+  faint: "oklch(0.69 0.008 90)"
+  destructive: "oklch(0.88 0.006 90)"
+  rule: "oklch(1 0 0 / 10%)"
+  input: "oklch(1 0 0 / 16%)"
+  ring: "oklch(0.95 0.004 90 / 70%)"
+  marker: "oklch(0.7 0.19 28)"
+  print: "oklch(0.92 0.008 90)"
 typography:
+  display:
+    fontFamily: "Inter Variable, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "2.25rem"
+    fontWeight: 600
+    lineHeight: 1.11
+    letterSpacing: "-0.025em"
   headline:
     fontFamily: "Inter Variable, ui-sans-serif, system-ui, sans-serif"
     fontSize: "1.5rem"
@@ -28,22 +32,16 @@ typography:
     letterSpacing: "-0.025em"
   title:
     fontFamily: "Inter Variable, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "17px"
+    fontSize: "15px"
     fontWeight: 600
     lineHeight: 1.375
     letterSpacing: "-0.025em"
-  section:
+  body-reading:
     fontFamily: "Inter Variable, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "1.125rem"
-    fontWeight: 600
-    lineHeight: 1.55
-    letterSpacing: "-0.025em"
-  body:
-    fontFamily: "Inter Variable, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "15px"
+    fontSize: "17px"
     fontWeight: 400
     lineHeight: 1.625
-  body-sm:
+  body:
     fontFamily: "Inter Variable, ui-sans-serif, system-ui, sans-serif"
     fontSize: "0.875rem"
     fontWeight: 400
@@ -53,270 +51,221 @@ typography:
     fontSize: "0.75rem"
     fontWeight: 400
     lineHeight: 1.33
-  field-label:
-    fontFamily: "Inter Variable, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "11px"
-    fontWeight: 400
-    lineHeight: 1.25
   data:
-    fontFamily: "JetBrains Mono Variable, ui-monospace, SFMono-Regular, Menlo, monospace"
-    fontSize: "13px"
-    fontWeight: 400
-    letterSpacing: "-0.01em"
-    fontFeature: "\"tnum\" 1, \"zero\" 1"
-  accession:
-    fontFamily: "JetBrains Mono Variable, ui-monospace, SFMono-Regular, Menlo, monospace"
-    fontSize: "13px"
-    fontWeight: 500
-    letterSpacing: "-0.01em"
-    fontFeature: "\"tnum\" 1, \"zero\" 1"
+    fontFamily: "Inter Variable, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "inherit"
+    fontFeature: "tnum"
 rounded:
-  sm: "0.3rem"
-  md: "0.4rem"
-  lg: "0.5rem"
-  xl: "0.7rem"
-  panel: "0.8rem"
-  full: "9999px"
+  print: "2px"
+  control: "3.2px"
+  frame: "4px"
+  dialog: "5.6px"
+  pill: "9999px"
 spacing:
-  xs: "4px"
-  sm: "8px"
-  md: "16px"
-  panel: "20px"
-  panel-wide: "28px"
+  sheet-gap: "6px"
+  frame-pad: "12px"
+  frame-pad-wide: "16px"
+  gutter: "16px"
+  gutter-wide: "24px"
   section: "40px"
-  year: "48px"
 components:
-  button-cabinet:
-    backgroundColor: "{colors.cabinet}"
-    textColor: "{colors.primary-foreground}"
-    typography: "{typography.body-sm}"
-    rounded: "{rounded.md}"
-    padding: "0 12px"
-    height: "36px"
-  button-jade:
-    backgroundColor: "{colors.jade}"
-    textColor: "{colors.jade-foreground}"
-    typography: "{typography.body-sm}"
-    rounded: "{rounded.md}"
-    padding: "0 12px"
-    height: "36px"
-  button-default:
+  button-primary:
     backgroundColor: "{colors.foreground}"
-    textColor: "{colors.primary-foreground}"
-    rounded: "{rounded.md}"
+    textColor: "{colors.background}"
+    typography: "{typography.body}"
+    rounded: "{rounded.control}"
     padding: "0 12px"
     height: "36px"
   button-outline:
+    backgroundColor: "{colors.input}"
     textColor: "{colors.foreground}"
-    rounded: "{rounded.md}"
+    typography: "{typography.body}"
+    rounded: "{rounded.control}"
     padding: "0 12px"
     height: "36px"
-  button-ghost:
+  frame:
+    backgroundColor: "{colors.label}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.frame}"
+    padding: "{spacing.frame-pad}"
+  frame-open:
+    backgroundColor: "{colors.label-hi}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.frame}"
+    padding: "{spacing.frame-pad-wide}"
+  print:
+    backgroundColor: "{colors.label}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.print}"
+    padding: "16px"
+  underexposed:
+    backgroundColor: "{colors.underexposed}"
     textColor: "{colors.muted-foreground}"
-    rounded: "{rounded.md}"
-    padding: "0 12px"
-    height: "36px"
-  button-capture-compact:
-    backgroundColor: "{colors.cabinet}"
-    textColor: "{colors.primary-foreground}"
-    rounded: "{rounded.full}"
-    size: "48px"
+    rounded: "{rounded.frame}"
+    padding: "12px 16px"
   chip-filter:
     textColor: "{colors.muted-foreground}"
-    typography: "{typography.body-sm}"
-    rounded: "{rounded.full}"
+    typography: "{typography.body}"
+    rounded: "{rounded.pill}"
     padding: "0 12px"
     height: "32px"
   chip-filter-active:
-    backgroundColor: "oklch(0.8 0.075 200 / 15%)"
-    textColor: "{colors.foreground}"
-  input-search:
+    backgroundColor: "{colors.foreground}"
+    textColor: "{colors.background}"
+    rounded: "{rounded.pill}"
+    padding: "0 12px"
+    height: "32px"
+  input:
+    backgroundColor: "{colors.input}"
     textColor: "{colors.foreground}"
     typography: "{typography.body}"
-    rounded: "{rounded.md}"
-    padding: "0 40px 0 36px"
-    height: "40px"
-  specimen-label:
-    backgroundColor: "{colors.label}"
+    rounded: "{rounded.frame}"
+    padding: "4px 10px"
+    height: "32px"
+  nav-link-active:
+    backgroundColor: "oklch(1 0 0 / 10%)"
     textColor: "{colors.foreground}"
-    rounded: "{rounded.lg}"
-    padding: "12px 16px"
-  specimen-label-hover:
-    backgroundColor: "{colors.label-hi}"
-  catalogued-label:
-    backgroundColor: "{colors.label}"
-    textColor: "{colors.foreground}"
-    rounded: "{rounded.lg}"
-    padding: "{spacing.panel}"
-  ember-panel:
-    textColor: "{colors.foreground}"
-    rounded: "{rounded.panel}"
-    padding: "{spacing.panel}"
-  dialog:
-    backgroundColor: "{colors.popover}"
-    textColor: "{colors.foreground}"
-    rounded: "{rounded.xl}"
-    padding: "16px"
-  nav-link:
-    textColor: "{colors.muted-foreground}"
-    typography: "{typography.body-sm}"
-    rounded: "{rounded.md}"
+    typography: "{typography.body}"
+    rounded: "{rounded.frame}"
     padding: "0 12px"
     height: "36px"
-  nav-link-active:
-    backgroundColor: "oklch(1 0 0 / 7%)"
-    textColor: "{colors.foreground}"
 ---
 
 # Design System: Challenge Vault
 
 ## Overview
 
-**Creative North Star: "The Specimen Cabinet"**
+**Creative North Star: "The Contact Sheet"**
 
-The vault is a dark collector's cabinet, opened in the evening. Every idea sits in it as a specimen label: an accession number in teal mono, the date it was collected, the spark printed as the label's body, and a ruled strip of measurements at the foot. You read the labels by eye, the way you'd browse a drawer of findings, rather than triaging tickets. The cabinet is quiet slate-teal; the labels are a half-step lighter stock printed in warm off-white ink.
+Browsing ideas is like reading a contact sheet: lots of small frames on a near-black sheet, all visible at once, and the one you are working on is circled in red grease pencil. The system is dark only. It uses neutral darkroom greys with almost no chroma, a tight grid of frames with 6px gutters, and one font, Inter, set on a real size scale. Density is the point: in the first viewport you see the circled work in progress, then a sheet of ideas that already starts above the fold.
 
-Three state colours do jobs and nothing else. Cabinet teal belongs to the vault itself: accession numbers, selection, filters, the start and capture actions. Ember marks what is under observation and is the only thing that moves at rest, as a slow breathing edge and a pulsing dot. Jade marks what has been catalogued: the completion action, the accession edge on collected labels, and the moment a finished challenge settles into the collection. Density is calm, with labels in an auto-filling grid and generous section gaps. Type is all Inter in sentence case; monospace appears only where something is measured.
+State is shown with photographic materials, not badges or glow. In-progress work gets a red grease-pencil loop, done work becomes a print with a paper-white border, and archived work is underexposed (darker and dimmer). Nothing has a shadow. Depth comes from steps of grey, and the darker shell (the header and bottom bar) frames the sheet.
 
-The system is dark only (`color-scheme: dark`) and has no light theme.
+The world rejects two things: the category default of rounded SaaS cards with an accent glow, and the previous "specimen collection" costume (accession numbers, catalogue language, glowing teal panels, literary microcopy). The user named that costume AI slop.
 
 **Key Characteristics:**
-- Dark slate-teal cabinet, with label-stock cards a step lighter, hairline rules instead of heavy borders.
-- Three state colours (cabinet, ember, jade), each bound to one meaning.
-- Accession numbers (`№ 007`), dates, durations, clocks and counts set in tabular, slashed-zero mono; everything else in Inter.
-- Sentence case everywhere: field labels are small and faint, never tracked caps.
-- Motion is reserved: ember breathes, catalogued labels settle in, everything else only changes colour.
+- Neutral darkroom greys (chroma at most 0.008, hue 90) on a darker shell.
+- A dense, flat grid of frames (2, 3, 4 or 5 columns) with a 6px gap.
+- One saturated colour, the red marker, and it has one job: in progress.
+- Done items are prints with a 2px paper-white border; the archive is underexposed.
+- A backlog frame opens in place across two columns. It does not open a modal or a new page.
+- Inter for everything. Numbers use tabular figures; there is no monospace face.
 
 ## Colors
 
-A cool, low-chroma slate-teal ground carrying three saturated state colours that each mean exactly one thing.
+The palette is a darkroom: warm-neutral greys stepped by lightness only, plus one china-marker red and one paper white.
 
 ### Primary
-- **Cabinet Teal** (`cabinet`): the vault's own colour. Accession numbers on backlog labels, the start and capture buttons (filled), active filter chips (15% fill, 60% border), the starred-favourite icon and border (45%), the vault mark, the caret, the text-selection wash (35%) and the focus ring (`--ring` carries the same value).
+- **China-Marker Red** (marker): the red grease-pencil loop around an in-progress title, the pulsing timer dot, the "В работе" status text and dot, and the in-progress count in the nav (a red dot on the bottom bar). It never appears as a fill, a button or a decoration.
 
 ### Secondary
-- **Ember** (`ember`, ink `ember-foreground`): under observation. The active panel's gradient edge and warm under-glow, the pulsing dot in the active strip, the nav count and the status badge, live clocks, accession numbers on active panels, and hover on active titles. Text, dot, edge and glow only.
-
-### Tertiary
-- **Jade** (`jade`, ink `jade-foreground`): catalogued. The filled completion button, the 55% top edge and 6% top wash on collected labels, accession numbers and check marks in the collection, the enjoyment scale's selected range, and the ring on a freshly catalogued label.
+- **Paper White** (print): the 2px border of a done item (a print) and the dot of the "Сделано" status. It always means done.
 
 ### Neutral
-- **Cabinet Shell** (`shell`): the frame. Sticky header (90%) and mobile bottom nav (95%), both with a background blur, plus the scrollbar track.
-- **Cabinet Interior** (`background`): page ground.
-- **Label Stock** (`label`): every specimen and catalogued label, plus muted surfaces. **Raised Stock** (`label-hi`) is the hover and expanded state of a label, secondary buttons and the scrollbar thumb.
-- **Dialog Stock** (`popover`): dialogs, popovers, menus, and the capture form's sticky footer.
-- **Warm Ink** (`foreground`): primary text, plus the fill of the default button. **Muted Ink** (`muted-foreground`) is for descriptions, nav at rest and secondary actions. **Faint Ink** (`faint`) is for field labels, placeholders, meta icons and counts.
-- **Hairline** (`rule`, identical to `--border`): every divider, field rule and card stroke. **Input Stroke** (`input`) is slightly stronger, for form fields.
-- **Soft Coral** (`destructive`): permanent deletion only, used as text or a 10–20% wash. It is never used for warnings or failure.
+- **Shell Black** (shell): the sticky header and the mobile bottom bar. This is the darkest surface, and it frames the sheet.
+- **Sheet** (background): the page ground. It is also the text colour on light fills (primary button, active chip).
+- **Underexposed Grey** (underexposed): the ground of archived rows, darker than a frame so that archived items step back.
+- **Frame Grey** (label): every frame on the sheet, the ground of prints, and detail panels.
+- **Popover Grey** (popover): dialogs, menus and popovers, one step above a frame.
+- **Lifted Frame Grey** (label-hi): frame hover and opened frames; secondary and accent fills.
+- **Highlight White** (foreground): primary text and the primary button fill.
+- **Muted Grey** (muted-foreground): secondary text such as the lead line under a frame title, meta lines and inactive nav.
+- **Faint Grey** (faint): field labels, tags, placeholders and timestamps. It is the lowest text tier and still legible on Frame Grey.
+- **Pale Warning** (destructive): destructive and invalid states use a pale neutral, not red, so that red keeps its one job.
+- **Rule** (rule / border, white at 10%), **Input Stroke** (input, white at 16%), **Focus Ring** (ring, Highlight White at 70%).
 
 ### Named Rules
-**The One Meaning Rule.** Cabinet means the vault, ember means under observation, jade means catalogued. Never borrow a state colour for decoration or for a different state.
+**The One Job Rule.** Red marks what is in progress and nothing else: the loop, the timer dot, the in-progress status and count. Errors, deletion, emphasis, links and celebrations never use red.
 
-**The Ember Is Observed, Not Pressed Rule.** Ember appears as a glow, edge, dot, clock or text, and never as a button fill. The actions on an active challenge are jade (complete) or neutral. The `ember` button variant exists in `button.tsx`, but nothing ships with it.
-
-**The No Alarm Rule.** No red warnings. The destructive coral is reserved for irreversible deletion, and letting an idea go uses neutral styling.
+**The Darkroom Rule.** Neutrals carry no hue accent. Steps between surfaces are steps of lightness (shell 0.13, background 0.16, underexposed 0.19, frame 0.215, popover 0.22, frame-hi 0.25). Do not tint a surface to give it meaning.
 
 ## Typography
 
-**Display Font:** none. The system has no display face.
-**Body Font:** Inter Variable (with ui-sans-serif, system-ui, sans-serif)
-**Label/Mono Font:** JetBrains Mono Variable (with ui-monospace, SFMono-Regular, Menlo, monospace)
+**Display Font:** Inter Variable (with ui-sans-serif, system-ui)
+**Body Font:** Inter Variable
+**Label/Mono Font:** none. Figures use Inter with tabular numerals.
 
-**Character:** Inter carries every word in sentence case, tightened at headings. JetBrains Mono is the cabinet's typewriter. It sets measurements only, always with tabular figures and a slashed zero, so numbers line up like a catalogue ledger.
+**Character:** This is one plain, well-set sans in a few weights (400, 500, 600). Headings are tight-tracked semibold; everything else is quiet. Hierarchy comes from size and grey tier, not from typeface contrast.
 
 ### Hierarchy
-- **Headline** (600, 1.5rem rising to 1.875rem at sm on the active panel, tight tracking): page titles and the title of a challenge under observation.
-- **Section** (600, 1.125rem, tight tracking): section headings, which are always followed by a faint mono count (`Хранилище 4`), and collection label titles.
-- **Title** (600, 17px, 1.375, tight tracking, balanced wrap): specimen label titles in the vault grid.
-- **Body** (400, 15px, 1.625): the spark (in «guillemets», 85–90% ink), descriptions, results and the search field. On the active panel, prose is held to 68ch.
-- **Body-sm** (400, 14px): buttons, nav, chips, toolbars and meta lines.
-- **Label** (400, 12px, faint): field labels (`Начата`, `Потрачено`, `Искра`), tags and hints, in sentence case.
-- **Field label** (400, 11px, faint): the measurement strip's field names on specimen labels.
-- **Data** (mono, 13px or inherited size, -0.01em, `tnum` + `zero`): dates, durations, clocks, counts, years and keyboard hints. **Accession** is the same face at 500 weight, coloured by state (cabinet, ember or jade).
+- **Display** (600, 30px on phones / 36px from 640px, tight): the title of an idea on its detail page, and the only place the loop is drawn at this size.
+- **Headline** (600, 24px, tight): page headings ("Идеи", "Сделано", "Архив") followed by a count; also the in-progress title on /active (24px / 30px).
+- **Title** (600, 14px on phones / 15px from 640px, tight, balanced wrap): frame titles on the sheet. An opened frame steps up to 18px / 20px.
+- **Body reading** (400, 17px, 1.625, max 68ch): description and "Почему захотелось" on the detail page.
+- **Body** (400, 14px): frame lead lines (13px on phones), notes, controls and lists.
+- **Label** (400, 12px, Faint Grey): field labels above values (dt), tags, and meta lines joined with " · ".
 
 ### Named Rules
-**The Measured Mono Rule.** Monospace is used only for things that are measured or numbered: accession numbers, dates, durations, clocks, counts and key names. Never use mono for prose, headings or labels.
-
-**The Sentence Case Rule.** Every label, heading and button is in sentence case at normal tracking. Field names are small and faint, never uppercase or letter-spaced.
+**The Tabular Figures Rule.** Every number (durations, counts, dates, years, scores, shortcuts) is set with tabular figures (`font-variant-numeric: tabular-nums`) in Inter, so that columns line up. Do not switch to a monospace face for data. A `--font-mono` stack is declared in the theme but is never applied.
 
 ## Layout
 
-There is a single centred column capped at 72rem, with 16px gutters (24px from sm). The cabinet-shell header is sticky and 56px tall. Below md (768px), desktop nav gives way to a fixed bottom bar with 56px targets, with the round capture button in the middle where the thumb reaches it. The main column then reserves 6rem plus the safe-area inset at the bottom.
+The sheet sits in a centred container (max 1152px) with gutters of 16px on phones and 24px from 640px. The ideas grid packs densely with a 6px gap: 2 columns on phones, 3 from 640px, 4 from 1024px and 5 from 1280px. Frames align to the top and are as tall as their content (min 128px), with 12px padding (16px from 640px). Sections on the ideas page are 40px apart. In-progress strips sit above the sheet in a single column with 16px gaps.
 
-The vault page stacks four bands 40px apart: ember strips for the active challenges (8px apart), the heading with its count, the search-and-filter toolbar (12px gaps; filter chips scroll horizontally on mobile), and the specimen grid. The grid auto-fills columns at least 19rem wide (`minmax(min(100%, 19rem), 1fr)`), with a 16px gap and top alignment so labels keep their natural heights. The collection groups labels by year under a hairline-ruled mono year heading, in two columns from md, with 48px between years. Labels have 16px horizontal padding. The ember panel has 20px padding, rising to 28px from sm.
+Done prints use a looser grid: 1, 2 or 3 columns with 16px gaps, grouped under a year heading. The archive is a single column of rows with 8px gaps. The detail page is one column on phones (title, actions, content, details) and splits from 1024px into content plus a 20rem side column with a 48px gap.
 
-On coarse pointers, every interactive element has at least a 44px touch target (`pointer-coarse:min-h-11` / `size-11`).
+Navigation moves by breakpoint. From 768px the header carries the nav links and an "Добавить" button. Below 768px a fixed bottom bar in Shell Black holds four tabs and a round add button in the middle, and the main area reserves 6rem of bottom padding for it. Touch targets grow to 44px on coarse pointers (`pointer-coarse`).
+
+### Named Rules
+**The Enlarge-in-Place Rule.** Opening a backlog frame widens it across two columns in its own spot on the sheet, lifts it to Lifted Frame Grey and shows its actions and details. The grid packs densely around it. A frame never opens in a modal or drawer.
 
 ## Elevation & Depth
 
-Depth comes mostly from tonal layering. The shell is darkest, the interior sits a step above it, label stock above that, and raised stock and dialog stock at the top. Shadows are soft, low and cool. They suggest a card resting in a drawer rather than lifting off the page. The one luminous depth effect is ember's warm under-glow, and it belongs to the active state alone.
-
-### Shadow Vocabulary
-- **Label rest** (`box-shadow: 0 1px 0 oklch(1 0 0 / 4%) inset, 0 10px 24px -18px oklch(0.05 0.02 230 / 90%)`): every specimen label. It combines a faint top highlight with a tight, cool drop shadow.
-- **Ember glow** (`box-shadow: 0 18px 44px -20px oklch(0.81 0.15 70 / 38%)`): ember panels and strips only.
-- **Capture float** (`box-shadow: 0 8px 20px -8px oklch(0.05 0.02 230 / 90%)`): the round capture button in the mobile bottom bar.
-- **Ember pulse** (`0 0 0 0 → 0 0 0 5px`, ember 55% → 0%): the ember dot's halo.
+The system is flat. No surface has a box-shadow. Depth comes from lightness steps (Shell, then Sheet, then Underexposed, then Frame, then Popover, then Lifted Frame), from 10% white hairline rules, and for dialogs from a 1px Highlight White ring at 10%. Hover lifts a frame by colour (Frame Grey to Lifted Frame Grey over 150ms), never by elevation.
 
 ### Named Rules
-**The Only Ember Glows Rule.** Glow is warm and reserved for what is under observation. No other state, button or card gets a coloured shadow.
+**The Flat Sheet Rule.** Frames lie flat on the sheet. State shows through material (loop, paper border, underexposure) and grey tier, never through a shadow or glow.
 
 ## Shapes
 
-Corners are gently rounded on a 0.5rem base. Labels use 0.5rem, buttons and nav items 0.4rem, dialogs 0.7rem, and the ember panel is softer at 0.8rem. Filter chips, reason chips, the enjoyment bars' segments, ember dots and the mobile capture button are fully round. Strokes are 1px hairlines at 14% (`rule`). Inside a label, the measurement strip is a row of fields ruled above and below and divided by vertical hairlines. Empty states reuse the label shape with a dashed stroke. The vault mark is a rounded square containing a ringed circle and four ticks, stroked in cabinet teal.
+Corners are barely softened. Frames and inputs use 4px, buttons 3.2px, dialogs 5.6px, and prints a crisper 2px. Pills (filter chips, the "Отложить" reason chips, the mobile add button) are fully round. The only free-form shape is the hand-drawn marker loop.
 
 ## Components
 
 ### Buttons
-Quiet and compact. The filled colour tells you which state the action moves the idea into.
-- **Shape:** gently rounded (0.4rem). Heights are 36px by default, 28px for sm, 40px for lg, and 44px minimum on touch.
-- **Cabinet (primary):** a cabinet-teal fill with dark ink. Used for "Начать" (start), the capture button ("+ Поймать") and the capture form's save.
-- **Jade:** a jade fill with dark jade ink. Used only for "Завершить" (complete) and the post-completion "Открыть коллекцию".
-- **Default:** warm ink fill with dark ink, for neutral dialog submits.
-- **Outline / Ghost:** an input-stroke outline over a 30% input wash, or text-only muted ink. Used for secondary actions such as set aside, add note, filters and shuffle.
-- **Hover / Focus:** filled variants drop to 88% on hover. Focus shows the ring colour as the border plus a 3px ring at 40–50%. Buttons press down 1px when active. Disabled buttons sit at 50% opacity.
-- **Text links:** "Открыть →" is muted ink that turns to warm ink and gains an underline on hover. The arrow is a Lucide icon.
+Plain and compact.
+- **Shape:** gently squared (3.2px), 36px high, 44px minimum on touch.
+- **Primary:** Highlight White fill with Sheet text, 14px medium, used for "Начать", "Завершить" and "Добавить". Hover drops to 80% opacity, and pressing nudges the button down 1px.
+- **Outline / Secondary:** a hairline Rule border on a 30% Input fill, or a Lifted Frame Grey fill.
+- **Ghost / text links:** Muted Grey text that turns Highlight White on hover. Icon links are 36px squares with a 5% white hover wash.
+- **Focus:** a 2px Focus Ring outline with a 2px offset, applied globally.
 
 ### Chips
-- **Filter chips:** fully round, 32px tall, a hairline stroke and muted ink. When active they take a cabinet tint (15% fill, 60% stroke) with warm ink. On hover the stroke rises to 25% white and the ink to warm.
-- **Reason chips** (letting go): the same shape. Selected chips use a 40% warm-ink stroke over a 10% white wash.
-- **Tags:** plain 12px text rather than pills. The category is set at 500 weight in 85% ink, and tags appear as `#tag` in muted ink.
+- **Style:** filter chips are 32px pills with a hairline Rule border and Muted Grey text. Hover raises the border to 30% white.
+- **State:** the active chip is filled Highlight White with Sheet text. Tags are not chips: they are plain 12px Faint Grey text with a `#` prefix, and the category is shown in Muted Grey.
 
 ### Cards / Containers
-- **Specimen label:** label stock, a hairline stroke, 0.5rem corners and the label rest shadow. The header row holds the accession number (cabinet mono) and the collection age (faint), with the star on the right. Below come the title, the spark as body text (clamped to four lines), and a footer containing the measurement strip (`Время / Где / Деньги`, printing only known fields), a faint "изучалась" line when relevant, and the tags. The whole label is a disclosure. Hover and expanded states raise it to Raised Stock with a 20% white stroke over 200ms. The expanded region grows open over 250ms ease-out and reveals start and open. A starred label carries a cabinet stroke at 45%.
-- **Catalogued label:** label stock with a jade top edge at 55% and a 6% jade wash fading out by 45%. It has a jade accession number and a check with the date, the title (turning jade on hover), the result, the spark, a ruled metric row (`Потрачено`, `Интерес` with a 10-segment jade bar and mono score), and tags.
-- **Ember panel** (the active page): a vertical gradient from slightly raised teal to label stock, a 40% ember stroke, a 1px ember gradient border that breathes from 50% to 100% opacity over 6s, and the ember glow. Its contents are separated by hairline-ruled field rows.
+- **Frame:** Frame Grey, 4px corners, no border, no shadow, 12–16px padding. On the sheet a frame shows only a title, two clamped lead lines and an optional star.
+- **Print (done):** Frame Grey with a 2px Paper White border and 2px corners. It is used for done items and for the "Результат" block on a done idea's detail page.
+- **Underexposed (archived):** the darker Underexposed Grey ground, with titles in Muted Grey and meta in Faint Grey.
+- **Internal dividers:** 10% white hairline rules.
 
 ### Inputs / Fields
-- **Style:** a 1px input stroke over a 30% input wash with 0.5rem corners. The vault search is 40px tall, uses 0.4rem corners over 70% label stock, and has a leading search icon and a trailing `/` key hint in mono.
-- **Focus:** the border shifts to the ring colour (cabinet) with a 3px ring at 50%.
-- **Error:** a coral border and ring, with 12px coral helper text written as a suggestion ("Попробуй так: …"), never as a reprimand.
+- **Style:** a 16% white stroke on a 30% Input fill, 4px corners, 32px high, with placeholders in Faint Grey. Placeholders give a concrete example in the form "Например: …".
+- **Focus:** the stroke shifts to Focus Ring, plus a 3px Focus Ring wash at 50%.
+- **Error:** a Pale Warning stroke and wash. Never red.
 
 ### Navigation
-- **Desktop header:** the cabinet shell at 90% with a blur and a hairline bottom. It holds the vault mark with "Challenge Vault" (15px, 600), then 36px nav items in body-sm 500. Items are muted at rest and warm on hover. The current item gets a 7% white wash. "Сейчас" carries a pulsing ember dot and a mono count. Data and logout are 36px icon buttons, followed by the cabinet capture button.
-- **Mobile bottom bar:** the shell at 95% with a blur and a hairline top. It shows four icon-over-label items (12px, 500); the current item has warm ink with a cabinet icon. The 48px round capture button sits in the centre.
+- **Header:** sticky, Shell Black, 56px high, with a bottom hairline. The links are 14px medium; the active link sits on a 10% white wash and the others are Muted Grey. "В работе" carries its count in China-Marker Red.
+- **Mobile:** a fixed bottom bar with 20px Lucide icons over 12px labels and a round 48px Highlight White add button in the middle. "В работе" gets a red dot while anything is in progress.
 
-### Ember Strip (signature)
-This is the vault's first band: one slim ember panel per active challenge. It contains a pulsing ember dot, the title (600, truncated, turning ember on hover) with a faint mono accession number, a one-line "С чего продолжить" resume, the live clock in ember mono, and a 36px open arrow.
-
-### Catalogue Moment (signature)
-Completing a challenge opens a dialog to record what came of it, how interesting it was and how long it took. Interest is a 1–10 radiogroup of mono cells (five columns on mobile, ten from sm). The cells up to the chosen value take a jade tint, and the chosen cell is stronger. When the form is submitted, the dialog shows the resulting catalogued label settling in (`catalogue-in`, 420ms, `cubic-bezier(0.16, 1, 0.3, 1)`, rising 6px from 98.5% scale with a 90% jade border). It offers jade "Открыть коллекцию", and the new label appears in the collection ringed in jade at 60%.
+### Marker Loop (signature)
+This is a red grease-pencil loop drawn around the title of an in-progress idea, never around a whole frame or strip. It is sized to the measured line box of the title. The shape is a superellipse (exponent 2.3), wide enough that the corners of the ink sit inside. It is tilted 1.5–3°, has a low-frequency wobble that never pulls inward, and ends open, overshooting its start. A seed from the idea's id keeps each idea's loop stable. The stroke is 3.5px with round caps, plus a 1.6px echo stroke at 45% opacity offset by about 1px. The loop is clamped so that the drawn stroke stays at least 8px from the screen edge. It draws itself once over 520ms (cubic-bezier(0.22, 1, 0.36, 1)); the timer dot pulses on a 2.4s cycle; both are disabled under reduced motion.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** set every idea as a specimen label: accession number, collection age, title, spark as the body, and a ruled measurement strip that prints only the fields that are known.
-- **Do** bind each state colour to its meaning: cabinet for the vault and its actions, ember for under observation, jade for catalogued.
-- **Do** put accession numbers, dates, durations, clocks and counts in the mono data face with tabular, slashed-zero figures.
-- **Do** separate fields with 14% hairlines and use tonal steps (shell, interior, label stock, raised stock) for depth.
-- **Do** keep touch targets at least 44px on coarse pointers, and put capture in thumb reach on mobile.
-- **Do** honour `prefers-reduced-motion`: stop the ember breathing and pulse, and collapse `catalogue-in` to 1ms.
-- **Do** pair Lucide icons with text, or with an accessible label when an icon stands alone.
+- **Do** circle in-progress titles with the marker loop, measured to the title. Give the loop a seed so it is the same on every visit.
+- **Do** show done items as prints (2px Paper White border) and archived items as underexposed rows.
+- **Do** keep the sheet dense: 6px gaps, frames as tall as their content, and the grid starting inside the first viewport.
+- **Do** open backlog frames in place across two columns.
+- **Do** set every number with tabular figures in Inter.
+- **Do** separate surfaces by lightness steps and 10% white hairlines.
 
 ### Don't:
-- **Don't** use tracked uppercase kickers or eyebrows above headings. Field names are small, faint and in sentence case.
-- **Don't** fill a button with ember or give anything other than an ember panel a coloured glow.
-- **Don't** use monospace for prose, headings or labels.
-- **Don't** turn tags into coloured pills. Tags stay as plain text, with the category slightly stronger.
-- **Don't** add percentage progress bars, scores, streak indicators or red warnings. The bars that do appear (the 10-segment interest scale and the per-topic hours in the vault stats) compare quantities and never show progress toward a goal.
-- **Don't** use emoji as icons.
-- **Don't** introduce a light theme or a second accent hue outside the three state colours.
+- **Don't** use red for anything other than in progress. That includes errors, delete actions, links, highlights and "just finished".
+- **Don't** stretch the loop around a wide strip or a whole frame; it flattens into two straight strokes.
+- **Don't** add shadows, glows or tinted accent panels to frames.
+- **Don't** bring back the specimen-collection costume (accession numbers, catalogue language, teal and ember accents, glowing panels).
+- **Don't** set data in a monospace face, and don't use emoji or glyph icons; icons are Lucide SVG.
+- **Don't** use the Paper White border on anything that is not done.

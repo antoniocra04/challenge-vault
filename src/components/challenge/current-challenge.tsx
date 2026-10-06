@@ -91,7 +91,7 @@ export function ActiveStrip({ challenge: c, className }: { challenge: ActiveChal
     <article className={cn("frame flex items-center gap-4 px-5 py-4", className)}>
       <div className="min-w-0 flex-1">
         <span className="relative inline-block max-w-full">
-          <MarkerCircle seed={c.id} pad={8} />
+          <MarkerCircle seed={c.id} pad={6} />
           <Link
             href={`/challenge/${c.id}`}
             className="relative block truncate font-semibold tracking-tight underline-offset-4 hover:underline"

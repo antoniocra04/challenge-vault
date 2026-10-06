@@ -14,6 +14,7 @@ import { TimeSpentEditor } from "@/components/detail/time-spent-editor"
 import { getBacklogTopics, getChallenge } from "@/lib/challenges/queries"
 import { idSchema } from "@/lib/challenges/schemas"
 import { ago, longDate, shortDate } from "@/lib/dates"
+import { cn } from "@/lib/utils"
 
 async function load(id: string) {
   if (!idSchema.safeParse(id).success) return null
@@ -57,7 +58,8 @@ export default async function ChallengePage({ params }: PageProps<"/challenge/[i
           <div className="flex items-start gap-3">
           <h1 className="mt-2 min-w-0 flex-1 text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
             {c.status === "active" ? (
-              <span className="relative inline-block">
+              // On phones the circled title steps in so the loop has room inside the gutter.
+              <span className="relative inline-block px-3 sm:px-0">
                 <MarkerCircle seed={c.id} pad={10} />
                 <span className="relative">{c.title}</span>
               </span>
@@ -67,7 +69,7 @@ export default async function ChallengePage({ params }: PageProps<"/challenge/[i
           </h1>
             <FavoriteButton id={c.id} favorite={c.favorite} className="mt-2 shrink-0" />
           </div>
-          <TagList category={c.category} tags={c.tags} linkable className="mt-3 text-sm" />
+          <TagList category={c.category} tags={c.tags} linkable className={cn("text-sm", c.status === "active" ? "mt-5" : "mt-3")} />
         </header>
 
         <div className="order-3 min-w-0 lg:mt-8">

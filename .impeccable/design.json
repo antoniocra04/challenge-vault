@@ -1,0 +1,501 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-06T06:54:21+00:00",
+  "title": "Design System: Challenge Vault",
+  "extensions": {
+    "colorMeta": {
+      "cabinet": {
+        "role": "primary",
+        "displayName": "Cabinet Teal",
+        "canonical": "oklch(0.8 0.075 200)",
+        "tonalRamp": [
+          "oklch(0.15 0.075 200)",
+          "oklch(0.265 0.075 200)",
+          "oklch(0.38 0.075 200)",
+          "oklch(0.495 0.075 200)",
+          "oklch(0.61 0.075 200)",
+          "oklch(0.725 0.075 200)",
+          "oklch(0.84 0.075 200)",
+          "oklch(0.95 0.075 200)"
+        ]
+      },
+      "ember": {
+        "role": "secondary",
+        "displayName": "Ember",
+        "canonical": "oklch(0.81 0.15 70)",
+        "tonalRamp": [
+          "oklch(0.15 0.15 70)",
+          "oklch(0.265 0.15 70)",
+          "oklch(0.38 0.15 70)",
+          "oklch(0.495 0.15 70)",
+          "oklch(0.61 0.15 70)",
+          "oklch(0.725 0.15 70)",
+          "oklch(0.84 0.15 70)",
+          "oklch(0.95 0.15 70)"
+        ]
+      },
+      "ember-foreground": {
+        "role": "secondary",
+        "displayName": "Ember Ink",
+        "canonical": "oklch(0.22 0.04 60)",
+        "tonalRamp": [
+          "oklch(0.15 0.04 60)",
+          "oklch(0.265 0.04 60)",
+          "oklch(0.38 0.04 60)",
+          "oklch(0.495 0.04 60)",
+          "oklch(0.61 0.04 60)",
+          "oklch(0.725 0.04 60)",
+          "oklch(0.84 0.04 60)",
+          "oklch(0.95 0.04 60)"
+        ]
+      },
+      "jade": {
+        "role": "tertiary",
+        "displayName": "Jade",
+        "canonical": "oklch(0.8 0.11 165)",
+        "tonalRamp": [
+          "oklch(0.15 0.11 165)",
+          "oklch(0.265 0.11 165)",
+          "oklch(0.38 0.11 165)",
+          "oklch(0.495 0.11 165)",
+          "oklch(0.61 0.11 165)",
+          "oklch(0.725 0.11 165)",
+          "oklch(0.84 0.11 165)",
+          "oklch(0.95 0.11 165)"
+        ]
+      },
+      "jade-foreground": {
+        "role": "tertiary",
+        "displayName": "Jade Ink",
+        "canonical": "oklch(0.2 0.03 165)",
+        "tonalRamp": [
+          "oklch(0.15 0.03 165)",
+          "oklch(0.265 0.03 165)",
+          "oklch(0.38 0.03 165)",
+          "oklch(0.495 0.03 165)",
+          "oklch(0.61 0.03 165)",
+          "oklch(0.725 0.03 165)",
+          "oklch(0.84 0.03 165)",
+          "oklch(0.95 0.03 165)"
+        ]
+      },
+      "shell": {
+        "role": "neutral",
+        "displayName": "Cabinet Shell",
+        "canonical": "oklch(0.19 0.03 230)",
+        "tonalRamp": [
+          "oklch(0.15 0.03 230)",
+          "oklch(0.265 0.03 230)",
+          "oklch(0.38 0.03 230)",
+          "oklch(0.495 0.03 230)",
+          "oklch(0.61 0.03 230)",
+          "oklch(0.725 0.03 230)",
+          "oklch(0.84 0.03 230)",
+          "oklch(0.95 0.03 230)"
+        ]
+      },
+      "background": {
+        "role": "neutral",
+        "displayName": "Cabinet Interior",
+        "canonical": "oklch(0.225 0.032 222)",
+        "tonalRamp": [
+          "oklch(0.15 0.032 222)",
+          "oklch(0.265 0.032 222)",
+          "oklch(0.38 0.032 222)",
+          "oklch(0.495 0.032 222)",
+          "oklch(0.61 0.032 222)",
+          "oklch(0.725 0.032 222)",
+          "oklch(0.84 0.032 222)",
+          "oklch(0.95 0.032 222)"
+        ]
+      },
+      "label": {
+        "role": "neutral",
+        "displayName": "Label Stock",
+        "canonical": "oklch(0.265 0.03 218)",
+        "tonalRamp": [
+          "oklch(0.15 0.03 218)",
+          "oklch(0.265 0.03 218)",
+          "oklch(0.38 0.03 218)",
+          "oklch(0.495 0.03 218)",
+          "oklch(0.61 0.03 218)",
+          "oklch(0.725 0.03 218)",
+          "oklch(0.84 0.03 218)",
+          "oklch(0.95 0.03 218)"
+        ]
+      },
+      "label-hi": {
+        "role": "neutral",
+        "displayName": "Raised Stock",
+        "canonical": "oklch(0.3 0.03 218)",
+        "tonalRamp": [
+          "oklch(0.15 0.03 218)",
+          "oklch(0.265 0.03 218)",
+          "oklch(0.38 0.03 218)",
+          "oklch(0.495 0.03 218)",
+          "oklch(0.61 0.03 218)",
+          "oklch(0.725 0.03 218)",
+          "oklch(0.84 0.03 218)",
+          "oklch(0.95 0.03 218)"
+        ]
+      },
+      "popover": {
+        "role": "neutral",
+        "displayName": "Dialog Stock",
+        "canonical": "oklch(0.28 0.03 220)",
+        "tonalRamp": [
+          "oklch(0.15 0.03 220)",
+          "oklch(0.265 0.03 220)",
+          "oklch(0.38 0.03 220)",
+          "oklch(0.495 0.03 220)",
+          "oklch(0.61 0.03 220)",
+          "oklch(0.725 0.03 220)",
+          "oklch(0.84 0.03 220)",
+          "oklch(0.95 0.03 220)"
+        ]
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "Warm Ink",
+        "canonical": "oklch(0.945 0.012 95)",
+        "tonalRamp": [
+          "oklch(0.15 0.012 95)",
+          "oklch(0.265 0.012 95)",
+          "oklch(0.38 0.012 95)",
+          "oklch(0.495 0.012 95)",
+          "oklch(0.61 0.012 95)",
+          "oklch(0.725 0.012 95)",
+          "oklch(0.84 0.012 95)",
+          "oklch(0.95 0.012 95)"
+        ]
+      },
+      "muted-foreground": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "oklch(0.79 0.016 215)",
+        "tonalRamp": [
+          "oklch(0.15 0.016 215)",
+          "oklch(0.265 0.016 215)",
+          "oklch(0.38 0.016 215)",
+          "oklch(0.495 0.016 215)",
+          "oklch(0.61 0.016 215)",
+          "oklch(0.725 0.016 215)",
+          "oklch(0.84 0.016 215)",
+          "oklch(0.95 0.016 215)"
+        ]
+      },
+      "faint": {
+        "role": "neutral",
+        "displayName": "Faint Ink",
+        "canonical": "oklch(0.69 0.018 215)",
+        "tonalRamp": [
+          "oklch(0.15 0.018 215)",
+          "oklch(0.265 0.018 215)",
+          "oklch(0.38 0.018 215)",
+          "oklch(0.495 0.018 215)",
+          "oklch(0.61 0.018 215)",
+          "oklch(0.725 0.018 215)",
+          "oklch(0.84 0.018 215)",
+          "oklch(0.95 0.018 215)"
+        ]
+      },
+      "primary-foreground": {
+        "role": "neutral",
+        "displayName": "Cabinet Ink",
+        "canonical": "oklch(0.2 0.03 225)",
+        "tonalRamp": [
+          "oklch(0.15 0.03 225)",
+          "oklch(0.265 0.03 225)",
+          "oklch(0.38 0.03 225)",
+          "oklch(0.495 0.03 225)",
+          "oklch(0.61 0.03 225)",
+          "oklch(0.725 0.03 225)",
+          "oklch(0.84 0.03 225)",
+          "oklch(0.95 0.03 225)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(0.8 0.04 210 / 14%)",
+        "tonalRamp": [
+          "oklch(0.15 0.04 210)",
+          "oklch(0.265 0.04 210)",
+          "oklch(0.38 0.04 210)",
+          "oklch(0.495 0.04 210)",
+          "oklch(0.61 0.04 210)",
+          "oklch(0.725 0.04 210)",
+          "oklch(0.84 0.04 210)",
+          "oklch(0.95 0.04 210)"
+        ]
+      },
+      "input": {
+        "role": "neutral",
+        "displayName": "Input Stroke",
+        "canonical": "oklch(0.8 0.04 210 / 20%)",
+        "tonalRamp": [
+          "oklch(0.15 0.04 210)",
+          "oklch(0.265 0.04 210)",
+          "oklch(0.38 0.04 210)",
+          "oklch(0.495 0.04 210)",
+          "oklch(0.61 0.04 210)",
+          "oklch(0.725 0.04 210)",
+          "oklch(0.84 0.04 210)",
+          "oklch(0.95 0.04 210)"
+        ]
+      },
+      "destructive": {
+        "role": "neutral",
+        "displayName": "Soft Coral",
+        "canonical": "oklch(0.72 0.15 28)",
+        "tonalRamp": [
+          "oklch(0.15 0.15 28)",
+          "oklch(0.265 0.15 28)",
+          "oklch(0.38 0.15 28)",
+          "oklch(0.495 0.15 28)",
+          "oklch(0.61 0.15 28)",
+          "oklch(0.725 0.15 28)",
+          "oklch(0.84 0.15 28)",
+          "oklch(0.95 0.15 28)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page titles and the active panel's challenge title (1.875rem from sm there)."
+      },
+      "section": {
+        "displayName": "Section",
+        "purpose": "Section headings followed by a faint mono count; collection label titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Specimen label titles in the vault grid."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Spark, description, result and search text; 68ch measure on the active panel."
+      },
+      "body-sm": {
+        "displayName": "Body small",
+        "purpose": "Buttons, nav, chips, toolbars, meta lines."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Faint sentence-case field names, tags, hints."
+      },
+      "field-label": {
+        "displayName": "Field label",
+        "purpose": "Field names in the specimen label's measurement strip."
+      },
+      "data": {
+        "displayName": "Data",
+        "purpose": "Dates, durations, clocks, counts, years, key hints. Tabular, slashed zero."
+      },
+      "accession": {
+        "displayName": "Accession",
+        "purpose": "Accession numbers (№ 007), coloured by state."
+      }
+    },
+    "shadows": [
+      {
+        "name": "label-rest",
+        "value": "0 1px 0 oklch(1 0 0 / 4%) inset, 0 10px 24px -18px oklch(0.05 0.02 230 / 90%)",
+        "purpose": "Every specimen label: faint top highlight and a tight, cool drawer shadow."
+      },
+      {
+        "name": "ember-glow",
+        "value": "0 18px 44px -20px oklch(0.81 0.15 70 / 38%)",
+        "purpose": "Ember panels and strips only; the only coloured glow."
+      },
+      {
+        "name": "capture-float",
+        "value": "0 8px 20px -8px oklch(0.05 0.02 230 / 90%)",
+        "purpose": "Round capture button in the mobile bottom bar."
+      },
+      {
+        "name": "ember-pulse",
+        "value": "0 0 0 0 oklch(0.81 0.15 70 / 55%) -> 0 0 0 5px oklch(0.81 0.15 70 / 0%)",
+        "purpose": "Halo keyframes of the ember dot."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ember-breathe",
+        "value": "6s ease-in-out infinite (opacity 0.5 -> 1 -> 0.5)",
+        "purpose": "Ember panel gradient edge; disabled under prefers-reduced-motion."
+      },
+      {
+        "name": "ember-pulse",
+        "value": "2.4s ease-in-out infinite",
+        "purpose": "Ember dot halo in strip, nav and status; disabled under reduced motion."
+      },
+      {
+        "name": "catalogue-in",
+        "value": "420ms cubic-bezier(0.16, 1, 0.3, 1) both; from opacity 0, translateY(6px) scale(0.985), jade 90% border",
+        "purpose": "A freshly catalogued label settling into the collection; 1ms under reduced motion."
+      },
+      {
+        "name": "disclosure",
+        "value": "250ms ease-out (grid-template-rows, opacity)",
+        "purpose": "Specimen label expand/collapse."
+      },
+      {
+        "name": "state-color",
+        "value": "200ms colour transitions",
+        "purpose": "Label hover/expanded raise, chevron rotation, link and nav hover."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px",
+        "note": "Desktop nav replaces the mobile bottom bar; collection goes two columns."
+      },
+      {
+        "name": "container",
+        "value": "72rem"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Cabinet Button",
+      "kind": "button",
+      "refersTo": "button-cabinet",
+      "description": "Primary action that moves an idea into or within the vault: start, capture, save.",
+      "html": "<button class=\"ds-btn ds-btn-cabinet\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"6 3 20 12 6 21 6 3\"/></svg>Начать</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border: 1px solid transparent; border-radius: 0.4rem; font: 500 14px/1 'Inter Variable', ui-sans-serif, system-ui, sans-serif; cursor: pointer; transition: background-color .15s, box-shadow .15s, transform .1s; } .ds-btn-cabinet { background: var(--cabinet, oklch(0.8 0.075 200)); color: var(--primary-foreground, oklch(0.2 0.03 225)); } .ds-btn-cabinet:hover { background: oklch(0.8 0.075 200 / 88%); } .ds-btn:focus-visible { outline: none; border-color: oklch(0.8 0.075 200); box-shadow: 0 0 0 3px oklch(0.8 0.075 200 / 40%); } .ds-btn:active { transform: translateY(1px); }"
+    },
+    {
+      "name": "Jade Button",
+      "kind": "button",
+      "refersTo": "button-jade",
+      "description": "Completion only: catalogue a challenge, open the collection.",
+      "html": "<button class=\"ds-btn-j\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 6 9 17l-5-5\"/></svg>Завершить</button>",
+      "css": ".ds-btn-j { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border: 1px solid transparent; border-radius: 0.4rem; font: 500 14px/1 'Inter Variable', ui-sans-serif, system-ui, sans-serif; background: var(--jade, oklch(0.8 0.11 165)); color: var(--jade-foreground, oklch(0.2 0.03 165)); cursor: pointer; transition: background-color .15s, box-shadow .15s, transform .1s; } .ds-btn-j:hover { background: oklch(0.8 0.11 165 / 88%); } .ds-btn-j:focus-visible { outline: none; box-shadow: 0 0 0 3px oklch(0.8 0.11 165 / 40%); } .ds-btn-j:active { transform: translateY(1px); }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary actions: set aside, add note, filters, shuffle.",
+      "html": "<button class=\"ds-btn-o\">Отложить</button>",
+      "css": ".ds-btn-o { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border: 1px solid oklch(0.8 0.04 210 / 20%); border-radius: 0.4rem; background: oklch(0.8 0.04 210 / 6%); color: var(--foreground, oklch(0.945 0.012 95)); font: 500 14px/1 'Inter Variable', ui-sans-serif, system-ui, sans-serif; cursor: pointer; transition: background-color .15s; } .ds-btn-o:hover { background: oklch(0.8 0.04 210 / 10%); } .ds-btn-o:focus-visible { outline: none; border-color: oklch(0.8 0.075 200); box-shadow: 0 0 0 3px oklch(0.8 0.075 200 / 50%); }"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip-filter",
+      "description": "Topic and context filters on the vault toolbar; active state is a cabinet tint.",
+      "html": "<div style=\"display:flex;gap:6px\"><button class=\"ds-chip\" aria-pressed=\"true\">Все</button><button class=\"ds-chip\" aria-pressed=\"false\">Photography</button></div>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px; border-radius: 9999px; border: 1px solid oklch(0.8 0.04 210 / 14%); background: transparent; color: oklch(0.79 0.016 215); font: 400 14px/1 'Inter Variable', ui-sans-serif, system-ui, sans-serif; cursor: pointer; transition: color .15s, border-color .15s; } .ds-chip:hover { border-color: oklch(1 0 0 / 25%); color: oklch(0.945 0.012 95); } .ds-chip[aria-pressed=\"true\"] { border-color: oklch(0.8 0.075 200 / 60%); background: oklch(0.8 0.075 200 / 15%); color: oklch(0.945 0.012 95); } .ds-chip:focus-visible { outline: 2px solid oklch(0.8 0.075 200); outline-offset: 2px; }"
+    },
+    {
+      "name": "Vault Search",
+      "kind": "input",
+      "refersTo": "input-search",
+      "description": "Search field on label stock with leading icon and a mono key hint.",
+      "html": "<label class=\"ds-search\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg><input placeholder=\"Искать в хранилище…\"><kbd>/</kbd></label>",
+      "css": ".ds-search { position: relative; display: block; width: 320px; } .ds-search svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: oklch(0.69 0.018 215); } .ds-search input { width: 100%; height: 40px; padding: 0 40px 0 36px; border: 1px solid oklch(0.8 0.04 210 / 20%); border-radius: 0.4rem; background: oklch(0.265 0.03 218 / 70%); color: oklch(0.945 0.012 95); font: 400 15px 'Inter Variable', ui-sans-serif, system-ui, sans-serif; outline: none; caret-color: oklch(0.8 0.075 200); transition: border-color .15s; } .ds-search input::placeholder { color: oklch(0.69 0.018 215); } .ds-search input:focus { border-color: oklch(0.8 0.075 200); } .ds-search kbd { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); padding: 0 6px; border: 1px solid oklch(0.8 0.04 210 / 14%); border-radius: 0.3rem; color: oklch(0.69 0.018 215); font: 12px 'JetBrains Mono Variable', ui-monospace, monospace; }"
+    },
+    {
+      "name": "Header Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Cabinet-shell header nav; current item gets a 7% white wash, the active section carries a pulsing ember count.",
+      "html": "<nav class=\"ds-nav\"><a aria-current=\"page\">Хранилище</a><a>Сейчас <span class=\"ds-nav-count\"><i></i>1</span></a><a>Коллекция</a><a>Архив</a></nav>",
+      "css": ".ds-nav { display: flex; gap: 4px; padding: 10px 16px; background: oklch(0.19 0.03 230 / 90%); border-bottom: 1px solid oklch(0.8 0.04 210 / 14%); } .ds-nav a { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: 0.4rem; color: oklch(0.79 0.016 215); font: 500 14px 'Inter Variable', ui-sans-serif, system-ui, sans-serif; text-decoration: none; cursor: pointer; transition: color .15s; } .ds-nav a:hover { color: oklch(0.945 0.012 95); } .ds-nav a[aria-current=\"page\"] { background: oklch(1 0 0 / 7%); color: oklch(0.945 0.012 95); } .ds-nav a:focus-visible { outline: 2px solid oklch(0.8 0.075 200); outline-offset: 2px; } .ds-nav-count { display: inline-flex; align-items: center; gap: 4px; color: oklch(0.81 0.15 70); font: 12px 'JetBrains Mono Variable', ui-monospace, monospace; } .ds-nav-count i { width: 6px; height: 6px; border-radius: 9999px; background: oklch(0.81 0.15 70); animation: ds-pulse 2.4s ease-in-out infinite; } @keyframes ds-pulse { 0%,100% { box-shadow: 0 0 0 0 oklch(0.81 0.15 70 / 55%); } 50% { box-shadow: 0 0 0 5px oklch(0.81 0.15 70 / 0%); } }"
+    },
+    {
+      "name": "Specimen Label",
+      "kind": "card",
+      "refersTo": "specimen-label",
+      "description": "The signature object: accession, age, title, spark, ruled measurement strip, tags.",
+      "html": "<article class=\"ds-spec\"><header><span class=\"ds-acc\">№ 007</span><span class=\"ds-age\">поймана сегодня</span></header><h3>Сфотографировать город в синий час</h3><p>«Увидел такую фотку в ленте и понял, что ни разу не снимал в синий час.»</p><dl><div><dt>Время</dt><dd class=\"ds-data\">~1 ч 30 мин</dd></div><div><dt>Где</dt><dd>вне дома</dd></div></dl><ul><li><b>Photography</b></li><li>#night</li></ul></article>",
+      "css": ".ds-spec { width: 340px; padding: 12px 0; background: oklch(0.265 0.03 218); border: 1px solid oklch(0.8 0.04 210 / 14%); border-radius: 0.5rem; box-shadow: 0 1px 0 oklch(1 0 0 / 4%) inset, 0 10px 24px -18px oklch(0.05 0.02 230 / 90%); color: oklch(0.945 0.012 95); font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; cursor: pointer; transition: background-color .2s, border-color .2s; } .ds-spec:hover { background: oklch(0.3 0.03 218); border-color: oklch(1 0 0 / 20%); } .ds-spec header { display: flex; gap: 12px; align-items: center; padding: 0 16px; } .ds-acc { color: oklch(0.8 0.075 200); font: 500 13px 'JetBrains Mono Variable', ui-monospace, monospace; letter-spacing: -0.01em; font-variant-numeric: tabular-nums slashed-zero; } .ds-age { font-size: 12px; color: oklch(0.69 0.018 215); } .ds-spec h3 { margin: 4px 16px 0; font-size: 17px; line-height: 1.375; font-weight: 600; letter-spacing: -0.025em; } .ds-spec p { margin: 8px 16px 0; font-size: 15px; line-height: 1.625; color: oklch(0.945 0.012 95 / 85%); } .ds-spec dl { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; margin: 16px 16px 0; border-block: 1px solid oklch(0.8 0.04 210 / 14%); } .ds-spec dl div { padding: 8px 10px; } .ds-spec dl div:first-child { padding-left: 0; } .ds-spec dl div + div { border-left: 1px solid oklch(0.8 0.04 210 / 14%); } .ds-spec dt { font-size: 11px; line-height: 1.25; color: oklch(0.69 0.018 215); } .ds-spec dd { margin: 2px 0 0; font-size: 13px; } .ds-data { font-family: 'JetBrains Mono Variable', ui-monospace, monospace; font-variant-numeric: tabular-nums slashed-zero; letter-spacing: -0.01em; } .ds-spec ul { display: flex; gap: 10px; margin: 10px 16px 0; padding: 0; list-style: none; font-size: 12px; color: oklch(0.79 0.016 215); } .ds-spec ul b { font-weight: 500; color: oklch(0.945 0.012 95 / 85%); }"
+    },
+    {
+      "name": "Ember Strip",
+      "kind": "custom",
+      "refersTo": "ember-panel",
+      "description": "One slim breathing ember panel per active challenge at the top of the vault.",
+      "html": "<article class=\"ds-ember\"><i class=\"ds-dot\"></i><div class=\"ds-ember-main\"><div><a>Smart Apartment</a> <span class=\"ds-mono ds-faint\">№ 001</span></div><p>С чего продолжить: Оказывается холодильник жрёт намного меньше.</p></div><span class=\"ds-mono ds-ember-clock\">4 ч 21 мин</span><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></article>",
+      "css": ".ds-ember { position: relative; isolation: isolate; display: flex; align-items: center; gap: 16px; width: 640px; padding: 12px 20px; background: linear-gradient(180deg, oklch(0.28 0.035 215), oklch(0.265 0.03 218)); border: 1px solid oklch(0.81 0.15 70 / 40%); border-radius: 0.8rem; box-shadow: 0 18px 44px -20px oklch(0.81 0.15 70 / 38%); color: oklch(0.945 0.012 95); font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; } .ds-ember::before { content: ''; position: absolute; inset: -1px; z-index: -1; border-radius: inherit; padding: 1px; background: linear-gradient(120deg, oklch(0.81 0.15 70 / 80%), transparent 40%, transparent 70%, oklch(0.81 0.15 70 / 50%)); mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite: exclude; animation: ds-breathe 6s ease-in-out infinite; } @keyframes ds-breathe { 0%,100% { opacity: .5; } 50% { opacity: 1; } } .ds-dot { width: 8px; height: 8px; border-radius: 9999px; background: oklch(0.81 0.15 70); flex: none; } .ds-ember-main { flex: 1; min-width: 0; } .ds-ember a { font-weight: 600; letter-spacing: -0.025em; cursor: pointer; text-underline-offset: 4px; } .ds-ember a:hover { color: oklch(0.81 0.15 70); text-decoration: underline; } .ds-ember p { margin: 2px 0 0; font-size: 14px; color: oklch(0.79 0.016 215); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-mono { font-family: 'JetBrains Mono Variable', ui-monospace, monospace; font-variant-numeric: tabular-nums slashed-zero; letter-spacing: -0.01em; } .ds-faint { font-size: 12px; color: oklch(0.69 0.018 215); } .ds-ember-clock { font-size: 14px; color: oklch(0.81 0.15 70); } .ds-ember svg { color: oklch(0.79 0.016 215); } @media (prefers-reduced-motion: reduce) { .ds-ember::before { animation: none; } }"
+    },
+    {
+      "name": "Catalogued Label",
+      "kind": "card",
+      "refersTo": "catalogued-label",
+      "description": "A completed challenge in the collection: jade accession edge, result, ruled metrics, settles in when fresh.",
+      "html": "<article class=\"ds-cat\"><div class=\"ds-cat-top\"><span class=\"ds-cat-acc\">№ 009</span><span class=\"ds-cat-date\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"oklch(0.8 0.11 165)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 6 9 17l-5-5\"/></svg>6 окт.</span></div><h3>Проверить каталогизацию</h3><p>Момент завершения на месте: карточка становится находкой.</p><dl><div><dt>Потрачено</dt><dd>25 мин</dd></div><div><dt>Интерес</dt><dd>8/10</dd></div></dl></article>",
+      "css": ".ds-cat { width: 360px; padding: 20px; background: linear-gradient(180deg, oklch(0.8 0.11 165 / 6%), transparent 45%), oklch(0.265 0.03 218); border: 1px solid oklch(0.8 0.04 210 / 14%); border-top-color: oklch(0.8 0.11 165 / 55%); border-radius: 0.5rem; color: oklch(0.945 0.012 95); font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; cursor: pointer; transition: background-color .2s; animation: ds-cat-in 420ms cubic-bezier(0.16, 1, 0.3, 1) both; } .ds-cat:hover { background: linear-gradient(180deg, oklch(0.8 0.11 165 / 6%), transparent 45%), oklch(0.3 0.03 218); } .ds-cat:hover h3 { color: oklch(0.8 0.11 165); } @keyframes ds-cat-in { from { opacity: 0; transform: translateY(6px) scale(0.985); border-color: oklch(0.8 0.11 165 / 90%); } to { opacity: 1; transform: none; } } .ds-cat-top { display: flex; justify-content: space-between; font-size: 12px; } .ds-cat-acc, .ds-cat dd { font-family: 'JetBrains Mono Variable', ui-monospace, monospace; font-variant-numeric: tabular-nums slashed-zero; letter-spacing: -0.01em; } .ds-cat-acc { color: oklch(0.8 0.11 165); } .ds-cat-date { display: inline-flex; align-items: center; gap: 6px; color: oklch(0.79 0.016 215); } .ds-cat h3 { margin: 12px 0 0; font-size: 1.125rem; font-weight: 600; letter-spacing: -0.025em; transition: color .2s; } .ds-cat p { margin: 8px 0 0; font-size: 15px; line-height: 1.625; color: oklch(0.945 0.012 95 / 90%); } .ds-cat dl { display: flex; gap: 32px; margin: 16px 0 0; padding-top: 12px; border-top: 1px solid oklch(0.8 0.04 210 / 14%); font-size: 14px; } .ds-cat dt { font-size: 12px; color: oklch(0.69 0.018 215); } .ds-cat dd { margin: 4px 0 0; } @media (prefers-reduced-motion: reduce) { .ds-cat { animation-duration: 1ms; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Specimen Cabinet",
+    "overview": "The vault is a dark collector's cabinet, opened in the evening. Every idea sits in it as a specimen label: an accession number in teal mono, the date it was collected, the spark printed as the label's body, and a ruled strip of measurements at the foot. You read the labels by eye, the way you'd browse a drawer of findings, rather than triaging tickets. The cabinet is quiet slate-teal; the labels are a half-step lighter stock printed in warm off-white ink.\n\nThree state colours do jobs and nothing else. Cabinet teal belongs to the vault itself: accession numbers, selection, filters, the start and capture actions. Ember marks what is under observation and is the only thing that moves at rest, as a slow breathing edge and a pulsing dot. Jade marks what has been catalogued: the completion action, the accession edge on collected labels, and the moment a finished challenge settles into the collection. Density is calm, with labels in an auto-filling grid and generous section gaps. Type is all Inter in sentence case; monospace appears only where something is measured.\n\nThe system is dark only (`color-scheme: dark`) and has no light theme.",
+    "keyCharacteristics": [
+      "Dark slate-teal cabinet, with label-stock cards a step lighter, hairline rules instead of heavy borders.",
+      "Three state colours (cabinet, ember, jade), each bound to one meaning.",
+      "Accession numbers (`№ 007`), dates, durations, clocks and counts set in tabular, slashed-zero mono; everything else in Inter.",
+      "Sentence case everywhere: field labels are small and faint, never tracked caps.",
+      "Motion is reserved: ember breathes, catalogued labels settle in, everything else only changes colour."
+    ],
+    "rules": [
+      {
+        "name": "The One Meaning Rule",
+        "body": "Cabinet means the vault, ember means under observation, jade means catalogued. Never borrow a state colour for decoration or for a different state.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ember Is Observed, Not Pressed Rule",
+        "body": "Ember appears as a glow, edge, dot, clock or text, and never as a button fill. The actions on an active challenge are jade (complete) or neutral. The `ember` button variant exists in `button.tsx`, but nothing ships with it.",
+        "section": "colors"
+      },
+      {
+        "name": "The No Alarm Rule",
+        "body": "No red warnings. The destructive coral is reserved for irreversible deletion, and letting an idea go uses neutral styling.",
+        "section": "colors"
+      },
+      {
+        "name": "The Measured Mono Rule",
+        "body": "Monospace is used only for things that are measured or numbered: accession numbers, dates, durations, clocks, counts and key names. Never use mono for prose, headings or labels.",
+        "section": "typography"
+      },
+      {
+        "name": "The Sentence Case Rule",
+        "body": "Every label, heading and button is in sentence case at normal tracking. Field names are small and faint, never uppercase or letter-spaced.",
+        "section": "typography"
+      },
+      {
+        "name": "The Only Ember Glows Rule",
+        "body": "Glow is warm and reserved for what is under observation. No other state, button or card gets a coloured shadow.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** set every idea as a specimen label: accession number, collection age, title, spark as the body, and a ruled measurement strip that prints only the fields that are known.",
+      "**Do** bind each state colour to its meaning: cabinet for the vault and its actions, ember for under observation, jade for catalogued.",
+      "**Do** put accession numbers, dates, durations, clocks and counts in the mono data face with tabular, slashed-zero figures.",
+      "**Do** separate fields with 14% hairlines and use tonal steps (shell, interior, label stock, raised stock) for depth.",
+      "**Do** keep touch targets at least 44px on coarse pointers, and put capture in thumb reach on mobile.",
+      "**Do** honour `prefers-reduced-motion`: stop the ember breathing and pulse, and collapse `catalogue-in` to 1ms.",
+      "**Do** pair Lucide icons with text, or with an accessible label when an icon stands alone."
+    ],
+    "donts": [
+      "**Don't** use tracked uppercase kickers or eyebrows above headings. Field names are small, faint and in sentence case.",
+      "**Don't** fill a button with ember or give anything other than an ember panel a coloured glow.",
+      "**Don't** use monospace for prose, headings or labels.",
+      "**Don't** turn tags into coloured pills. Tags stay as plain text, with the category slightly stronger.",
+      "**Don't** add percentage progress bars, scores, streak indicators or red warnings. The bars that do appear (the 10-segment interest scale and the per-topic hours in the vault stats) compare quantities and never show progress toward a goal.",
+      "**Don't** use emoji as icons.",
+      "**Don't** introduce a light theme or a second accent hue outside the three state colours."
+    ]
+  }
+}

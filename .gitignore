@@ -54,3 +54,6 @@ next-env.d.ts
 
 # impeccable review captures (regenerated per review)
 /.impeccable/review/
+
+/frontend/node_modules/
+/internal/web/spa/generated/

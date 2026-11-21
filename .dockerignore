@@ -10,3 +10,5 @@ playwright-report
 coverage
 *.md
 !README.md
+frontend/node_modules
+internal/web/spa/generated

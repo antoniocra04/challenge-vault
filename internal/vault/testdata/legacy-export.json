@@ -1,0 +1,33 @@
+{
+  "format": "challenge-vault",
+  "version": 1,
+  "exportedAt": "2026-11-20T15:05:00.000Z",
+  "challenges": [
+    {
+      "id": "72d8a22f-dd42-4de8-be00-a49a42612887",
+      "title": "Домашний дашборд",
+      "description": "Собрать статистику",
+      "spark": "Хочу понять температуру корпуса",
+      "category": "Дом",
+      "tags": ["Linux", "Техника"],
+      "status": "active",
+      "favorite": true,
+      "estimatedDuration": 45,
+      "actualDuration": null,
+      "requiresLeavingHome": false,
+      "requiresMoney": null,
+      "result": null,
+      "enjoymentScore": null,
+      "abandonReason": null,
+      "trackedSeconds": 84,
+      "sessionStartedAt": "2026-11-20T15:02:00.000Z",
+      "createdAt": "2026-11-01T13:00:00.000Z",
+      "updatedAt": "2026-11-20T15:02:00.000Z",
+      "startedAt": "2026-11-11T15:02:00.000Z",
+      "completedAt": null,
+      "abandonedAt": null,
+      "log": [{"id":"bffb4855-6cdc-4f49-b238-fb9607061efe","kind":"note","content":"Замерить ночью","createdAt":"2026-11-20T15:00:00.000Z"}],
+      "attachments": [{"id":"ab30e37a-048c-42c3-9919-5aff2d4742f7","kind":"audio","title":"Шум","url":null,"content":null,"fileName":"noise.mp3","mimeType":"audio/mpeg","size":5,"storageKey":"b697a777-44ef-44ba-bd84-35f407c2b8b0","createdAt":"2026-11-20T15:00:00.000Z"}]
+    }
+  ]
+}

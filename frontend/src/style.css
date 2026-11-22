@@ -100,7 +100,12 @@ body:has(.home-ui[data-home-appearance="dark"]) { background: #242426; }
 .context-filters { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; margin-bottom: 10px; padding: 14px; }
 .context-filters label { display: grid; gap: 5px; min-width: min(130px, 100%); }
 
-.ideas-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.ideas-grid {
+  --idea-gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(var(--idea-columns), minmax(0, 1fr));
+  gap: var(--idea-gap);
+}
 .idea-card { position: relative; border-radius: 11px; min-width: 0; min-height: 111px; padding: 13px 13px 14px; background: var(--vault-card); }
 .idea-card:hover, .idea-card:focus-within { background: var(--ui-raised); }
 .idea-card[data-selected] { background: var(--ui-tint); outline: 1px solid var(--vault-selected); outline-offset: -1px; }
@@ -127,23 +132,24 @@ body:has(.home-ui[data-home-appearance="dark"]) { background: #242426; }
 .home-ui .card-star[aria-pressed="false"] { top: auto; bottom: 5px; }
 .card-star .ui-icon { width: 13px; height: 13px; opacity: .8; }
 .idea-detail {
+  --idea-detail-width: min(584px, 100%);
+  --idea-track-step: calc((100% + var(--idea-gap)) / var(--idea-columns));
   grid-column: 1 / -1;
+  inline-size: var(--idea-detail-width);
+  margin-inline-start: min(calc(var(--idea-column) * var(--idea-track-step)), calc(100% - var(--idea-detail-width)));
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 6px 16px;
-  padding: 12px 14px 11px;
-  margin-bottom: 5px;
-  min-height: 55px;
+  gap: 8px;
+  padding: 13px 15px 10px;
+  margin-block-end: 2px;
   border: 1px solid var(--ui-line);
   border-radius: 12px;
   background: var(--vault-detail);
 }
-.idea-detail p { color: var(--ui-muted); font-size: 13px; line-height: 1.48; overflow-wrap: anywhere; }
-.idea-detail .vault-actions { grid-column: 2; grid-row: 1; justify-content: end; gap: 9px; }
-.idea-detail .vault-meta { grid-column: 1 / -1; }
+.idea-detail p { color: var(--ui-muted); font-size: 14px; line-height: 1.48; overflow-wrap: anywhere; }
+.idea-detail-footer { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px 14px; }
+.idea-detail-footer .vault-actions { grid-column: 2; justify-content: end; gap: 9px; }
+.idea-detail-footer .vault-meta { overflow-wrap: anywhere; }
 .vault-meta { display: flex; flex-wrap: wrap; gap: 3px 12px; margin: 0; padding: 0; list-style: none; font-size: 12px; color: var(--ui-muted); }
-.idea-detail .vault-meta { font-size: 11px; }
 .vault-empty { display: grid; justify-items: center; gap: 12px; text-align: center; padding: 36px 18px; color: var(--ui-muted); }
 .vault-empty > h1 { color: var(--ui-text); font-size: 24px; }
 .elsewhere { margin-top: 28px; }
@@ -271,8 +277,14 @@ body:has(.home-ui[data-home-appearance="dark"]) { background: #242426; }
 }
 .vault-notice[role="alert"] { color: var(--ui-danger); }
 
-@media (max-width: 900px) {
-  .ideas-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (min-width: 1200px) {
+  .ideas-grid { --idea-gap: 12px; }
+  .vault-filters { grid-template-columns: minmax(0, min(720px, 65%)) auto; justify-content: start; gap: 12px; }
+}
+@media (max-width: 700px) {
+  .idea-detail { margin-inline-start: 0; padding: 10px 11px; }
+  .idea-detail-footer { grid-template-columns: minmax(0, 1fr); }
+  .idea-detail-footer .vault-actions { grid-column: 1; justify-content: start; }
 }
 @media (min-width: 651px) and (max-width: 700px) {
   .home-ui .ui-toolbar { grid-template-columns: minmax(100px, 1fr) auto minmax(100px, 1fr); }
@@ -304,14 +316,11 @@ body:has(.home-ui[data-home-appearance="dark"]) { background: #242426; }
   .active-strip-clock .vault-clock { font-size: 16px; }
   .active-strip-clock .vault-link { font-size: 12px; }
   .active-strips { margin-bottom: 22px; }
-  .ideas-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+  .ideas-grid { --idea-gap: 7px; }
   .idea-card { min-height: 104px; padding: 11px; }
   .home-ui .idea-topline h3 { font-size: 14px; }
   .idea-card p { font-size: 12px; }
   .topic-chips { gap: 2px; margin-bottom: 11px; }
-  .idea-detail { grid-template-columns: minmax(0, 1fr); gap: 7px; margin-bottom: 2px; padding: 10px 11px; }
-  .idea-detail .vault-actions { grid-column: 1; grid-row: auto; justify-content: start; }
-  .idea-detail p { font-size: 12px; }
   .vault-sort select { max-width: 180px; }
   .active-record, .detail-section { padding: 14px; }
   .collection-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

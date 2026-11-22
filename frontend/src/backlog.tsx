@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, type CSSProperties } from 'react';
 import { Button, Icon, PageHeading } from '@home-apps/ui';
 import { Link, useSearchParams } from 'react-router';
 import { ChallengeMeta, DetailLink, Empty, Glyph, Marker, Timer } from './common';
@@ -71,13 +71,24 @@ function sortCards(cards: Challenge[], sort: string, seed: number) {
   }
 }
 
+const columnBreakpoints = [
+  { query: '(min-width: 1720px)', columns: 6 },
+  { query: '(min-width: 1200px)', columns: 5 },
+  { query: '(width > 900px)', columns: 4 },
+  { query: '(width > 650px)', columns: 3 },
+];
+
+function readColumns() {
+  return columnBreakpoints.find(({ query }) => window.matchMedia(query).matches)?.columns ?? 2;
+}
+
 function useColumns() {
-  const read = () => window.matchMedia('(max-width: 650px)').matches ? 2 : window.matchMedia('(max-width: 900px)').matches ? 3 : 4;
-  const [columns, setColumns] = useState(read);
+  const [columns, setColumns] = useState(readColumns);
   useEffect(() => {
-    const queries = [window.matchMedia('(max-width: 650px)'), window.matchMedia('(max-width: 900px)')];
-    const update = () => setColumns(read());
+    const queries = columnBreakpoints.map(({ query }) => window.matchMedia(query));
+    const update = () => setColumns(readColumns());
     queries.forEach((q) => q.addEventListener('change', update));
+    update();
     return () => queries.forEach((q) => q.removeEventListener('change', update));
   }, []);
   return columns;
@@ -113,16 +124,19 @@ function Card({ c, selected, select, actions }: {
   </article>;
 }
 
-function CardDetail({ c, actions }: { c: Challenge; actions: Actions }) {
-  return <section id="open-idea" className="idea-detail" aria-label={c.title + ' — подробности'}>
+function CardDetail({ c, actions, column }: { c: Challenge; actions: Actions; column: number }) {
+  return <section id="open-idea" className="idea-detail" aria-label={c.title + ' — подробности'}
+    style={{ '--idea-column': column } as CSSProperties}>
     {c.description && <p>{c.description}</p>}
-    <div className="vault-actions">
-      <Button kind="primary" className="vault-small" disabled={actions.busy} onClick={() => void actions.act(c.id, 'start')}>
-        <Glyph name="play" /> Начать
-      </Button>
-      <DetailLink challenge={c} />
+    <div className="idea-detail-footer">
+      <ChallengeMeta challenge={c} />
+      <div className="vault-actions">
+        <Button kind="primary" className="vault-small" disabled={actions.busy} onClick={() => void actions.act(c.id, 'start')}>
+          <Glyph name="play" /> Начать
+        </Button>
+        <DetailLink challenge={c} />
+      </div>
     </div>
-    <ChallengeMeta challenge={c} />
   </section>;
 }
 
@@ -247,10 +261,10 @@ export function Backlog({ challenges, actions }: { challenges: Challenge[]; acti
           {topics.map(([key, topic]) => <Button key={key} kind="quiet" aria-pressed={params.get('topic') === key}
             onClick={() => change({ topic: params.get('topic') === key ? '' : key })}>{topic.label}</Button>)}
         </div>
-        {cards.length ? <div className="ideas-grid">
+        {cards.length ? <div className="ideas-grid" style={{ '--idea-columns': columns } as CSSProperties}>
           {cards.map((c, index) => <Fragment key={c.id}>
             <Card c={c} selected={index === selectedIndex} select={() => setSelected(selected === c.id ? null : c.id)} actions={actions} />
-            {index === insertAt && <CardDetail c={cards[selectedIndex]} actions={actions} />}
+            {index === insertAt && <CardDetail c={cards[selectedIndex]} actions={actions} column={selectedIndex % columns} />}
           </Fragment>)}
         </div> : <Empty><p>{all.length ? 'Ничего не найдено. Попробуйте изменить фильтры.' : 'Идей в списке пока нет.'}</p></Empty>}
       </> : <Empty>
